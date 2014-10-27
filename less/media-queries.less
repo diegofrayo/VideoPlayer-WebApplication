@@ -1,0 +1,301 @@
+/*----------Media-queries internet----------*/
+
+//horizontal(landscape) vertical(portrait)
+
+/* Smartphones (portrait & landscape) */
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 480px) {
+
+}
+
+// /* Smartphones (landscape) */
+@media only screen 
+and (min-width : 321px) {
+
+}
+
+/* Smartphones (portrait) */
+@media only screen 
+and (max-width : 320px) {
+
+}
+
+// /* iPads (portrait & landscape) */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) {
+
+}
+
+/* iPads (landscape) */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape) {
+
+}
+
+// /* iPads (portrait) */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait) {
+
+}
+
+/* Ordenadores de sobremesa y portátiles */
+@media only screen 
+and (min-width : 1224px) {
+
+}
+
+// /* Pantallas grandes */
+@media only screen 
+and (min-width : 1824px) {
+
+}
+
+/* iPhone 4 */
+@media
+only screen and (-webkit-min-device-pixel-ratio : 1.5),
+only screen and (min-device-pixel-ratio : 1.5) {
+
+}
+/*----------FIN Media-queries internet----------*/
+
+
+
+
+/*----------Media-queries propios----------*/
+
+/*----------Media-queries resultados de los videos----------*/
+
+//Los videos de los resultados son del 100%
+@media screen and (min-width : 240px) and (max-width : 339px)
+{
+	.ContainerContentSearchs-results{
+		>div{
+			width: 100%;
+		}
+	}
+
+	.ContainerTitleApp{
+		>a{
+			>img{
+				width: 100%;
+			}
+		}
+	}
+	.ContainerReproductor {
+		&-title{
+			font-size: @fontSizeBase;
+		}
+	}
+
+	.ContentLogin{
+		width: 100%;
+	}
+}
+
+//Los videos de los resultados son del 100% y su altura aumenta
+@media screen and (min-width : 340px) and (max-width : 399px)
+{
+	.ContainerContentSearchs-results {
+		>div{
+			width: 100%;
+			>article{
+				height: 220px;
+			}
+		}
+	}
+
+	.ContentLogin{
+		width: 100%;
+	}
+}
+
+//Disminuye la altura de los videos de los resultados
+@media screen and (min-width : 400px) and (max-width : 639px)
+{
+	.ContainerContentSearchs-row{
+		>div{
+			>article{
+				height: 150px;
+			}
+		}
+	}
+	
+	.ContentLogin{
+		width: 80%;
+	}
+}
+
+//Cada fila de reusltados muestra de a 3 videos
+@media screen and (min-width : 640px) and (max-width : 767px)
+{
+	.ContainerContentSearchs-results{
+		>div{
+			width: 33%;
+		}
+	}
+}
+/*----------FIN Media-queries resultados de los videos----------*/
+
+
+
+/*----------Media-queries lista de reproduccion----------*/
+
+//Lista de reproduccion con 2 columnas
+@media screen and (min-width : 768px) and (max-width : 990px)
+{
+	.ContainerReproductor {
+		padding-right: 5px;
+		width: 60%;
+		height: 300px;
+		&-title{
+			.border-radius(0);
+			font-size: @fontSizeMedium;
+			height: 36px;
+			padding: 10px;
+		}
+		&-controls{
+			height: 36px;
+		}
+	}
+
+	#ContainerReproductor-jwplayer{
+		>img{
+			height: 228px;
+		}
+	}
+
+	.ContainerItemsVideo{
+		width: 40%;
+		height: 300px;
+	}
+
+	.ContainerItemVideoLista{
+		height: 50px;
+		&-numero{
+			height: 100%;
+		}
+		&-imagen{
+			height: 100%;
+			padding: 5px;
+			>img{
+				height: 95%;
+				width: 95%;
+			}
+		}
+		&-info{
+			height: 100%;
+			padding: 5px;
+			>a, >h3{
+				margin-bottom: -4px;
+			}
+		}
+	}
+
+	.ContainerItemVideoLista-info{
+		>a, >p{
+			font-size:0.65em;
+		}
+		>h3{
+			font-size:0.70em;
+		}
+	}
+}
+
+//Media querie para los estilos del height 100%. Solo aplica para pantallas grandes
+@media screen and (min-width : 992px)
+{
+	.ContainerGlobal{
+		height: 100%;
+	}
+
+	.ContainerHeader{
+		height: 5%;
+	}
+
+	.ContainerContent{
+		height: 90%;
+		>section{
+			height: 100%;
+		}
+	}
+
+	.ContainerReproductor{
+		height: 60%;
+		&-title{
+			height: 12%;
+		}
+		&-controls{
+			height: 12%;
+		}
+	}
+
+	#ContainerReproductor-jwplayer{
+		height: 76%;
+	}
+
+	.ContainerItemsVideo{
+		height: 38%;
+	}
+}
+
+//El texto de los items de la lista de reproduccion mas pequeños
+@media screen and (min-width : 240px) and (max-width : 399px)
+{
+	.ContainerItemVideoLista-info{
+		>a, >p{
+			font-size:0.65em;
+		}
+		>h3{
+			font-size:0.70em;
+		}
+	}
+
+	.ContainerItemVideoLista{
+		&-imagen{
+			padding: 7.5px 5px;
+			>img{
+				height: 55px;
+				width: 100%;
+			}
+		}
+	}
+}
+
+//Pone el reproductor de un ancho del 60%. Pero pone la lista de reproduccion abajo
+@media screen and (min-width : 450px) and (max-width : 600px)
+{
+	// .ContainerHeader{
+	// 	//height: 50px;
+	// }
+
+	// .ContainerUserMenuDropdown{
+	// 	>ul{
+	// 		>li{
+	// 			>a{
+	// 				>img{
+	// 					//width: 40px;	
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// }
+
+	#ContainerReproductor-jwplayer{
+		>img{
+			width: 60%;
+			display: block;
+			margin: 0 auto;
+			height: 220px;
+		}
+	}
+}
+
+/*----------FIN Media-queries lista de reproduccion----------*/
+
+/*----------FIN Media-queries propios----------*/

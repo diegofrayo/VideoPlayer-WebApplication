@@ -1,0 +1,394 @@
+//@heightBody: 799px;
+@heightHeader: 60px;
+//@heightContent: @heightBody - @heightHeader;
+
+body{
+	
+}
+
+.ContainerGlobal{
+	position: absolute;
+	width: 100%;
+	background-image: url('../img/bg.png');
+	padding: 0;
+	height: 100%;
+}
+
+/*----------Header----------*/
+.ContainerHeader{
+	width: 100%;
+	border-bottom: 3px solid #343434;
+	padding: 5px;
+	height: @heightHeader;
+	overflow: visible;
+	background-image: url('../img/bg-dark.png');
+	max-height: @heightHeader;
+	min-height: @heightHeader;
+}
+
+.ContainerTitleApp{
+	height: 100%;
+	>a{
+		display: inline-block;
+		height: 100%;
+		img{
+			height: 100%;
+			width: auto;
+		}
+	}
+}
+
+.ContainerUserMenuDropdown{
+	height: 100%;
+	padding-right: 0;
+	>ul{
+		margin: 0;
+		padding: 0;
+		height: 100%;
+		float: right;
+		background-color: inherit;
+		>li{
+			background-color: inherit;
+			padding: 0;
+			>a{
+				padding: 0 5px;
+				margin: 0;
+				height: 100%;
+				background-color: inherit !important; //Voleo De Rula
+				border: none;
+				display: block;
+				&:hover{
+					background-color: inherit;
+				}
+				>img{
+					height: 100%;
+					.border-radius(100%);
+					.box-shadow(0 0 4px 1px #555);
+					padding: 2px;
+					border: 2px solid @colorLightBlue;
+					width: 50px;	
+					&:hover{
+						.opacity(0.9);
+					}
+				}
+			}
+			//Menu que aparece y desaparece
+			>ul{
+				>.divider{
+					margin: 4px 0;
+				}
+				>li{
+					>a{
+						padding: 5px;
+						&:hover{
+							background-color: #dcdcdc;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+/*----------FIN Header----------*/
+
+
+
+/*----------Contenedor con el contenido (2 columnas)----------*/
+.ContainerContent{
+	//height: @heightContent;
+}
+
+/*----------Columna 1: Contenedor con la lista de reproduccion----------*/
+.ContainerPlaylist{
+	padding: 10px;
+	background-image: url('../img/bg-dark.png');
+	//height: @heightContent;
+	//height: 100%;
+}
+
+.ContainerReproductor{
+	//height: 50%;
+	padding:0;
+	&-title{
+		text-align: center;
+		text-transform: uppercase;
+		color: @colorLight1;
+		display: block;
+		background-color: @colorBgVideoList;
+		margin: 0;
+		padding: 5px;
+		font-size: @fontSizeLarge;
+		//.border-top-left-radius(10px);
+		//.border-top-right-radius(10px);
+		//height: 12%;
+		min-height: 36px;
+		max-height: 36px;
+	}
+	&-controls{
+		background-color: @colorBgVideoList;
+		padding:6px 5px;
+		text-align: center;
+		border-top:1px solid @colorBorderItemVideoList;
+		border-bottom:1px solid @colorBorderItemVideoList;
+		//height: 35px;
+		//height: 12%;
+		min-height: 36px;
+		max-height: 36px;
+		>a{
+			display: inline-block;
+			>span{
+				&:hover{
+					.opacity(0.6);
+				}
+			}
+		}
+	}
+}
+
+#ContainerReproductor-jwplayer{
+	// height: 76%;
+	// min-height: 228px;
+	// max-height: 330px;
+	background-color: @colorBgVideoList;
+	>img,>iframe{
+		width: 100%;
+		height: 100%;
+		display: block;
+	}
+}
+
+.ContainerItemsVideo{
+	background-color: @colorBgVideoList;
+	padding:5px;
+	height: 250px;
+	position: relative;   
+	overflow: hidden;     
+}
+
+.ContainerItemVideoLista{
+	.border-bottom-left-radius(7px);
+	.border-top-right-radius(7px);	
+	.transition(background 1s ease);
+	overflow: hidden;
+	margin-bottom: 5px;
+	border: 1px solid @colorBorderItemVideoList;
+	border-left: 5px solid #333;
+	background-color: #1B1B1B;
+	&:hover{
+		.EfectoHoverItemVideoList();
+	}
+	&:last-child{
+		margin-bottom: 0;
+	}
+	&-numero{
+		float: left;
+		width: 8%;
+		height: 70px;
+		>.contenedor-tabla{
+			>.outer-tabla {
+				>.inner-celda {
+					>p{
+						font-size: @fontSizeLarge;
+						color: @colorLight1;
+						text-align: center;
+					}
+				}
+			}
+		}
+	}
+	&-imagen{
+		float: left;
+		width: 20%;
+		height: 70px;
+		>img{
+			height: 41px;
+			width: 95%;
+			display: inline-block;
+			vertical-align: middle;
+			margin: 0;
+			max-width: 72px;
+		}
+	}
+	&-info{
+		float: left;
+		width: 72%;
+		position: relative;
+		height: 70px;
+		padding: 7.5px 5px;
+		//Icon Remove Top
+		>a:first-child{
+			display: block;
+			position: absolute;
+			top:0;
+			right: 0;
+			margin: 5px;
+			padding: 0;
+		}
+		>h3{
+			font-size: @fontSizeSmall;
+			color: @colorLight1;
+			line-height: 1.1em;
+			margin-right: 26px;
+			cursor: pointer;
+		}
+		>a{
+			font-size: @fontSizeExtraSmall;
+			color: @colorYellow;	
+		}
+		>p{
+			display: block;
+			position: absolute;
+			bottom:0;
+			right: 0;
+			margin-right: 5px;
+			font-size: @fontSizeExtraSmall;
+			color: @colorLight1;
+		}
+	}
+}
+/*----------FIN Columna 1: Contenedor con la lista de reproduccion----------*/
+
+
+
+/*----------Columna 2: Contenedor con contenido variable (busquedas, listas, perfil)----------*/
+.ContainerContentAjax{
+	padding: 10px;
+	overflow-y: auto;	
+	//height: @heightContent;
+	//height: 100%;
+}
+/*----------FIN Columna 2: Contenedor con contenido variable (busquedas, listas, perfil)----------*/
+
+
+
+/*----------Contenedor con el contenido de una busqueda----------*/
+.ContainerContentSearchs{
+
+	&-form{
+		>form{
+			>div{
+				>input{
+					float: left;
+					width: 80% !important;
+					.border-radius(0);
+				}
+				>button{
+					float: right;
+					width: 20%;
+					text-align: center;
+					padding: 6px;
+					.border-radius(0);
+					background-color: @colorLightBlue;
+					border: 1px solid @colorLightBlue;
+				}
+			}
+		}
+	}
+
+	&-results{
+		margin: 0 !important; //Voleo de rula	
+		.FilaVideos();
+		&-item{
+			.ItemVideo();
+		}
+	}
+}
+/*----------FIN Contenedor con el contenido de una busqueda----------*/
+
+
+
+/*----------Contenedor con el contenido de las listas de reproduccion de un usuario----------*/
+.ContainerContentUserLists{
+
+	&-header{
+		margin: 0 !important; //Voleo de rula
+		>.large-6{
+			padding: 0;
+		}
+	}
+
+	&-videos{
+		margin: 0 !important; //Voleo de rula	
+		&-row{
+			.FilaVideos();
+			&-item{
+				.ItemVideo();
+				>a{
+					//Button Add Top
+					&:first-child{
+						display: block;
+						padding: 0;
+						background-color: inherit;
+						top: 0;
+						right: 0;
+						margin: 5px;
+						position: absolute;
+					}
+					//Button Remove Top
+					&:nth-child(3){
+						display: block;
+						padding: 0;
+						background-color: inherit;
+						top: 25px;
+						right: 0;
+						margin: 5px;
+						position: absolute;
+						&:hover{
+							.opacity(0.5);
+						}
+					}
+				}
+			}
+		}
+	}
+}
+/*----------FIN Contenedor con el contenido de las listas de reproduccion de un usuario----------*/
+
+
+/*----------Video que se esta reproduciendo actualmente----------*/
+.ContainerItemVideoListActive{
+	.EfectoHoverItemVideoList();
+}
+/*----------FIN Video que se esta reproduciendo actualmente----------*/
+
+
+
+/*----------Estilo para el login----------*/
+.ContainerLogin{
+	background-color: #1C1C1C;
+	padding: 15px;
+}
+
+.ContentLogin{
+	width: 40%;
+	max-width: 500px;
+	margin: 0 auto;
+	overflow: hidden;
+	background-color: #1A1A1A;
+	border-top:10px solid @colorRed; 
+	border-bottom:10px solid @colorRed; 
+	.box-shadow(0 0 4px 1px #555);
+	&-title{
+		text-align: center;
+		font-size: @fontSizeExtraLarge;
+		margin: 10px 0;
+		color:@colorLight1;
+	}
+	>form{
+		.form-group{
+			margin: 0;
+			margin-bottom: 10px;
+			>label{
+				color:@colorLight1;
+			}
+			&:last-child{
+				text-align: center;
+				>button{
+					display: inline-block;
+				}
+			}
+		}
+	}
+}
+/*----------FIN Estilo para el login----------*/
