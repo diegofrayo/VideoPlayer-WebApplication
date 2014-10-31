@@ -113,7 +113,7 @@ body{
 	&-title{
 		text-align: center;
 		text-transform: uppercase;
-		color: @colorLight1;
+		color: @colorLight;
 		display: block;
 		background-color: @colorBgVideoList;
 		margin: 0;
@@ -190,7 +190,7 @@ body{
 				>.inner-celda {
 					>p{
 						font-size: @fontSizeLarge;
-						color: @colorLight1;
+						color: @colorLight;
 						text-align: center;
 					}
 				}
@@ -227,7 +227,7 @@ body{
 		}
 		>h3{
 			font-size: @fontSizeSmall;
-			color: @colorLight1;
+			color: @colorLight;
 			line-height: 1.1em;
 			margin-right: 26px;
 			cursor: pointer;
@@ -243,9 +243,13 @@ body{
 			right: 0;
 			margin-right: 5px;
 			font-size: @fontSizeExtraSmall;
-			color: @colorLight1;
+			color: @colorLight;
 		}
 	}
+}
+
+.ContainerItemVideoLista--activo{
+	.EfectoHoverItemVideoList();
 }
 /*----------FIN Columna 1: Contenedor con la lista de reproduccion----------*/
 
@@ -373,14 +377,14 @@ body{
 		text-align: center;
 		font-size: @fontSizeExtraLarge;
 		margin: 10px 0;
-		color:@colorLight1;
+		color:@colorLight;
 	}
 	>form{
 		.form-group{
 			margin: 0;
 			margin-bottom: 10px;
 			>label{
-				color:@colorLight1;
+				color:@colorLight;
 			}
 			&:last-child{
 				text-align: center;

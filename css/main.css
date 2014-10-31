@@ -485,7 +485,6 @@ $MIXINS
 \*------------------------------------*/
 .EfectoHoverItemVideoList {
   background-color: #fafafa;
-  cursor: pointer;
 }
 .EfectoHoverItemVideoList > .ContainerItemVideoLista-info > h3 {
   color: #111;
@@ -720,7 +719,6 @@ $MAQUETADO
 }
 .ContainerItemVideoLista:hover {
   background-color: #fafafa;
-  cursor: pointer;
 }
 .ContainerItemVideoLista:hover > .ContainerItemVideoLista-info > h3 {
   color: #111;
@@ -795,6 +793,21 @@ $MAQUETADO
   font-size: 0.8em;
   color: #fafafa;
 }
+.ContainerItemVideoLista--activo {
+  background-color: #fafafa;
+}
+.ContainerItemVideoLista--activo > .ContainerItemVideoLista-info > h3 {
+  color: #111;
+}
+.ContainerItemVideoLista--activo > .ContainerItemVideoLista-info > a {
+  color: #da2031;
+}
+.ContainerItemVideoLista--activo > .ContainerItemVideoLista-info > p {
+  color: #111;
+}
+.ContainerItemVideoLista--activo > .ContainerItemVideoLista-numero > .contenedor-tabla > .outer-tabla > .inner-celda > p {
+  color: #111;
+}
 /*----------FIN Columna 1: Contenedor con la lista de reproduccion----------*/
 /*----------Columna 2: Contenedor con contenido variable (busquedas, listas, perfil)----------*/
 .ContainerContentAjax {
@@ -833,11 +846,23 @@ $MAQUETADO
   -webkit-box-shadow: 0 0 4px 1px #555555;
   box-shadow: 0 0 4px 1px #555555;
   position: relative;
-  height: 180px;
-  background-image: url('../img/preview-video.png');
   background-size: 100% 100%;
+  max-width: 185px;
+  max-height: 104px;
+  height: 104px;
+  margin: 0 auto;
 }
-.ContainerContentSearchs-results-item > .ul-icon-remove {
+.ContainerContentSearchs-results-item-title {
+  font-size: 1em;
+  color: #2e353e;
+  line-height: 1.1em;
+  max-width: 185px;
+  border-bottom: 1px solid #D7D7D7;
+  margin: 10px auto;
+  padding-bottom: 5px;
+  height: 42px;
+}
+.ContainerContentSearchs-results-item > .UlMenuAdd {
   display: block;
   padding: 0;
   background-color: inherit;
@@ -846,21 +871,21 @@ $MAQUETADO
   margin: 3px;
   position: absolute;
 }
-.ContainerContentSearchs-results-item > .ul-icon-remove > li > a {
+.ContainerContentSearchs-results-item > .UlMenuAdd > li > a {
   margin: 0;
   padding: 0;
   background-color: inherit !important;
 }
-.ContainerContentSearchs-results-item > .ul-icon-remove > li > ul {
+.ContainerContentSearchs-results-item > .UlMenuAdd > li > ul {
   padding: 2px;
 }
-.ContainerContentSearchs-results-item > .ul-icon-remove > li > ul > .divider {
+.ContainerContentSearchs-results-item > .UlMenuAdd > li > ul > .divider {
   margin: 0;
 }
-.ContainerContentSearchs-results-item > .ul-icon-remove > li > ul > li > a {
+.ContainerContentSearchs-results-item > .UlMenuAdd > li > ul > li > a {
   padding: 5px;
 }
-.ContainerContentSearchs-results-item > .ul-icon-remove > li > ul > li > a:hover {
+.ContainerContentSearchs-results-item > .UlMenuAdd > li > ul > li > a:hover {
   background-color: #dcdcdc;
 }
 .ContainerContentSearchs-results-item-info {
@@ -870,15 +895,10 @@ $MAQUETADO
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
   filter: alpha(opacity=(70));
   opacity: 0.7;
-  padding-top: 10px;
-  padding-left: 10px;
-}
-.ContainerContentSearchs-results-item-info > h3 {
-  font-size: 1em;
-  color: #fafafa;
-  line-height: 1.1em;
+  padding: 5px;
 }
 .ContainerContentSearchs-results-item-info > a {
+  float: left;
   font-size: 0.8em;
   color: #00aeef;
 }
@@ -887,6 +907,7 @@ $MAQUETADO
   color: #fafafa;
   text-align: right;
   margin-right: 3px;
+  float: right;
 }
 /*----------FIN Contenedor con el contenido de una busqueda----------*/
 /*----------Contenedor con el contenido de las listas de reproduccion de un usuario----------*/
@@ -910,11 +931,23 @@ $MAQUETADO
   -webkit-box-shadow: 0 0 4px 1px #555555;
   box-shadow: 0 0 4px 1px #555555;
   position: relative;
-  height: 180px;
-  background-image: url('../img/preview-video.png');
   background-size: 100% 100%;
+  max-width: 185px;
+  max-height: 104px;
+  height: 104px;
+  margin: 0 auto;
 }
-.ContainerContentUserLists-videos-row-item > .ul-icon-remove {
+.ContainerContentUserLists-videos-row-item-title {
+  font-size: 1em;
+  color: #2e353e;
+  line-height: 1.1em;
+  max-width: 185px;
+  border-bottom: 1px solid #D7D7D7;
+  margin: 10px auto;
+  padding-bottom: 5px;
+  height: 42px;
+}
+.ContainerContentUserLists-videos-row-item > .UlMenuAdd {
   display: block;
   padding: 0;
   background-color: inherit;
@@ -923,21 +956,21 @@ $MAQUETADO
   margin: 3px;
   position: absolute;
 }
-.ContainerContentUserLists-videos-row-item > .ul-icon-remove > li > a {
+.ContainerContentUserLists-videos-row-item > .UlMenuAdd > li > a {
   margin: 0;
   padding: 0;
   background-color: inherit !important;
 }
-.ContainerContentUserLists-videos-row-item > .ul-icon-remove > li > ul {
+.ContainerContentUserLists-videos-row-item > .UlMenuAdd > li > ul {
   padding: 2px;
 }
-.ContainerContentUserLists-videos-row-item > .ul-icon-remove > li > ul > .divider {
+.ContainerContentUserLists-videos-row-item > .UlMenuAdd > li > ul > .divider {
   margin: 0;
 }
-.ContainerContentUserLists-videos-row-item > .ul-icon-remove > li > ul > li > a {
+.ContainerContentUserLists-videos-row-item > .UlMenuAdd > li > ul > li > a {
   padding: 5px;
 }
-.ContainerContentUserLists-videos-row-item > .ul-icon-remove > li > ul > li > a:hover {
+.ContainerContentUserLists-videos-row-item > .UlMenuAdd > li > ul > li > a:hover {
   background-color: #dcdcdc;
 }
 .ContainerContentUserLists-videos-row-item-info {
@@ -947,15 +980,10 @@ $MAQUETADO
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
   filter: alpha(opacity=(70));
   opacity: 0.7;
-  padding-top: 10px;
-  padding-left: 10px;
-}
-.ContainerContentUserLists-videos-row-item-info > h3 {
-  font-size: 1em;
-  color: #fafafa;
-  line-height: 1.1em;
+  padding: 5px;
 }
 .ContainerContentUserLists-videos-row-item-info > a {
+  float: left;
   font-size: 0.8em;
   color: #00aeef;
 }
@@ -964,6 +992,7 @@ $MAQUETADO
   color: #fafafa;
   text-align: right;
   margin-right: 3px;
+  float: right;
 }
 .ContainerContentUserLists-videos-row-item > a:first-child {
   display: block;
@@ -992,7 +1021,6 @@ $MAQUETADO
 /*----------Video que se esta reproduciendo actualmente----------*/
 .ContainerItemVideoListActive {
   background-color: #fafafa;
-  cursor: pointer;
 }
 .ContainerItemVideoListActive > .ContainerItemVideoLista-info > h3 {
   color: #111;

@@ -7,7 +7,7 @@
     <title>BlueTUBE</title>
     <link rel="stylesheet" href="css/main.css" />
     <link rel="shortcut icon" href="img/favicon.png">
-        <script src="http://jwpsrv.com/library/agemfEBtEeSqECIACtqXBA.js"></script>
+    <script src="http://jwpsrv.com/library/agemfEBtEeSqECIACtqXBA.js"></script>
 </head>
 
 <body data-ng-app="VideoPlayerApp">
@@ -47,8 +47,6 @@
                 <div class="ContainerReproductor col-xs-12 col-sm-6 col-md-12 col-lg-12">
                     <h2 class="ContainerReproductor-title" id="numberVideoPlayList">Current Playlist ({{sizeListaReproduccion}})</h2>
                     <div id="ContainerReproductor-jwplayer">
-                        <!-- <img src="img/video-game.jpg" alt="" />  -->
-                        <!-- <iframe width="560" height="315" src="//www.youtube.com/embed/K7reQAA05-E?rel=0" frameborder="0" allowfullscreen></iframe>  -->
                         <div id="VideoPlayer"></div>
                     </div>
                     <div class="ContainerReproductor-controls">
@@ -58,7 +56,7 @@
                         <div style="clear: both"></div>
                     </div>
                 </div>
-<!-- <div ng-view></div> -->
+
                 <div class="ContainerItemsVideo col-xs-12 col-sm-6 col-md-12 col-lg-12">
                     <div id="inner-content-div">
                         <div class="ContainerItemVideoLista" data-ng-repeat="item in listaReproduccion.items">
@@ -88,68 +86,9 @@
                 </div>
             </section>
 
-            <section class="ContainerContentAjax col-xs-12 col-sm-12 col-md-8 col-lg-8">
-                <div class="ContainerContentSearchs" >
-                    <div class="ContainerContentSearchs-form row" >
-                        <form class="form-inline" role="form" method="post" onsubmit="event.preventDefault()">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Search Here" data-ng-model="inputBusqueda" value="messi">
-                                <button type="submit" class="btn btn-primary" data-ng-click="hacerBusqueda()"  >Search</button>
-                            </div>
-                        </form>
-                    </div>
+            <section class="ContainerContentAjax col-xs-12 col-sm-12 col-md-8 col-lg-8" ng-view>
 
-                    <div class="ContainerContentSearchs-results row">
-                        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4" data-ng-repeat="item in listaResultados.items" data-ng-init="indice=$index;">
-                            <h3 class="ContainerContentSearchs-results-item-title" title="{{item.titulo_completo}}">{{item.titulo_recortado}}</h3>
-                            <article class="ContainerContentSearchs-results-item" style="background-image: url('{{item.imagen}}')">
-                                <ul class="nav nav-pills UlMenuAdd">
-                                    <li class="dropdown">
-                                        <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
-                                            <span class="IconAdd"></span>
-                                        </a>
-                                        <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="">
-                                            <li><a href="#" 
-                                             data-ng-click="anadirVideoAListaDeReproduccion($index)" >Add To Current List</a></li>
-                                             <li role="presentation" class="divider"></li>
-                                             <li><a href="#" onclick="showModalLists()">Add To List...</a></li>
-                                         </ul>
-                                     </li>
-                                 </ul> 
-                                 <div class="ContainerContentSearchs-results-item-info">
-                                    <a href="http://www.youtube.com/channel/{{item.id_canal}}" target="_blank">{{item.nombre_canal}}</a>
-                                    <p>{{item.duracion}}</p>
-                                </div>
-                            </article>
-                        </div>
-                    </div>
-                </div>
             </section>
-        </div>
-    </div>
-
-
-    <div class="modal fade" id="modalLists" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Add video to playlist</h4>
-                </div>
-                <div class="modal-body">
-                    <label for="">Choose the playlist</label>
-                    <select name="" id="">
-                        <option value="">List 1</option>
-                        <option value="">List 2</option>
-                        <option value="">List 3</option>
-                        <option value="">List 4</option>
-                    </select>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="JS-Button-Agregar-Video-A-Lista">Save</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                </div>
-            </div>
         </div>
     </div>
 

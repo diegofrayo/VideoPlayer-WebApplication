@@ -9,11 +9,25 @@
 .ItemVideo(){
 	.box-shadow(0 0 4px 1px #555);
 	position: relative;
-	height: 180px;
-	background-image: url('../img/preview-video.png');
 	background-size: 100% 100%;
+	max-width: 185px;
+	max-height: 104px;
+	height: 104px;
+	margin: 0 auto;
+
+	&-title{
+		font-size: @fontSizeBase;
+		color: @colorDarkGray;
+		line-height: 1.1em;
+		max-width: 185px;
+		border-bottom: 1px solid #D7D7D7;
+		margin: 10px auto;
+		padding-bottom: 5px; 
+		height: 42px;
+	}
+
 	//Button Add Top
-	>.ul-icon-remove{
+	>.UlMenuAdd{
 		display: block;
 		padding: 0;
 		background-color: inherit;
@@ -48,29 +62,24 @@
 		bottom: 0;
 		background-color: #000;
 		.opacity(0.7);
-		padding-top: 10px;
-		padding-left: 10px;
-		>h3{
-			font-size: @fontSizeBase;
-			color: @colorLight1;
-			line-height: 1.1em;
-		}
+		padding: 5px;
 		>a{
+			float: left;
 			font-size: @fontSizeExtraSmall;
 			color: @colorLightBlue;
 		}
 		>p{
 			font-size: @fontSizeExtraSmall;
-			color: @colorLight1;
+			color: @colorLight;
 			text-align: right;
 			margin-right: 3px;
+			float: right;
 		}
 	}
 }
 
 .EfectoHoverItemVideoList{
-	background-color: @colorLight1;
-	cursor: pointer;
+	background-color: @colorLight;
 
 	>.ContainerItemVideoLista-info{
 		>h3{
