@@ -7,7 +7,7 @@
     <title>BlueTUBE</title>
     <link rel="stylesheet" href="css/main.css" />
     <link rel="shortcut icon" href="img/favicon.png">
-        <script src="http://jwpsrv.com/library/agemfEBtEeSqECIACtqXBA.js"></script>
+    
 </head>
 
 <body data-ng-app="VideoPlayerApp">
@@ -47,18 +47,15 @@
                 <div class="ContainerReproductor col-xs-12 col-sm-6 col-md-12 col-lg-12">
                     <h2 class="ContainerReproductor-title" id="numberVideoPlayList">Current Playlist ({{sizeListaReproduccion}})</h2>
                     <div id="ContainerReproductor-jwplayer">
-                        <!-- <img src="img/video-game.jpg" alt="" />  -->
-                        <!-- <iframe width="560" height="315" src="//www.youtube.com/embed/K7reQAA05-E?rel=0" frameborder="0" allowfullscreen></iframe>  -->
                         <div id="VideoPlayer"></div>
                     </div>
                     <div class="ContainerReproductor-controls">
                         <a href="#" class="IconPrev" data-ng-click="verAnteriorVideo()"><span></span></a> 
                         <a href="#" class="IconNext" data-ng-click="verSiguienteVideo()"><span></span></a> 
                         <a href="#" class="IconCleanList" data-ng-click="limpiarLista()"><span></span></a> 
-                        <div style="clear: both"></div>
+                        <div class="clear"></div>
                     </div>
                 </div>
-<!-- <div ng-view></div> -->
                 <div class="ContainerItemsVideo col-xs-12 col-sm-6 col-md-12 col-lg-12">
                     <div id="inner-content-div">
                         <div class="ContainerItemVideoLista" data-ng-repeat="item in listaReproduccion.items">
@@ -94,7 +91,7 @@
                         <form class="form-inline" role="form" method="post" onsubmit="event.preventDefault()">
                             <div class="form-group">
                                 <input type="text" class="form-control" placeholder="Search Here" data-ng-model="inputBusqueda" value="messi">
-                                <button type="submit" class="btn btn-primary" data-ng-click="hacerBusqueda()"  >Search</button>
+                                <button type="submit" id="buttonBuscar" class="btn btn-primary" data-ng-click="hacerBusqueda()"  >Search</button>
                             </div>
                         </form>
                     </div>
@@ -110,7 +107,7 @@
                                         </a>
                                         <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="">
                                             <li><a href="#" 
-                                             data-ng-click="anadirVideoAListaDeReproduccion($index)" >Add To Current List</a></li>
+                                             data-ng-click="addVideoAListaDeReproduccion($index)" >Add To Current List</a></li>
                                              <li role="presentation" class="divider"></li>
                                              <li><a href="#" onclick="showModalLists()">Add To List...</a></li>
                                          </ul>
@@ -157,10 +154,13 @@
     <script src="js/libraries/angular.min.js"></script>
     <script src="js/libraries/bootstrap.min.js"></script>
     <script src="js/libraries/jquery.slimscroll.min.js"></script>
-    <script src="js/funciones-auxiliares.js"></script>
-    <script src="js/youtube-api-config.js"></script>
+    <script src="js/libraries/jwplayer.min.js"></script>
+    <script src="http://jwpsrv.com/library/agemfEBtEeSqECIACtqXBA.js"></script>
+
+    <script src="js/config.js"></script>
+
     <script src="js/angular-app-config.js"></script>
-    <script src="js/eventos-botones.js"></script>
+
     <!-- <script src="https://apis.google.com/js/client.js?onload=init"></script> -->
 </body>
 </html>

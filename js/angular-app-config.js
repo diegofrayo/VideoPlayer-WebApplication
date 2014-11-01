@@ -1,38 +1,27 @@
 var app = angular.module("VideoPlayerApp",[]);
 
-// var app = angular.module("VideoPlayerApp",['ngRoute']);
-// app.config(function ($routeProvider){
-// 	$routerProvider.when('/home',{
-// 		templateUrl: "views/home.html",
-// 		controller: 'ControladorFormularioBusquedas'
-// 	})
-	// .when('/new/item',{
-	// 	templateUrl: 'carpeta/otro.html',
-	// 	controller: 'nombreControlador'
-	// })
-// });
-
 app.controller("ControladorFormularioBusquedas", ['$scope', controladorBusquedaVideos]);
 
 function controladorBusquedaVideos($scope){
 
-	$scope.listaReproduccion = {items: []};
 	$scope.listaResultados = {items: []};
 	$scope.inputBusqueda = "";
-	$scope.indiceReproduccionActual = 0;
+	$scope.listaReproduccion = {items: []};
+	$scope.indiceReproduccionActual = -1;
+	$scope.siLaListaSeEstaReproduciendo = false;
 	$scope.sizeListaReproduccion = $scope.listaReproduccion.items.length;
 
 	$scope.hacerBusqueda = function(){
 
 		var successJson = function(response) {
 
-			var resultadosBusqueda = response.items;
+			var listaResultadosBusqueda = response.items;
+			var numeroResultadosBusqueda = listaResultadosBusqueda.length;
 			var listaVideos =  {items: []};
-			var numeroResultados = resultadosBusqueda.length;
 
-			for (var i = 0; i < numeroResultados; i++) {
+			for (var i = 0; i < numeroResultadosBusqueda; i++) {
 
-				itemBusqueda = resultadosBusqueda[i];
+				itemBusqueda = listaResultadosBusqueda[i];
 
 				itemVideo = createItemVideo(itemBusqueda.id.videoId,
 					itemBusqueda.snippet.title,
@@ -40,27 +29,7 @@ function controladorBusquedaVideos($scope){
 					itemBusqueda.snippet.channelId,
 					itemBusqueda.snippet.channelTitle,
 					generateDuration(),
-					"img/preview-video.png");
-
-				// itemVideo = { 
-				// 	'id' : itemBusqueda.id.videoId,
-				// 	'titulo_completo' : itemBusqueda.snippet.title,
-				// 	'titulo_recortado' : itemBusqueda.snippet.title.substring(0, 35) + "...",
-				// 	'id_canal' : itemBusqueda.snippet.channelId,
-				// 	'nombre_canal' : itemBusqueda.snippet.channelTitle,
-				// 	'duracion' : generateDuration(),
-				// 	'imagen' : "img/preview-video.png",
-				// 	'repeat' : makeRandomString()};
-
-				// itemVideo['index'] = i;
-				// itemVideo['id'] = itemBusqueda.id.videoId;
-				// itemVideo['titulo_completo'] = itemBusqueda.snippet.title;
-				// itemVideo['titulo_recortado'] = itemBusqueda.snippet.title.substring(0, 35) + "...";
-				// itemVideo['id_canal'] = itemBusqueda.snippet.channelId;
-				// itemVideo['nombre_canal'] = itemBusqueda.snippet.channelTitle;
-				// itemVideo['duracion'] = generateDuration();
-				// itemVideo['imagen'] = "img/preview-video.png";
-				// itemVideo['imagen'] = itemBusqueda.snippet.thumbnails.medium.url;
+					itemBusqueda.snippet.thumbnails.medium.url);
 
 				listaVideos.items.push(itemVideo);
 			}
@@ -80,74 +49,122 @@ function controladorBusquedaVideos($scope){
 				console.log('Error');
 			}
 		});
+
 	}
 
-	$scope.anadirVideoAListaDeReproduccion = function(index){
+	$scope.addVideoAListaDeReproduccion = function(index){
 
-		var videoSeleccionado = $scope.listaResultados.items[index];
-		var videoNuevo = createItemVideo(
-			videoSeleccionado.id,
-			videoSeleccionado.titulo_completo,
-			videoSeleccionado.titulo_recortado,
-			videoSeleccionado.id_canal,
-			videoSeleccionado.nombre_canal,
-			generateDuration(),
-			"img/preview-video.png");
+		var videoBusquedaSeleccionado = $scope.listaResultados.items[index];
+		var videoParaAgregarALista = createItemVideo(
+			videoBusquedaSeleccionado.id,
+			videoBusquedaSeleccionado.titulo_completo,
+			videoBusquedaSeleccionado.titulo_recortado,
+			videoBusquedaSeleccionado.id_canal,
+			videoBusquedaSeleccionado.nombre_canal,
+			videoBusquedaSeleccionado.duracion,
+			videoBusquedaSeleccionado.imagen);
 
-		$scope.listaReproduccion.items.push(videoNuevo);
+		$scope.listaReproduccion.items.push(videoParaAgregarALista);
 		$scope.sizeListaReproduccion = $scope.listaReproduccion.items.length;
 	}
 
 	$scope.borrarVideoDeListaDeReproduccion = function(index){
 
-		var nuevaLista = {items: []};
+		var listaNueva = {items: []};
 		var listaReproduccion =  $scope.listaReproduccion.items;
-		var numeroResultados = listaReproduccion.length;
-		
-		for (var i = 0; i < numeroResultados; i++) {
+		var sizeListaReproduccion = $scope.sizeListaReproduccion;
 
-			itemBusqueda = listaReproduccion[i];
+		for (var i = 0; i < sizeListaReproduccion; i++) {
+
+			itemLista = listaReproduccion[i];
 
 			if(i != index){
 
-				nuevaLista.items.push(itemBusqueda);
+				listaNueva.items.push(itemLista);
 			}
 		}
 
-		$scope.listaReproduccion = nuevaLista;
+		$scope.listaReproduccion = listaNueva;
 		$scope.sizeListaReproduccion = $scope.listaReproduccion.items.length;
 
-		// if($scope.indiceReproduccionActual = index){
+		//Si la lista se esta reproduciendo
+		if($scope.siLaListaSeEstaReproduciendo){
 
-		// 	if(index == numeroResultados-1 && $scope.sizeListaReproduccion > 0){
+			//Si se eliminó el item que se estaba reproduciendo
+			if($scope.indiceReproduccionActual == index){
 
-		// 		$scope.indiceReproduccionActual = 0;
-		// 	}else
+				switch($scope.sizeListaReproduccion){
 
-		// 	if($scope.sizeListaReproduccion > 0){
+					//Si la lista quedó vacia
+					case 0:
 
-		// 		$scope.indiceReproduccionActual = index;
-		// 	}
+					$scope.siLaListaSeEstaReproduciendo= false;
+					$scope.indiceReproduccionActual = -1;
+					break;
 
-		// 	reproducirVideoJwPlayer($scope.indiceReproduccionActual);
-		// }
+					//Si solo quedó un elemento
+					case 1:
+
+					$scope.indiceReproduccionActual = 0;
+					break;
+
+					//Si hay 2 o mas elementos
+					default:
+
+					$scope.indiceReproduccionActual--;
+					$scope.verSiguienteVideo();
+					break;
+				}
+
+			//Si se eliminó un item que no se estaba reproduciendo
+		}else{
+
+			switch($scope.sizeListaReproduccion){
+
+					//Si la lista quedó vacia
+					case 0:
+
+					$scope.siLaListaSeEstaReproduciendo= false;
+					$scope.indiceReproduccionActual = -1;
+					break;
+
+					default:
+
+					if($scope.indiceReproduccionActual > index){
+
+						$scope.indiceReproduccionActual--;
+					}
+					break;
+
+				}
+			}
+		}
+
+		detenerReproductor();
 	}
+
 
 	$scope.limpiarLista = function(){
 
-		if(confirm("¿Esta seguro?")) {
+		if(confirm("¿Esta seguro de borrar todos los elementos de la lista de reproduccion?")) {
 
 			$scope.listaReproduccion =  {items: []};
 			$scope.sizeListaReproduccion = $scope.listaReproduccion.items.length;
+			$scope.indiceReproduccionActual = -1;
+			$scope.siLaListaSeEstaReproduciendo = false;
+
+			detenerReproductor();
 		}
 	}
 
 	$scope.reproducirVideo = function(index){
 
 		var videoSeleccionado = $scope.listaReproduccion.items[index];
-		removeClassActiveItem($scope.indiceReproduccionActual);
 		$scope.indiceReproduccionActual = index;
+		$scope.siLaListaSeEstaReproduciendo = true;
+
 		reproducirVideoJwPlayer(videoSeleccionado.id);
+		removeClassActiveItem();
 		addClassActiveItem(index);
 	}
 
@@ -156,9 +173,9 @@ function controladorBusquedaVideos($scope){
 		var sizeListaReproduccion = $scope.listaReproduccion.items.length;
 		var indiceActual = $scope.indiceReproduccionActual;
 
-		if(sizeListaReproduccion > 1){
+		if(sizeListaReproduccion > 1 && $scope.siLaListaSeEstaReproduciendo){
 
-			removeClassActiveItem(indiceActual);
+			removeClassActiveItem();
 
 			if(indiceActual==0){
 
@@ -169,6 +186,7 @@ function controladorBusquedaVideos($scope){
 			}
 
 			$scope.indiceReproduccionActual = indiceActual;
+			
 			var urlVideo = $scope.listaReproduccion.items[indiceActual].id;
 			reproducirVideoJwPlayer(urlVideo);
 			addClassActiveItem(indiceActual);
@@ -180,9 +198,9 @@ function controladorBusquedaVideos($scope){
 		var sizeListaReproduccion = $scope.listaReproduccion.items.length;
 		var indiceActual = $scope.indiceReproduccionActual;
 
-		if(sizeListaReproduccion > 1){
+		if(sizeListaReproduccion > 1 && $scope.siLaListaSeEstaReproduciendo){
 
-			removeClassActiveItem(indiceActual);
+			removeClassActiveItem();
 
 			if(indiceActual==sizeListaReproduccion-1){
 
@@ -196,6 +214,7 @@ function controladorBusquedaVideos($scope){
 			var urlVideo = $scope.listaReproduccion.items[indiceActual].id;
 			reproducirVideoJwPlayer(urlVideo);
 			addClassActiveItem(indiceActual);
+			//console.log(indiceActual);
 		}
 	}
 
@@ -206,43 +225,111 @@ function controladorBusquedaVideos($scope){
 
 
 function youtube(){
-		// var q = $scope.inputBusqueda;
-		// var request = gapi.client.youtube.search.list({
-		// 	q: q,
-		// 	part: 'snippet',
-		// 	type: 'video',
-		// 	maxResults: 15,
-		// 	order: 'relevance',
-		// 	videoDuration: 'medium'
-		// });
 
-		// request.execute(function(response) {
+	// $scope.hacerBusqueda = function(){
 
-		// 	var resultadosBusqueda = response.items;
-		// 	var listaVideos =  new Array();
-		// 	var numeroResultados = resultadosBusqueda.length;
+	// 	var q = $scope.inputBusqueda;
 
-		// 	for (var i = 0; i < numeroResultados; i++) {
+	// 	if(q.trim() != ''){
 
-		// 		itemBusqueda = resultadosBusqueda[i];
-		// 		itemVideo = new Array();
+	// 		var request = gapi.client.youtube.search.list({
+	// 			q: q,
+	// 			part: 'snippet',
+	// 			type: 'video',
+	// 			maxResults: 15,
+	// 			order: 'relevance',
+	// 			videoDuration: 'medium'
+	// 		});
 
-		// 		itemVideo['id'] = itemBusqueda.id.videoId;
-		// 		itemVideo['titulo_completo'] = itemBusqueda.snippet.title;
-		// 		itemVideo['titulo_recortado'] = itemBusqueda.snippet.title.substring(0, 35) + "...";
-		// 		itemVideo['id_canal'] = itemBusqueda.snippet.channelId;
-		// 		itemVideo['nombre_canal'] = itemBusqueda.snippet.channelTitle;
-		// 		itemVideo['duracion'] = generateDuration();
-		// 		itemVideo['imagen'] = itemBusqueda.snippet.thumbnails.medium.url;
+	// 		request.execute(function(response) {
 
-		// 		listaVideos[i] = itemVideo;
-		// 	}
+	// 			var listaResultadosBusqueda = response.items;
+	// 			var numeroResultadosBusqueda = listaResultadosBusqueda.length;
+	// 			var listaVideos =  {items: []};
 
-		// 	$scope.$apply(function(){
-		// 		$scope.listaVideos = listaVideos;
-		// 	});
-		// });
+	// 			for (var i = 0; i < numeroResultadosBusqueda; i++) {
+
+	// 				itemBusqueda = listaResultadosBusqueda[i];
+
+	// 				itemVideo = createItemVideo(itemBusqueda.id.videoId,
+	// 					itemBusqueda.snippet.title,
+	// 					itemBusqueda.snippet.title.substring(0, 35) + "...",
+	// 					itemBusqueda.snippet.channelId,
+	// 					itemBusqueda.snippet.channelTitle,
+	// 					generateDuration(),
+	// 					itemBusqueda.snippet.thumbnails.medium.url);
+
+	// 				var requestDuration = gapi.client.youtube.videos.list({
+	// 					id: itemVideo.id,
+	// 					part: 'contentDetails'
+	// 				});
+
+	// 				requestDuration.execute(function(response) {
+
+	// 					var duracion = response.items[0].contentDetails.duration;
+	// 					duracion = duracion.replace('PT', '').replace('M',':').replace('S','');
+	// 					//console.log(duracion);
+	// 					itemVideo.duracion = duracion;
+	// 				});
+
+	// 				listaVideos.items.push(itemVideo);
+	// 			}
+
+	// 			$scope.$apply(function(){
+
+	// 				$scope.listaResultados = listaVideos;
+	// 			});
+	// 		});
+	// 	}
+	// }
 }
+
+function leerJson(){
+
+	// $scope.hacerBusqueda = function(){
+
+	// 	var successJson = function(response) {
+
+	// 		var listaResultadosBusqueda = response.items;
+	// 		var numeroResultadosBusqueda = listaResultadosBusqueda.length;
+	// 		var listaVideos =  {items: []};
+
+	// 		for (var i = 0; i < numeroResultadosBusqueda; i++) {
+
+	// 			itemBusqueda = listaResultadosBusqueda[i];
+
+	// 			itemVideo = createItemVideo(itemBusqueda.id.videoId,
+	// 				itemBusqueda.snippet.title,
+	// 				itemBusqueda.snippet.title.substring(0, 35) + "...",
+	// 				itemBusqueda.snippet.channelId,
+	// 				itemBusqueda.snippet.channelTitle,
+	// 				generateDuration(),
+	// 				itemBusqueda.snippet.thumbnails.medium.url);
+
+	// 			listaVideos.items.push(itemVideo);
+	// 		}
+
+	// 		$scope.$apply(function(){
+
+	// 			$scope.listaResultados = listaVideos;
+	// 		});
+	// 	}
+
+	// 	$.ajax({
+	// 		url:'/bluetube/data/json.json',
+	// 		datatype:'json',
+	// 		data:{},
+	// 		success: successJson,
+	// 		error: function(response) {
+	// 			console.log('Error');
+	// 		}
+	// 	});
+
+	// }
+}
+
+
+
 
 
 

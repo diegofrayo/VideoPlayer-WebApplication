@@ -87,9 +87,18 @@ only screen and (min-device-pixel-ratio : 1.5) {
 			}
 		}
 	}
+
 	.ContainerReproductor {
 		&-title{
 			font-size: @fontSizeBase;
+		}
+	}
+
+	.ContainerItemVideoLista{
+		&-imagen{
+			>img{
+				height: 35px;
+			}
 		}
 	}
 
@@ -106,6 +115,14 @@ only screen and (min-device-pixel-ratio : 1.5) {
 			width: 100%;
 			>article{
 				height: 220px;
+			}
+		}
+	}
+
+	.ContainerItemVideoLista{
+		&-imagen{
+			>img{
+				height: 35px;
 			}
 		}
 	}
@@ -165,9 +182,7 @@ only screen and (min-device-pixel-ratio : 1.5) {
 	}
 
 	#ContainerReproductor-jwplayer{
-		>img{
-			height: 228px;
-		}
+		height: 228px;
 	}
 
 	.ContainerItemsVideo{
@@ -256,11 +271,14 @@ only screen and (min-device-pixel-ratio : 1.5) {
 		}
 	}
 
+	#ContainerReproductor-jwplayer{	
+		height: 220px;
+	}
+
 	.ContainerItemVideoLista{
 		&-imagen{
-			padding: 7.5px 5px;
 			>img{
-				height: 55px;
+				height: 35px;
 				width: 100%;
 			}
 		}
@@ -268,30 +286,14 @@ only screen and (min-device-pixel-ratio : 1.5) {
 }
 
 //Pone el reproductor de un ancho del 60%. Pero pone la lista de reproduccion abajo
-@media screen and (min-width : 450px) and (max-width : 600px)
+@media screen and (min-width : 450px) and (max-width : 767px)
 {
-	// .ContainerHeader{
-	// 	//height: 50px;
-	// }
-
-	// .ContainerUserMenuDropdown{
-	// 	>ul{
-	// 		>li{
-	// 			>a{
-	// 				>img{
-	// 					//width: 40px;	
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// }
-
-	#ContainerReproductor-jwplayer{
-		>img{
+	#ContainerReproductor-jwplayer{	
+		height: 220px;
+		>div{
 			width: 60%;
 			display: block;
 			margin: 0 auto;
-			height: 220px;
 		}
 	}
 }

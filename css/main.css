@@ -516,6 +516,9 @@ $MIXINS
   vertical-align: middle;
   height: 100%;
 }
+.clear {
+  clear: both;
+}
 /*------------------------------------*\
 $ETIQUETAS
 \*------------------------------------*/
@@ -687,8 +690,7 @@ $MAQUETADO
 #ContainerReproductor-jwplayer {
   background-color: #111111;
 }
-#ContainerReproductor-jwplayer > img,
-#ContainerReproductor-jwplayer > iframe {
+#ContainerReproductor-jwplayer > div {
   width: 100%;
   height: 100%;
   display: block;
@@ -748,7 +750,7 @@ $MAQUETADO
 .ContainerItemVideoLista-imagen {
   float: left;
   width: 20%;
-  height: 70px;
+  height: 72px;
 }
 .ContainerItemVideoLista-imagen > img {
   height: 41px;
@@ -1093,6 +1095,9 @@ $MEDIA-QUERIES
   .ContainerReproductor-title {
     font-size: 1em;
   }
+  .ContainerItemVideoLista-imagen > img {
+    height: 35px;
+  }
   .ContentLogin {
     width: 100%;
   }
@@ -1103,6 +1108,9 @@ $MEDIA-QUERIES
   }
   .ContainerContentSearchs-results > div > article {
     height: 220px;
+  }
+  .ContainerItemVideoLista-imagen > img {
+    height: 35px;
   }
   .ContentLogin {
     width: 100%;
@@ -1140,7 +1148,7 @@ $MEDIA-QUERIES
   .ContainerReproductor-controls {
     height: 36px;
   }
-  #ContainerReproductor-jwplayer > img {
+  #ContainerReproductor-jwplayer {
     height: 228px;
   }
   .ContainerItemsVideo {
@@ -1214,20 +1222,22 @@ $MEDIA-QUERIES
   .ContainerItemVideoLista-info > h3 {
     font-size: 0.70em;
   }
-  .ContainerItemVideoLista-imagen {
-    padding: 7.5px 5px;
+  #ContainerReproductor-jwplayer {
+    height: 220px;
   }
   .ContainerItemVideoLista-imagen > img {
-    height: 55px;
+    height: 35px;
     width: 100%;
   }
 }
-@media screen and (min-width: 450px) and (max-width: 600px) {
-  #ContainerReproductor-jwplayer > img {
+@media screen and (min-width: 450px) and (max-width: 767px) {
+  #ContainerReproductor-jwplayer {
+    height: 220px;
+  }
+  #ContainerReproductor-jwplayer > div {
     width: 60%;
     display: block;
     margin: 0 auto;
-    height: 220px;
   }
 }
 /*----------FIN Media-queries lista de reproduccion----------*/
