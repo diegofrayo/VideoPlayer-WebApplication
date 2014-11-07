@@ -1,20 +1,13 @@
 .FilaVideos(){
 	overflow: auto;
 	margin: 7px auto !important; //Voleo de rula
+
 	>div{
 		padding: 5px;
 	}
 }
 
 .ItemVideo(){
-	.box-shadow(0 0 4px 1px #555);
-	position: relative;
-	background-size: 100% 100%;
-	max-width: 185px;
-	max-height: 104px;
-	height: 104px;
-	margin: 0 auto;
-
 	&-title{
 		font-size: @fontSizeBase;
 		color: @colorDarkGray;
@@ -26,98 +19,80 @@
 		height: 42px;
 	}
 
-	//Button Add Top
-	>.UlMenuAdd{
-		display: block;
-		padding: 0;
-		background-color: inherit;
-		top: 0;
-		right: 0;
-		margin: 3px;
-		position: absolute;
-		>li{
-			>a{
-				margin: 0;
-				padding: 0;
-				background-color: inherit !important; //Voleo De Rula
-			}
-			>ul{
-				padding: 2px;
-				>.divider{
+	&-body{
+		.box-shadow(0 0 4px 1px #555);
+		position: relative;
+		background-size: 100% 100%;
+		max-width: 185px;
+		max-height: 104px;
+		height: 104px;
+		margin: 0 auto;
+
+		//Button Add Top
+		>.UlMenuAdd{
+			display: block;
+			padding: 0;
+			background-color: inherit;
+			top: 0;
+			right: 0;
+			margin: 3px;
+			position: absolute;
+			>li{
+				>a{
 					margin: 0;
+					padding: 0;
+					background-color: inherit !important; //Voleo De Rula
 				}
-				>li{
-					>a{
-						padding: 5px;
-						&:hover{
-							background-color: #dcdcdc;
+
+				>ul{
+					padding: 2px;
+					>.divider{
+						margin: 0;
+					}
+					>li{
+						>a{
+							padding: 5px;
+
+							&:hover{
+								background-color: #dcdcdc;
+							}
 						}
 					}
 				}
 			}
 		}
-	}
-	&-info{
-		position: absolute;
-		bottom: 0;
-		background-color: #000;
-		.opacity(0.7);
-		padding: 5px;
-		>a{
-			float: left;
-			font-size: @fontSizeExtraSmall;
-			color: @colorLightBlue;
-		}
-		>p{
-			font-size: @fontSizeExtraSmall;
-			color: @colorLight;
-			text-align: right;
-			margin-right: 3px;
-			float: right;
-		}
-	}
-}
 
-.EfectoHoverItemVideoList{
-	background-color: @colorLight;
+		&-info{
+			position: absolute;
+			bottom: 0;
+			background-color: #000;
+			.opacity(0.7);
+			padding: 5px;
 
-	>.ContainerItemVideoLista-info{
-		>h3{
-			color: #111;
-		}
-		>a{
-			color: @colorRed;	
-		}
-		>p{
-			color: #111;
-		}
-	}
-	>.ContainerItemVideoLista-numero{
-		>.contenedor-tabla{
-			>.outer-tabla {
-				>.inner-celda {
-					>p{
-						color: #111;
-					}
-				}
+			>a{
+				float: left;
+				font-size: @fontSizeExtraSmall;
+				color: @colorLightBlue;
+			}
+
+			>p{
+				font-size: @fontSizeExtraSmall;
+				color: @colorLight;
+				text-align: right;
+				margin-right: 3px;
+				float: right;
 			}
 		}
 	}
 }
 
-.contenedor-tabla{
-	width: 100%;
-	height: 100%;
-	>.outer-tabla {
-		display: table;
-		width: 100%;
-		height: 100%;
-		>.inner-celda {
-			display: table-cell;
-			vertical-align: middle;
-		}
-	}
+.HoverEfectVideoItemPlaylist{
+	background-color: #C1C1C1;
 }
+
+
+
+/*----------Hacks----------*/
 
 .vertical-align{
 	display: inline-block;
@@ -128,3 +103,5 @@
 .clear{
 	clear: both;
 }
+
+/*--------FIN Hacks--------*/

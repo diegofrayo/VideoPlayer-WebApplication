@@ -483,34 +483,10 @@ $SPRITES
 /*------------------------------------*\
 $MIXINS
 \*------------------------------------*/
-.EfectoHoverItemVideoList {
-  background-color: #fafafa;
+.HoverEfectVideoItemPlaylist {
+  background-color: #C1C1C1;
 }
-.EfectoHoverItemVideoList > .ContainerItemVideoLista-info > h3 {
-  color: #111;
-}
-.EfectoHoverItemVideoList > .ContainerItemVideoLista-info > a {
-  color: #da2031;
-}
-.EfectoHoverItemVideoList > .ContainerItemVideoLista-info > p {
-  color: #111;
-}
-.EfectoHoverItemVideoList > .ContainerItemVideoLista-numero > .contenedor-tabla > .outer-tabla > .inner-celda > p {
-  color: #111;
-}
-.contenedor-tabla {
-  width: 100%;
-  height: 100%;
-}
-.contenedor-tabla > .outer-tabla {
-  display: table;
-  width: 100%;
-  height: 100%;
-}
-.contenedor-tabla > .outer-tabla > .inner-celda {
-  display: table-cell;
-  vertical-align: middle;
-}
+/*----------Hacks----------*/
 .vertical-align {
   display: inline-block;
   vertical-align: middle;
@@ -519,6 +495,7 @@ $MIXINS
 .clear {
   clear: both;
 }
+/*--------FIN Hacks--------*/
 /*------------------------------------*\
 $ETIQUETAS
 \*------------------------------------*/
@@ -578,11 +555,10 @@ $MAQUETADO
 /*----------Header----------*/
 .ContainerHeader {
   width: 100%;
-  border-bottom: 3px solid #343434;
   padding: 5px;
-  height: 60px;
   overflow: visible;
   background-image: url('../img/bg-dark.png');
+  height: 60px;
   max-height: 60px;
   min-height: 60px;
 }
@@ -653,106 +629,92 @@ $MAQUETADO
 /*----------Columna 1: Contenedor con la lista de reproduccion----------*/
 .ContainerPlaylist {
   padding: 10px;
-  background-image: url('../img/bg-dark.png');
 }
-.ContainerReproductor {
+.ContainerVideoPlayer {
   padding: 0;
 }
-.ContainerReproductor-title {
+.ContainerVideoPlayer-title {
   text-align: center;
   text-transform: uppercase;
-  color: #fafafa;
   display: block;
-  background-color: #111111;
+  background-color: #f4f4f4;
   margin: 0;
   padding: 5px;
   font-size: 1.5em;
   min-height: 36px;
   max-height: 36px;
+  border: 1px solid #e4e4e4;
 }
-.ContainerReproductor-controls {
-  background-color: #111111;
+.ContainerVideoPlayer-controls {
+  background-color: #f4f4f4;
   padding: 6px 5px;
   text-align: center;
-  border-top: 1px solid #222222;
-  border-bottom: 1px solid #222222;
+  border: 1px solid #e4e4e4;
   min-height: 36px;
   max-height: 36px;
 }
-.ContainerReproductor-controls > a {
+.ContainerVideoPlayer-controls > a {
   display: inline-block;
 }
-.ContainerReproductor-controls > a > span:hover {
+.ContainerVideoPlayer-controls > a > span:hover {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
   filter: alpha(opacity=(60));
   opacity: 0.6;
 }
-#ContainerReproductor-jwplayer {
-  background-color: #111111;
+#ContainerVideoPlayer-jwplayer {
+  background-color: #f4f4f4;
+  border: 1px solid #e4e4e4;
 }
-#ContainerReproductor-jwplayer > div {
+#ContainerVideoPlayer-jwplayer > div {
   width: 100%;
   height: 100%;
   display: block;
 }
-.ContainerItemsVideo {
-  background-color: #111111;
-  padding: 5px;
-  height: 250px;
-  position: relative;
-  overflow: hidden;
+#ContainerVideoPlayer-jwplayer > div > p {
+  display: none !important;
 }
-.ContainerItemVideoLista {
-  -webkit-border-bottom-left-radius: 7px;
-  border-bottom-left-radius: 7px;
-  -webkit-border-top-right-radius: 7px;
-  border-top-right-radius: 7px;
-  background-clip: padding-box;
+.ContainerVideoItemsPlaylist {
+  padding: 0px;
+  height: 210px;
+  position: relative;
+}
+.ContainerVideoItemPlaylist {
   -webkit-transition: background 1s ease;
   -moz-transition: background 1s ease;
   -o-transition: background 1s ease;
   -ms-transition: background 1s ease;
   transition: background 1s ease;
   overflow: hidden;
-  margin-bottom: 5px;
-  border: 1px solid #222222;
+  border: 1px solid #e4e4e4;
   border-left: 5px solid #333;
-  background-color: #1B1B1B;
+  background-color: #f4f4f4;
+  cursor: pointer;
+  position: relative;
 }
-.ContainerItemVideoLista:hover {
-  background-color: #fafafa;
+.ContainerVideoItemPlaylist:hover {
+  background-color: #C1C1C1;
 }
-.ContainerItemVideoLista:hover > .ContainerItemVideoLista-info > h3 {
-  color: #111;
-}
-.ContainerItemVideoLista:hover > .ContainerItemVideoLista-info > a {
-  color: #da2031;
-}
-.ContainerItemVideoLista:hover > .ContainerItemVideoLista-info > p {
-  color: #111;
-}
-.ContainerItemVideoLista:hover > .ContainerItemVideoLista-numero > .contenedor-tabla > .outer-tabla > .inner-celda > p {
-  color: #111;
-}
-.ContainerItemVideoLista:last-child {
+.ContainerVideoItemPlaylist:last-child {
   margin-bottom: 0;
 }
-.ContainerItemVideoLista-numero {
+.ContainerVideoItemPlaylist-number {
   float: left;
   width: 8%;
   height: 70px;
-}
-.ContainerItemVideoLista-numero > .contenedor-tabla > .outer-tabla > .inner-celda > p {
-  font-size: 1.5em;
-  color: #fafafa;
   text-align: center;
 }
-.ContainerItemVideoLista-imagen {
+.ContainerVideoItemPlaylist-number > p {
+  font-size: 1.5em;
+  display: inline-block;
+  vertical-align: middle;
+}
+.ContainerVideoItemPlaylist-picture {
   float: left;
   width: 20%;
-  height: 72px;
+  height: 70px;
+  text-align: center;
 }
-.ContainerItemVideoLista-imagen > img {
+.ContainerVideoItemPlaylist-picture > img {
   height: 41px;
   width: 95%;
   display: inline-block;
@@ -760,14 +722,29 @@ $MAQUETADO
   margin: 0;
   max-width: 72px;
 }
-.ContainerItemVideoLista-info {
+.ContainerVideoItemPlaylist-info {
   float: left;
   width: 72%;
   position: relative;
   height: 70px;
   padding: 7.5px 5px;
 }
-.ContainerItemVideoLista-info > a:first-child {
+.ContainerVideoItemPlaylist-info > div {
+  display: inline-block;
+  vertical-align: middle;
+}
+.ContainerVideoItemPlaylist-info > div > h3 {
+  font-size: 0.9em;
+  line-height: 1.1em;
+  margin-right: 26px;
+  cursor: pointer;
+  margin-bottom: -5px;
+}
+.ContainerVideoItemPlaylist-info > div > a {
+  font-size: 0.8em;
+  color: #da2031;
+}
+.ContainerVideoItemPlaylist-IconRemove {
   display: block;
   position: absolute;
   top: 0;
@@ -775,57 +752,33 @@ $MAQUETADO
   margin: 5px;
   padding: 0;
 }
-.ContainerItemVideoLista-info > h3 {
-  font-size: 0.9em;
-  color: #fafafa;
-  line-height: 1.1em;
-  margin-right: 26px;
-  cursor: pointer;
-}
-.ContainerItemVideoLista-info > a {
-  font-size: 0.8em;
-  color: #f2bb1e;
-}
-.ContainerItemVideoLista-info > p {
+.ContainerVideoItemPlaylist-duration {
   display: block;
   position: absolute;
   bottom: 0;
   right: 0;
   margin-right: 5px;
   font-size: 0.8em;
-  color: #fafafa;
 }
-.ContainerItemVideoLista--activo {
-  background-color: #fafafa;
-}
-.ContainerItemVideoLista--activo > .ContainerItemVideoLista-info > h3 {
-  color: #111;
-}
-.ContainerItemVideoLista--activo > .ContainerItemVideoLista-info > a {
-  color: #da2031;
-}
-.ContainerItemVideoLista--activo > .ContainerItemVideoLista-info > p {
-  color: #111;
-}
-.ContainerItemVideoLista--activo > .ContainerItemVideoLista-numero > .contenedor-tabla > .outer-tabla > .inner-celda > p {
-  color: #111;
+.ContainerVideoItemsPlaylist--colorBorderVideoItemPlayliste {
+  background-color: #C1C1C1;
 }
 /*----------FIN Columna 1: Contenedor con la lista de reproduccion----------*/
 /*----------Columna 2: Contenedor con contenido variable (busquedas, listas, perfil)----------*/
-.ContainerContentAjax {
+.ContainerViews {
   padding: 10px;
   overflow-y: auto;
 }
 /*----------FIN Columna 2: Contenedor con contenido variable (busquedas, listas, perfil)----------*/
 /*----------Contenedor con el contenido de una busqueda----------*/
-.ContainerContentSearchs-form > form > div > input {
+.ContainerSearchsContent-form > form > div > input {
   float: left;
   width: 80% !important;
   -webkit-border-radius: 0;
   border-radius: 0;
   background-clip: padding-box;
 }
-.ContainerContentSearchs-form > form > div > button {
+.ContainerSearchsContent-form > form > div > button {
   float: right;
   width: 20%;
   text-align: center;
@@ -836,25 +789,15 @@ $MAQUETADO
   background-color: #00aeef;
   border: 1px solid #00aeef;
 }
-.ContainerContentSearchs-results {
+.ContainerSearchsContent-results {
   margin: 0 !important;
   overflow: auto;
   margin: 7px auto !important;
 }
-.ContainerContentSearchs-results > div {
+.ContainerSearchsContent-results > div {
   padding: 5px;
 }
-.ContainerContentSearchs-results-item {
-  -webkit-box-shadow: 0 0 4px 1px #555555;
-  box-shadow: 0 0 4px 1px #555555;
-  position: relative;
-  background-size: 100% 100%;
-  max-width: 185px;
-  max-height: 104px;
-  height: 104px;
-  margin: 0 auto;
-}
-.ContainerContentSearchs-results-item-title {
+.ContainerSearchsContent-results-item-title {
   font-size: 1em;
   color: #2e353e;
   line-height: 1.1em;
@@ -864,7 +807,17 @@ $MAQUETADO
   padding-bottom: 5px;
   height: 42px;
 }
-.ContainerContentSearchs-results-item > .UlMenuAdd {
+.ContainerSearchsContent-results-item-body {
+  -webkit-box-shadow: 0 0 4px 1px #555555;
+  box-shadow: 0 0 4px 1px #555555;
+  position: relative;
+  background-size: 100% 100%;
+  max-width: 185px;
+  max-height: 104px;
+  height: 104px;
+  margin: 0 auto;
+}
+.ContainerSearchsContent-results-item-body > .UlMenuAdd {
   display: block;
   padding: 0;
   background-color: inherit;
@@ -873,24 +826,24 @@ $MAQUETADO
   margin: 3px;
   position: absolute;
 }
-.ContainerContentSearchs-results-item > .UlMenuAdd > li > a {
+.ContainerSearchsContent-results-item-body > .UlMenuAdd > li > a {
   margin: 0;
   padding: 0;
   background-color: inherit !important;
 }
-.ContainerContentSearchs-results-item > .UlMenuAdd > li > ul {
+.ContainerSearchsContent-results-item-body > .UlMenuAdd > li > ul {
   padding: 2px;
 }
-.ContainerContentSearchs-results-item > .UlMenuAdd > li > ul > .divider {
+.ContainerSearchsContent-results-item-body > .UlMenuAdd > li > ul > .divider {
   margin: 0;
 }
-.ContainerContentSearchs-results-item > .UlMenuAdd > li > ul > li > a {
+.ContainerSearchsContent-results-item-body > .UlMenuAdd > li > ul > li > a {
   padding: 5px;
 }
-.ContainerContentSearchs-results-item > .UlMenuAdd > li > ul > li > a:hover {
+.ContainerSearchsContent-results-item-body > .UlMenuAdd > li > ul > li > a:hover {
   background-color: #dcdcdc;
 }
-.ContainerContentSearchs-results-item-info {
+.ContainerSearchsContent-results-item-body-info {
   position: absolute;
   bottom: 0;
   background-color: #000;
@@ -899,17 +852,20 @@ $MAQUETADO
   opacity: 0.7;
   padding: 5px;
 }
-.ContainerContentSearchs-results-item-info > a {
+.ContainerSearchsContent-results-item-body-info > a {
   float: left;
   font-size: 0.8em;
   color: #00aeef;
 }
-.ContainerContentSearchs-results-item-info > p {
+.ContainerSearchsContent-results-item-body-info > p {
   font-size: 0.8em;
   color: #fafafa;
   text-align: right;
   margin-right: 3px;
   float: right;
+}
+.ResponseMessageSearch {
+  padding: 5px;
 }
 /*----------FIN Contenedor con el contenido de una busqueda----------*/
 /*----------Contenedor con el contenido de las listas de reproduccion de un usuario----------*/
@@ -929,16 +885,6 @@ $MAQUETADO
 .ContainerContentUserLists-videos-row > div {
   padding: 5px;
 }
-.ContainerContentUserLists-videos-row-item {
-  -webkit-box-shadow: 0 0 4px 1px #555555;
-  box-shadow: 0 0 4px 1px #555555;
-  position: relative;
-  background-size: 100% 100%;
-  max-width: 185px;
-  max-height: 104px;
-  height: 104px;
-  margin: 0 auto;
-}
 .ContainerContentUserLists-videos-row-item-title {
   font-size: 1em;
   color: #2e353e;
@@ -949,7 +895,17 @@ $MAQUETADO
   padding-bottom: 5px;
   height: 42px;
 }
-.ContainerContentUserLists-videos-row-item > .UlMenuAdd {
+.ContainerContentUserLists-videos-row-item-body {
+  -webkit-box-shadow: 0 0 4px 1px #555555;
+  box-shadow: 0 0 4px 1px #555555;
+  position: relative;
+  background-size: 100% 100%;
+  max-width: 185px;
+  max-height: 104px;
+  height: 104px;
+  margin: 0 auto;
+}
+.ContainerContentUserLists-videos-row-item-body > .UlMenuAdd {
   display: block;
   padding: 0;
   background-color: inherit;
@@ -958,24 +914,24 @@ $MAQUETADO
   margin: 3px;
   position: absolute;
 }
-.ContainerContentUserLists-videos-row-item > .UlMenuAdd > li > a {
+.ContainerContentUserLists-videos-row-item-body > .UlMenuAdd > li > a {
   margin: 0;
   padding: 0;
   background-color: inherit !important;
 }
-.ContainerContentUserLists-videos-row-item > .UlMenuAdd > li > ul {
+.ContainerContentUserLists-videos-row-item-body > .UlMenuAdd > li > ul {
   padding: 2px;
 }
-.ContainerContentUserLists-videos-row-item > .UlMenuAdd > li > ul > .divider {
+.ContainerContentUserLists-videos-row-item-body > .UlMenuAdd > li > ul > .divider {
   margin: 0;
 }
-.ContainerContentUserLists-videos-row-item > .UlMenuAdd > li > ul > li > a {
+.ContainerContentUserLists-videos-row-item-body > .UlMenuAdd > li > ul > li > a {
   padding: 5px;
 }
-.ContainerContentUserLists-videos-row-item > .UlMenuAdd > li > ul > li > a:hover {
+.ContainerContentUserLists-videos-row-item-body > .UlMenuAdd > li > ul > li > a:hover {
   background-color: #dcdcdc;
 }
-.ContainerContentUserLists-videos-row-item-info {
+.ContainerContentUserLists-videos-row-item-body-info {
   position: absolute;
   bottom: 0;
   background-color: #000;
@@ -984,12 +940,12 @@ $MAQUETADO
   opacity: 0.7;
   padding: 5px;
 }
-.ContainerContentUserLists-videos-row-item-info > a {
+.ContainerContentUserLists-videos-row-item-body-info > a {
   float: left;
   font-size: 0.8em;
   color: #00aeef;
 }
-.ContainerContentUserLists-videos-row-item-info > p {
+.ContainerContentUserLists-videos-row-item-body-info > p {
   font-size: 0.8em;
   color: #fafafa;
   text-align: right;
@@ -1021,20 +977,8 @@ $MAQUETADO
 }
 /*----------FIN Contenedor con el contenido de las listas de reproduccion de un usuario----------*/
 /*----------Video que se esta reproduciendo actualmente----------*/
-.ContainerItemVideoListActive {
-  background-color: #fafafa;
-}
-.ContainerItemVideoListActive > .ContainerItemVideoLista-info > h3 {
-  color: #111;
-}
-.ContainerItemVideoListActive > .ContainerItemVideoLista-info > a {
-  color: #da2031;
-}
-.ContainerItemVideoListActive > .ContainerItemVideoLista-info > p {
-  color: #111;
-}
-.ContainerItemVideoListActive > .ContainerItemVideoLista-numero > .contenedor-tabla > .outer-tabla > .inner-celda > p {
-  color: #111;
+.ContainerItemVideoLista--active {
+  background-color: #C1C1C1;
 }
 /*----------FIN Video que se esta reproduciendo actualmente----------*/
 /*----------Estilo para el login----------*/
@@ -1085,59 +1029,44 @@ $MEDIA-QUERIES
 /*----------FIN Media-queries internet----------*/
 /*----------Media-queries propios----------*/
 /*----------Media-queries resultados de los videos----------*/
-@media screen and (min-width: 240px) and (max-width: 339px) {
-  .ContainerContentSearchs-results > div {
+@media screen and (min-width: 200px) and (max-width: 339px) {
+  .ContainerSearchsContent-results > div {
     width: 100%;
   }
   .ContainerTitleApp > a > img {
     width: 100%;
   }
-  .ContainerReproductor-title {
+  .ContainerVideoPlayer-title {
     font-size: 1em;
-  }
-  .ContainerItemVideoLista-imagen > img {
-    height: 35px;
   }
   .ContentLogin {
     width: 100%;
   }
 }
 @media screen and (min-width: 340px) and (max-width: 399px) {
-  .ContainerContentSearchs-results > div {
-    width: 100%;
-  }
-  .ContainerContentSearchs-results > div > article {
-    height: 220px;
-  }
-  .ContainerItemVideoLista-imagen > img {
-    height: 35px;
-  }
   .ContentLogin {
     width: 100%;
   }
 }
 @media screen and (min-width: 400px) and (max-width: 639px) {
-  .ContainerContentSearchs-row > div > article {
-    height: 150px;
-  }
   .ContentLogin {
     width: 80%;
   }
 }
 @media screen and (min-width: 640px) and (max-width: 767px) {
-  .ContainerContentSearchs-results > div {
+  .ContainerSearchsContent-results-item {
     width: 33%;
   }
 }
 /*----------FIN Media-queries resultados de los videos----------*/
 /*----------Media-queries lista de reproduccion----------*/
 @media screen and (min-width: 768px) and (max-width: 990px) {
-  .ContainerReproductor {
+  .ContainerVideoPlayer {
     padding-right: 5px;
     width: 60%;
     height: 300px;
   }
-  .ContainerReproductor-title {
+  .ContainerVideoPlayer-title {
     -webkit-border-radius: 0;
     border-radius: 0;
     background-clip: padding-box;
@@ -1145,44 +1074,36 @@ $MEDIA-QUERIES
     height: 36px;
     padding: 10px;
   }
-  .ContainerReproductor-controls {
+  .ContainerVideoPlayer-controls {
     height: 36px;
   }
-  #ContainerReproductor-jwplayer {
+  #ContainerVideoPlayer-jwplayer {
     height: 228px;
   }
-  .ContainerItemsVideo {
+  .ContainerVideoItemsPlaylist {
     width: 40%;
     height: 300px;
   }
-  .ContainerItemVideoLista {
-    height: 50px;
+  .ContainerVideoItemPlaylist-number > p {
+    font-size: 1em;
   }
-  .ContainerItemVideoLista-numero {
-    height: 100%;
-  }
-  .ContainerItemVideoLista-imagen {
-    height: 100%;
+  .ContainerVideoItemPlaylist-picture {
     padding: 5px;
   }
-  .ContainerItemVideoLista-imagen > img {
-    height: 95%;
+  .ContainerVideoItemPlaylist-picture > img {
     width: 95%;
   }
-  .ContainerItemVideoLista-info {
-    height: 100%;
+  .ContainerVideoItemPlaylist-info {
     padding: 5px;
   }
-  .ContainerItemVideoLista-info > a,
-  .ContainerItemVideoLista-info > h3 {
-    margin-bottom: -4px;
-  }
-  .ContainerItemVideoLista-info > a,
-  .ContainerItemVideoLista-info > p {
+  .ContainerVideoItemPlaylist-info > div > a {
     font-size: 0.65em;
   }
-  .ContainerItemVideoLista-info > h3 {
+  .ContainerVideoItemPlaylist-info > div > h3 {
     font-size: 0.70em;
+  }
+  .ContainerVideoItemPlaylist-duration {
+    font-size: 0.65em;
   }
 }
 @media screen and (min-width: 992px) {
@@ -1198,43 +1119,44 @@ $MEDIA-QUERIES
   .ContainerContent > section {
     height: 100%;
   }
-  .ContainerReproductor {
+  .ContainerVideoPlayer {
     height: 60%;
   }
-  .ContainerReproductor-title {
+  .ContainerVideoPlayer-title {
     height: 12%;
   }
-  .ContainerReproductor-controls {
+  .ContainerVideoPlayer-controls {
     height: 12%;
   }
-  #ContainerReproductor-jwplayer {
+  #ContainerVideoPlayer-jwplayer {
     height: 76%;
   }
-  .ContainerItemsVideo {
+  .ContainerVideoItems {
     height: 38%;
   }
 }
-@media screen and (min-width: 240px) and (max-width: 399px) {
-  .ContainerItemVideoLista-info > a,
-  .ContainerItemVideoLista-info > p {
-    font-size: 0.65em;
-  }
-  .ContainerItemVideoLista-info > h3 {
-    font-size: 0.70em;
-  }
-  #ContainerReproductor-jwplayer {
+@media screen and (min-width: 200px) and (max-width: 449px) {
+  #ContainerVideoPlayer-jwplayer {
     height: 220px;
   }
-  .ContainerItemVideoLista-imagen > img {
-    height: 35px;
+  #ContainerVideoPlayer-jwplayer > div {
     width: 100%;
+  }
+  .ContainerVideoItemPlaylist-info > div > a {
+    font-size: 0.65em;
+  }
+  .ContainerVideoItemPlaylist-info > div > h3 {
+    font-size: 0.70em;
+  }
+  .ContainerVideoItemPlaylist-duration {
+    font-size: 0.65em;
   }
 }
 @media screen and (min-width: 450px) and (max-width: 767px) {
-  #ContainerReproductor-jwplayer {
+  #ContainerVideoPlayer-jwplayer {
     height: 220px;
   }
-  #ContainerReproductor-jwplayer > div {
+  #ContainerVideoPlayer-jwplayer > div {
     width: 60%;
     display: block;
     margin: 0 auto;

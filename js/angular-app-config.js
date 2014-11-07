@@ -1,42 +1,95 @@
 var app = angular.module("VideoPlayerApp",[]);
 
-app.controller("ControladorFormularioBusquedas", ['$scope', controladorBusquedaVideos]);
+app.controller("MainController", ['$scope', mainController]);
 
-function controladorBusquedaVideos($scope){
+function mainController($scope){
 
-	$scope.listaResultados = {items: []};
-	$scope.inputBusqueda = "";
-	$scope.listaReproduccion = {items: []};
-	$scope.indiceReproduccionActual = -1;
-	$scope.siLaListaSeEstaReproduciendo = false;
-	$scope.sizeListaReproduccion = $scope.listaReproduccion.items.length;
+	$scope.playVideoOnJWPLayer = function(idVideo){
 
-	$scope.hacerBusqueda = function(){
+		var urlVideo = "http://www.youtube.com/watch?v=" + idVideo;
+
+		//Si la cadena es vacia carga un video por defecto
+		if(idVideo==''){
+
+			urlVideo = '';
+		}
+
+		jwplayer("VideoPlayer").setup({
+			file: urlVideo,
+			width: "100%",
+			height: "100%"
+		});
+
+		//Esto es para que no se reproduzca al inicio el video por defecto
+		if(idVideo!=''){
+
+			jwplayer("VideoPlayer").play();
+		}
+
+		jwplayer("VideoPlayer").onComplete(function(){
+			alert('Se disparó el evento cuando se acaba el video');
+			$scope.removeVideoFromPlaylist($scope.indexCurrentReproduction);
+		});
+	}
+
+	$scope.stopVideoPlayer = function(){
+
+		jwplayer("VideoPlayer").stop();
+		jwplayer("VideoPlayer").setup({
+			file: '',
+			width: "100%",
+			height: "100%"
+		});
+		jwplayer("VideoPlayer").onComplete(function(){
+			$scope.removeVideoFromPlaylist($scope.indexCurrentReproduction);
+		});
+	}
+
+	//Metodos
+	$scope.playVideoOnJWPLayer('');
+
+	//Variables
+	$scope.resultsList = {items: []};
+	$scope.inputSearch = "";
+	$scope.playlist = {items: []};
+	$scope.indexCurrentReproduction = -1;
+	$scope.isPlayingThePlaylist = false;
+	$scope.sizePlaylist = $scope.playlist.items.length;
+
+	$scope.searchVideos = function(){
 
 		var successJson = function(response) {
 
-			var listaResultadosBusqueda = response.items;
-			var numeroResultadosBusqueda = listaResultadosBusqueda.length;
-			var listaVideos =  {items: []};
+			var resultsListBusqueda = response.items;
+			var sizeResultsSearch = resultsListBusqueda.length;
+			var videoList =  {items: []};
 
-			for (var i = 0; i < numeroResultadosBusqueda; i++) {
+			for (var i = 0; i < sizeResultsSearch; i++) {
 
-				itemBusqueda = listaResultadosBusqueda[i];
+				videoItemFound= resultsListBusqueda[i];
 
-				itemVideo = createItemVideo(itemBusqueda.id.videoId,
-					itemBusqueda.snippet.title,
-					itemBusqueda.snippet.title.substring(0, 35) + "...",
-					itemBusqueda.snippet.channelId,
-					itemBusqueda.snippet.channelTitle,
+				videoItem = createItemVideo(videoItemFound.id.videoId,
+					videoItemFound.snippet.title,
+					videoItemFound.snippet.title.substring(0, 35) + "...",
+					videoItemFound.snippet.channelId,
+					videoItemFound.snippet.channelTitle,
 					generateDuration(),
-					itemBusqueda.snippet.thumbnails.medium.url);
+					videoItemFound.snippet.thumbnails.medium.url);
 
-				listaVideos.items.push(itemVideo);
+				videoList.items.push(videoItem);
+			}
+
+			if(sizeResultsSearch == 0){
+
+				$('.ResponseMessageSearch').html('Not videos found');
+			}else{
+
+				$('.ResponseMessageSearch').html('Videos found: ' + sizeResultsSearch);
 			}
 
 			$scope.$apply(function(){
 
-				$scope.listaResultados = listaVideos;
+				$scope.resultsList = videoList;
 			});
 		}
 
@@ -52,172 +105,163 @@ function controladorBusquedaVideos($scope){
 
 	}
 
-	$scope.addVideoAListaDeReproduccion = function(index){
+	$scope.addVideoToPlaylist = function(index){
 
-		var videoBusquedaSeleccionado = $scope.listaResultados.items[index];
-		var videoParaAgregarALista = createItemVideo(
-			videoBusquedaSeleccionado.id,
-			videoBusquedaSeleccionado.titulo_completo,
-			videoBusquedaSeleccionado.titulo_recortado,
-			videoBusquedaSeleccionado.id_canal,
-			videoBusquedaSeleccionado.nombre_canal,
-			videoBusquedaSeleccionado.duracion,
-			videoBusquedaSeleccionado.imagen);
+		var videoItemSelected = $scope.resultsList.items[index];
 
-		$scope.listaReproduccion.items.push(videoParaAgregarALista);
-		$scope.sizeListaReproduccion = $scope.listaReproduccion.items.length;
+		//Video item para agregar a la lista de reproduccion
+		var videoItem = createItemVideo(
+			videoItemSelected.id,
+			videoItemSelected.complete_title,
+			videoItemSelected.short_title,
+			videoItemSelected.channel_id,
+			videoItemSelected.channel_name,
+			videoItemSelected.duration,
+			videoItemSelected.picture_url);
+
+		$scope.playlist.items.push(videoItem);
+		$scope.sizePlaylist = $scope.playlist.items.length;
 	}
 
-	$scope.borrarVideoDeListaDeReproduccion = function(index){
+	$scope.removeVideoFromPlaylist = function(index){
+		console.log(index);
+		var newList = {items: []};
+		var playList =  $scope.playlist.items;
+		var sizePlaylist = $scope.sizePlaylist;
 
-		var listaNueva = {items: []};
-		var listaReproduccion =  $scope.listaReproduccion.items;
-		var sizeListaReproduccion = $scope.sizeListaReproduccion;
+		for (var i = 0; i < sizePlaylist; i++) {
 
-		for (var i = 0; i < sizeListaReproduccion; i++) {
-
-			itemLista = listaReproduccion[i];
+			itemLista = playList[i];
 
 			if(i != index){
 
-				listaNueva.items.push(itemLista);
+				newList.items.push(itemLista);
 			}
 		}
 
-		$scope.listaReproduccion = listaNueva;
-		$scope.sizeListaReproduccion = $scope.listaReproduccion.items.length;
+		$scope.playlist = newList;
+		$scope.sizePlaylist = $scope.playlist.items.length;
 
 		//Si la lista se esta reproduciendo
-		if($scope.siLaListaSeEstaReproduciendo){
+		if($scope.isPlayingThePlaylist){
 
 			//Si se eliminó el item que se estaba reproduciendo
-			if($scope.indiceReproduccionActual == index){
+			if($scope.indexCurrentReproduction == index){
 
-				switch($scope.sizeListaReproduccion){
+				switch($scope.sizePlaylist){
 
 					//Si la lista quedó vacia
 					case 0:
 
-					$scope.siLaListaSeEstaReproduciendo= false;
-					$scope.indiceReproduccionActual = -1;
+					$scope.isPlayingThePlaylist= false;
+					$scope.indexCurrentReproduction = -1;
+					$scope.stopVideoPlayer();
 					break;
 
 					//Si solo quedó un elemento
 					case 1:
 
-					$scope.indiceReproduccionActual = 0;
+					$scope.indexCurrentReproduction = 0;
+					$scope.playVideoOnJWPLayer($scope.playlist.items[0].id);
 					break;
 
 					//Si hay 2 o mas elementos
 					default:
+					alert('fff');
+					$scope.indexCurrentReproduction--;
+					$scope.nextVideo();
 
-					$scope.indiceReproduccionActual--;
-					$scope.verSiguienteVideo();
 					break;
 				}
 
-			//Si se eliminó un item que no se estaba reproduciendo
-		}else{
+				//Si se eliminó un item que no se estaba reproduciendo
+			}else{
 
-			switch($scope.sizeListaReproduccion){
+				if($scope.indexCurrentReproduction > index){
 
-					//Si la lista quedó vacia
-					case 0:
-
-					$scope.siLaListaSeEstaReproduciendo= false;
-					$scope.indiceReproduccionActual = -1;
-					break;
-
-					default:
-
-					if($scope.indiceReproduccionActual > index){
-
-						$scope.indiceReproduccionActual--;
-					}
-					break;
-
+					$scope.indexCurrentReproduction--;
 				}
 			}
 		}
-
-		detenerReproductor();
 	}
 
+	$scope.cleanPlaylist = function(){
 
-	$scope.limpiarLista = function(){
+		if($scope.sizePlaylist>0){
 
-		if(confirm("¿Esta seguro de borrar todos los elementos de la lista de reproduccion?")) {
+			if(confirm("Are you sure delete all items of the playlist?")) {
 
-			$scope.listaReproduccion =  {items: []};
-			$scope.sizeListaReproduccion = $scope.listaReproduccion.items.length;
-			$scope.indiceReproduccionActual = -1;
-			$scope.siLaListaSeEstaReproduciendo = false;
+				$scope.playlist =  {items: []};
+				$scope.sizePlaylist = $scope.playlist.items.length;
+				$scope.indexCurrentReproduction = -1;
+				$scope.isPlayingThePlaylist = false;
 
-			detenerReproductor();
+				$scope.stopVideoPlayer();
+			}
 		}
 	}
 
-	$scope.reproducirVideo = function(index){
+	$scope.playVideo = function(index){
 
-		var videoSeleccionado = $scope.listaReproduccion.items[index];
-		$scope.indiceReproduccionActual = index;
-		$scope.siLaListaSeEstaReproduciendo = true;
+		var selectedVideo = $scope.playlist.items[index];
+		$scope.indexCurrentReproduction = index;
+		$scope.isPlayingThePlaylist = true;
 
-		reproducirVideoJwPlayer(videoSeleccionado.id);
+		$scope.playVideoOnJWPLayer(selectedVideo.id);
 		removeClassActiveItem();
 		addClassActiveItem(index);
 	}
 
-	$scope.verAnteriorVideo = function(){
+	$scope.prevVideo = function(){
 
-		var sizeListaReproduccion = $scope.listaReproduccion.items.length;
-		var indiceActual = $scope.indiceReproduccionActual;
+		var sizePlaylist = $scope.playlist.items.length;
+		var currentIndex = $scope.indexCurrentReproduction;
 
-		if(sizeListaReproduccion > 1 && $scope.siLaListaSeEstaReproduciendo){
+		if(sizePlaylist > 1 && $scope.isPlayingThePlaylist){
 
 			removeClassActiveItem();
 
-			if(indiceActual==0){
+			if(currentIndex==0){
 
-				indiceActual = sizeListaReproduccion - 1;
+				currentIndex = sizePlaylist - 1;
 			}else{
 
-				indiceActual = indiceActual- 1;
+				currentIndex = currentIndex- 1;
 			}
 
-			$scope.indiceReproduccionActual = indiceActual;
+			$scope.indexCurrentReproduction = currentIndex;
 			
-			var urlVideo = $scope.listaReproduccion.items[indiceActual].id;
-			reproducirVideoJwPlayer(urlVideo);
-			addClassActiveItem(indiceActual);
+			var urlVideo = $scope.playlist.items[currentIndex].id;
+			$scope.playVideoOnJWPLayer(urlVideo);
+			addClassActiveItem(currentIndex);
 		}
 	}
 
-	$scope.verSiguienteVideo = function(){
+	$scope.nextVideo = function(){
 
-		var sizeListaReproduccion = $scope.listaReproduccion.items.length;
-		var indiceActual = $scope.indiceReproduccionActual;
+		var sizePlaylist = $scope.playlist.items.length;
+		var currentIndex = $scope.indexCurrentReproduction;
 
-		if(sizeListaReproduccion > 1 && $scope.siLaListaSeEstaReproduciendo){
+		if(sizePlaylist > 1 && $scope.isPlayingThePlaylist){
 
 			removeClassActiveItem();
 
-			if(indiceActual==sizeListaReproduccion-1){
+			if(currentIndex==sizePlaylist-1){
 
-				indiceActual = 0;
+				currentIndex = 0;
 			}else{
 
-				indiceActual = indiceActual + 1;
+				currentIndex = currentIndex + 1;
 			}
 
-			$scope.indiceReproduccionActual = indiceActual;
-			var urlVideo = $scope.listaReproduccion.items[indiceActual].id;
-			reproducirVideoJwPlayer(urlVideo);
-			addClassActiveItem(indiceActual);
-			//console.log(indiceActual);
+			addClassActiveItem(currentIndex);
+			$scope.indexCurrentReproduction = currentIndex;
+			var urlVideo = $scope.playlist.items[currentIndex].id;
+			$scope.playVideoOnJWPLayer(urlVideo);
+			console.log(currentIndex);
+			console.log($scope.playlist);
 		}
 	}
-
 }
 
 
@@ -226,92 +270,99 @@ function controladorBusquedaVideos($scope){
 
 function youtube(){
 
-	// $scope.hacerBusqueda = function(){
+// 	$scope.searchVideos = function(){
 
-	// 	var q = $scope.inputBusqueda;
+// 		var q = $scope.inputSearch;
 
-	// 	if(q.trim() != ''){
+// 		if(q.trim() != ''){
 
-	// 		var request = gapi.client.youtube.search.list({
-	// 			q: q,
-	// 			part: 'snippet',
-	// 			type: 'video',
-	// 			maxResults: 15,
-	// 			order: 'relevance',
-	// 			videoDuration: 'medium'
-	// 		});
+// 			var request = gapi.client.youtube.search.list({
+// 				q: q,
+// 				part: 'snippet',
+// 				type: 'video',
+// 				maxResults: 15,
+// 				order: 'relevance',
+// 				videoDuration: 'medium'
+// 			});
 
-	// 		request.execute(function(response) {
+// 			request.execute(function(response) {
 
-	// 			var listaResultadosBusqueda = response.items;
-	// 			var numeroResultadosBusqueda = listaResultadosBusqueda.length;
-	// 			var listaVideos =  {items: []};
+// 				var resultsListBusqueda = response.items;
+// 				var sizeResultsSearch = resultsListBusqueda.length;
+// 				var videoList =  {items: []};
 
-	// 			for (var i = 0; i < numeroResultadosBusqueda; i++) {
+// 				for (var i = 0; i < sizeResultsSearch; i++) {
 
-	// 				itemBusqueda = listaResultadosBusqueda[i];
+// 					videoItemFound= resultsListBusqueda[i];
 
-	// 				itemVideo = createItemVideo(itemBusqueda.id.videoId,
-	// 					itemBusqueda.snippet.title,
-	// 					itemBusqueda.snippet.title.substring(0, 35) + "...",
-	// 					itemBusqueda.snippet.channelId,
-	// 					itemBusqueda.snippet.channelTitle,
-	// 					generateDuration(),
-	// 					itemBusqueda.snippet.thumbnails.medium.url);
+// 					videoItem = createItemVideo(videoItemFound.id.videoId,
+// 						videoItemFound.snippet.title,
+// 						videoItemFound.snippet.title.substring(0, 35) + "...",
+// 						videoItemFound.snippet.channelId,
+// 						videoItemFound.snippet.channelTitle,
+// 						generateDuration(),
+// 						videoItemFound.snippet.thumbnails.medium.url);
 
-	// 				var requestDuration = gapi.client.youtube.videos.list({
-	// 					id: itemVideo.id,
-	// 					part: 'contentDetails'
-	// 				});
+// 					var requestDuration = gapi.client.youtube.videos.list({
+// 						id: videoItem.id,
+// 						part: 'contentDetails'
+// 					});
 
-	// 				requestDuration.execute(function(response) {
+// 					requestDuration.execute(function(response) {
 
-	// 					var duracion = response.items[0].contentDetails.duration;
-	// 					duracion = duracion.replace('PT', '').replace('M',':').replace('S','');
-	// 					//console.log(duracion);
-	// 					itemVideo.duracion = duracion;
-	// 				});
+// 						var duration = response.items[0].contentDetails.duration;
+// 						duration = duration.replace('PT', '').replace('M',':').replace('S','');
+// 						videoItem.duration = duration;
+// 					});
 
-	// 				listaVideos.items.push(itemVideo);
-	// 			}
+// 					videoList.items.push(videoItem);
+// 				}
 
-	// 			$scope.$apply(function(){
+// 				if(sizeResultsSearch == 0){
 
-	// 				$scope.listaResultados = listaVideos;
-	// 			});
-	// 		});
-	// 	}
-	// }
+// 					$('.ResponseMessageSearch').html('Not videos found');
+// 				}else{
+
+// 					$('.ResponseMessageSearch').html('Videos found: ' + sizeResultsSearch);
+// 				}
+
+// 				$scope.$apply(function(){
+
+// 					$scope.resultsList = videoList;
+// 				});
+// 			});
+// }
+// }
 }
 
 function leerJson(){
 
-	// $scope.hacerBusqueda = function(){
+	// $scope.searchVideos = function(){
 
 	// 	var successJson = function(response) {
 
-	// 		var listaResultadosBusqueda = response.items;
-	// 		var numeroResultadosBusqueda = listaResultadosBusqueda.length;
-	// 		var listaVideos =  {items: []};
+	// 		var resultsListBusqueda = response.items;
+	// 		var sizeResultsSearch = resultsListBusqueda.length;
+	// 		var videoList =  {items: []};
 
-	// 		for (var i = 0; i < numeroResultadosBusqueda; i++) {
+	// 		for (var i = 0; i < sizeResultsSearch; i++) {
 
-	// 			itemBusqueda = listaResultadosBusqueda[i];
+	// 			videoItemFound= resultsListBusqueda[i];
 
-	// 			itemVideo = createItemVideo(itemBusqueda.id.videoId,
-	// 				itemBusqueda.snippet.title,
-	// 				itemBusqueda.snippet.title.substring(0, 35) + "...",
-	// 				itemBusqueda.snippet.channelId,
-	// 				itemBusqueda.snippet.channelTitle,
+	// 			videoItem = createItemVideo(videoItemFound.id.videoId,
+	// 				videoItemFound.snippet.title,
+	// 				videoItemFound.snippet.title.substring(0, 35) + "...",
+	// 				videoItemFound.snippet.channelId,
+	// 				videoItemFound.snippet.channelTitle,
 	// 				generateDuration(),
-	// 				itemBusqueda.snippet.thumbnails.medium.url);
+	// 				videoItemFound.snippet.thumbnails.medium.url);
 
-	// 			listaVideos.items.push(itemVideo);
+	// 			videoList.items.push(videoItem);
 	// 		}
 
 	// 		$scope.$apply(function(){
 
-	// 			$scope.listaResultados = listaVideos;
+	// 			$scope.resultsList = videoList;
 	// 		});
 	// 	}
 

@@ -71,10 +71,11 @@ only screen and (min-device-pixel-ratio : 1.5) {
 
 /*----------Media-queries resultados de los videos----------*/
 
+//Pantalla muy pequeñas:
 //Los videos de los resultados son del 100%
-@media screen and (min-width : 240px) and (max-width : 339px)
+@media screen and (min-width : 200px) and (max-width : 339px)
 {
-	.ContainerContentSearchs-results{
+	.ContainerSearchsContent-results{
 		>div{
 			width: 100%;
 		}
@@ -88,73 +89,40 @@ only screen and (min-device-pixel-ratio : 1.5) {
 		}
 	}
 
-	.ContainerReproductor {
+	.ContainerVideoPlayer {
 		&-title{
 			font-size: @fontSizeBase;
 		}
 	}
 
-	.ContainerItemVideoLista{
-		&-imagen{
-			>img{
-				height: 35px;
-			}
-		}
-	}
-
 	.ContentLogin{
 		width: 100%;
 	}
 }
 
+//Pantalla pequeñas:
 //Los videos de los resultados son del 100% y su altura aumenta
 @media screen and (min-width : 340px) and (max-width : 399px)
 {
-	.ContainerContentSearchs-results {
-		>div{
-			width: 100%;
-			>article{
-				height: 220px;
-			}
-		}
-	}
-
-	.ContainerItemVideoLista{
-		&-imagen{
-			>img{
-				height: 35px;
-			}
-		}
-	}
-
 	.ContentLogin{
 		width: 100%;
 	}
 }
 
-//Disminuye la altura de los videos de los resultados
+//Pantallas medianas:
 @media screen and (min-width : 400px) and (max-width : 639px)
 {
-	.ContainerContentSearchs-row{
-		>div{
-			>article{
-				height: 150px;
-			}
-		}
-	}
-	
 	.ContentLogin{
 		width: 80%;
 	}
 }
 
-//Cada fila de reusltados muestra de a 3 videos
+//Pantallas medianas:
+//Cada fila de resultados muestra de a 3 videos
 @media screen and (min-width : 640px) and (max-width : 767px)
 {
-	.ContainerContentSearchs-results{
-		>div{
-			width: 33%;
-		}
+	.ContainerSearchsContent-results-item{
+		width: 33%;
 	}
 }
 /*----------FIN Media-queries resultados de los videos----------*/
@@ -163,65 +131,72 @@ only screen and (min-device-pixel-ratio : 1.5) {
 
 /*----------Media-queries lista de reproduccion----------*/
 
-//Lista de reproduccion con 2 columnas
+//Pantallas grandes
+//Lista de reproduccion con 2 columnas (Videoplayer y playlist)
 @media screen and (min-width : 768px) and (max-width : 990px)
 {
-	.ContainerReproductor {
+	.ContainerVideoPlayer{
 		padding-right: 5px;
 		width: 60%;
 		height: 300px;
+
 		&-title{
 			.border-radius(0);
 			font-size: @fontSizeMedium;
 			height: 36px;
 			padding: 10px;
 		}
+
 		&-controls{
 			height: 36px;
 		}
 	}
 
-	#ContainerReproductor-jwplayer{
+	#ContainerVideoPlayer-jwplayer{
 		height: 228px;
 	}
 
-	.ContainerItemsVideo{
+	.ContainerVideoItemsPlaylist{
 		width: 40%;
 		height: 300px;
 	}
 
-	.ContainerItemVideoLista{
-		height: 50px;
-		&-numero{
-			height: 100%;
+	.ContainerVideoItemPlaylist{
+		&-number{
+			>p{
+				font-size: @fontSizeBase;
+			}
 		}
-		&-imagen{
-			height: 100%;
+
+		&-picture{
 			padding: 5px;
+
 			>img{
-				height: 95%;
 				width: 95%;
 			}
 		}
+
 		&-info{
-			height: 100%;
 			padding: 5px;
-			>a, >h3{
-				margin-bottom: -4px;
+
+			>div{
+				>a{
+					font-size:0.65em;
+				}
+
+				>h3{
+					font-size:0.70em;
+				}
 			}
 		}
-	}
 
-	.ContainerItemVideoLista-info{
-		>a, >p{
+		&-duration{
 			font-size:0.65em;
-		}
-		>h3{
-			font-size:0.70em;
 		}
 	}
 }
 
+//Pantallas grandes
 //Media querie para los estilos del height 100%. Solo aplica para pantallas grandes
 @media screen and (min-width : 992px)
 {
@@ -235,61 +210,71 @@ only screen and (min-device-pixel-ratio : 1.5) {
 
 	.ContainerContent{
 		height: 90%;
+
 		>section{
 			height: 100%;
 		}
 	}
 
-	.ContainerReproductor{
+	.ContainerVideoPlayer{
 		height: 60%;
+
 		&-title{
 			height: 12%;
 		}
+
 		&-controls{
 			height: 12%;
 		}
 	}
 
-	#ContainerReproductor-jwplayer{
+	#ContainerVideoPlayer-jwplayer{
 		height: 76%;
 	}
 
-	.ContainerItemsVideo{
+	.ContainerVideoItems{
 		height: 38%;
 	}
 }
 
-//El texto de los items de la lista de reproduccion mas pequeños
-@media screen and (min-width : 240px) and (max-width : 399px)
+//Pantallas pequeñas
+//Reproductor para pantallas pequeñas
+@media screen and (min-width : 200px) and (max-width : 449px)
 {
-	.ContainerItemVideoLista-info{
-		>a, >p{
-			font-size:0.65em;
-		}
-		>h3{
-			font-size:0.70em;
-		}
-	}
-
-	#ContainerReproductor-jwplayer{	
+	#ContainerVideoPlayer-jwplayer{	
 		height: 220px;
+
+		>div{
+			width: 100%;
+		}
 	}
 
-	.ContainerItemVideoLista{
-		&-imagen{
-			>img{
-				height: 35px;
-				width: 100%;
+	.ContainerVideoItemPlaylist{
+		&-info{
+			>div{
+				>a{
+					font-size:0.65em;
+				}
+
+				>h3{
+					font-size:0.70em;
+				}
 			}
+		}
+
+		&-duration{
+			font-size:0.65em;
 		}
 	}
 }
 
+//Pantallas medianas
 //Pone el reproductor de un ancho del 60%. Pero pone la lista de reproduccion abajo
 @media screen and (min-width : 450px) and (max-width : 767px)
 {
-	#ContainerReproductor-jwplayer{	
+	#ContainerVideoPlayer-jwplayer{	
 		height: 220px;
+
 		>div{
 			width: 60%;
 			display: block;

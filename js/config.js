@@ -4,6 +4,9 @@ $(document).ready(function() {
 	$('.dropdown-toggle').dropdown();
 
 
+	// Configuracion jwPlayer
+	jwplayer('VideoPlayer').key= "Bm32dbcywxH9h80S7LW+gCuivh2nOVT8F4KM7Q==";
+
 
 	//Configurando el scroll personalizado
 	var browserName =  getBrowserName();
@@ -20,54 +23,24 @@ $(document).ready(function() {
 		}
 	}
 
-	$('#inner-content-div').slimscroll({
+	var scrollConfig = {
 		wheelStep: customWheelSpeed,
 		size: '10px',
 		color: '#afafaf',
 		height: '100%',
 		alwaysVisible: false
-	});
+	};
 
-
-
-	// Configuracion jwPlayer
-	jwplayer.key= "Bm32dbcywxH9h80S7LW+gCuivh2nOVT8F4KM7Q==";
-
-	jwplayer().onComplete(function(){
-		alert('Se disparó el evento cuando se acaba el video');
-		//LLamar metodo $scope.borrarVideoDeListaDeReproduccion();
-	});
-
+	$('#DivScrollPlayList').slimscroll(scrollConfig);
+	$('#DivScrollResultsSearch').slimscroll(scrollConfig);
 });
 
 //Configuracion API Youtube
-function init() {
+function initYoutubeApi() {
 
 	var apiKey = 'AIzaSyBxPtcZkHUU5tVxcU9Sdos1KtcLAyekpOg';
 	gapi.client.setApiKey(apiKey);
 	gapi.client.load('youtube', 'v3', function(){});
-}
-
-
-
-/*
---------------------------------------------------------
---------------------Metodos jwPlayer--------------------
---------------------------------------------------------
-*/
-
-function reproducirVideoJwPlayer(idVideo){
-	
-	jwplayer("VideoPlayer").setup({
-		file: "http://www.youtube.com/watch?v=" + idVideo,
-		width: "100%",
-		height: "100%"
-	});
-}
-
-function detenerReproductor(){
-
-	jwplayer().stop();
 }
 
 
@@ -133,28 +106,27 @@ function generateDuration(){
 ------------------Metodos Controladores-----------------
 --------------------------------------------------------
 */
-function createItemVideo(id, titulo_completo, titulo_recortado, id_canal, nombre_canal, duracion, imagen){
+function createItemVideo(id, completeTitle, shortTitle, channelId, channelName, duration, pictureUrl){
 	
-	var	itemVideo = { 'id' : id,
-	'titulo_completo' : titulo_completo,
-	'titulo_recortado' : titulo_recortado,
-	'id_canal' : id_canal,
-	'nombre_canal' : nombre_canal,
-	'duracion' : duracion,
-	'imagen' : "img/preview-video.png",
+	var	videoItem = { 'id' : id,
+	'complete_title' : completeTitle,
+	'short_title' : shortTitle,
+	'channel_id' : channelId,
+	'channel_name' : channelName,
+	'duration' : duration,
+	'picture_url' : "img/preview-video.png",
 	'repeat' : makeRandomString()};
-// "img/preview-video.png"
 
-return itemVideo;
+	return videoItem;
 }
 
-function addClassActiveItem(indice){
-
-	var $item =  jQuery('#inner-content-div > div').get(indice);
-	jQuery($item).addClass('ContainerItemVideoLista--activo');
+function addClassActiveItem(index){
+	
+	var $item = jQuery('#DivScrollPlayList > div').get(index);
+	jQuery($item).addClass('ContainerItemVideoLista--active');
 }
 
 function removeClassActiveItem(){
 
-	jQuery('#inner-content-div > div').removeClass('ContainerItemVideoLista--activo');
+	jQuery('#DivScrollPlayList > div').removeClass('ContainerItemVideoLista--active');
 }
