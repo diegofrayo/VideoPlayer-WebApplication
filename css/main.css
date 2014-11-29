@@ -495,6 +495,9 @@ $MIXINS
 .clear {
   clear: both;
 }
+.overflow {
+  overflow: auto;
+}
 /*--------FIN Hacks--------*/
 /*------------------------------------*\
 $ETIQUETAS
@@ -657,9 +660,9 @@ $MAQUETADO
   display: inline-block;
 }
 .ContainerVideoPlayer-controls > a > span:hover {
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
-  filter: alpha(opacity=(60));
-  opacity: 0.6;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+  filter: alpha(opacity=(50));
+  opacity: 0.5;
 }
 #ContainerVideoPlayer-jwplayer {
   background-color: #f4f4f4;
@@ -771,6 +774,14 @@ $MAQUETADO
 }
 /*----------FIN Columna 2: Contenedor con contenido variable (busquedas, listas, perfil)----------*/
 /*----------Contenedor con el contenido de una busqueda----------*/
+.ContainerSearchsContent-form > form {
+  display: block;
+  margin-bottom: 0px;
+}
+.ContainerSearchsContent-form > form > div {
+  overflow: auto;
+  margin-bottom: 0px;
+}
 .ContainerSearchsContent-form > form > div > input {
   float: left;
   width: 80% !important;

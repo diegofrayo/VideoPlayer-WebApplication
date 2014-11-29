@@ -6,13 +6,16 @@ function mainController($scope){
 
 	$scope.playVideoOnJWPLayer = function(idVideo){
 
+		jwplayer("VideoPlayer").stop();
 		var urlVideo = "http://www.youtube.com/watch?v=" + idVideo;
 
-		//Si la cadena es vacia carga un video por defecto
+		//Si la cadena es vacia no carga ningun video
 		if(idVideo==''){
 
 			urlVideo = '';
 		}
+
+		//urlVideo = 'http://localhost/bluetube/public/video.mp4';
 
 		jwplayer("VideoPlayer").setup({
 			file: urlVideo,
@@ -27,7 +30,7 @@ function mainController($scope){
 		}
 
 		jwplayer("VideoPlayer").onComplete(function(){
-			alert('Se disparó el evento cuando se acaba el video');
+
 			$scope.removeVideoFromPlaylist($scope.indexCurrentReproduction);
 		});
 	}
@@ -58,51 +61,7 @@ function mainController($scope){
 
 	$scope.searchVideos = function(){
 
-		var successJson = function(response) {
-
-			var resultsListBusqueda = response.items;
-			var sizeResultsSearch = resultsListBusqueda.length;
-			var videoList =  {items: []};
-
-			for (var i = 0; i < sizeResultsSearch; i++) {
-
-				videoItemFound= resultsListBusqueda[i];
-
-				videoItem = createItemVideo(videoItemFound.id.videoId,
-					videoItemFound.snippet.title,
-					videoItemFound.snippet.title.substring(0, 35) + "...",
-					videoItemFound.snippet.channelId,
-					videoItemFound.snippet.channelTitle,
-					generateDuration(),
-					videoItemFound.snippet.thumbnails.medium.url);
-
-				videoList.items.push(videoItem);
-			}
-
-			if(sizeResultsSearch == 0){
-
-				$('.ResponseMessageSearch').html('Not videos found');
-			}else{
-
-				$('.ResponseMessageSearch').html('Videos found: ' + sizeResultsSearch);
-			}
-
-			$scope.$apply(function(){
-
-				$scope.resultsList = videoList;
-			});
-		}
-
-		$.ajax({
-			url:'/bluetube/data/json.json',
-			datatype:'json',
-			data:{},
-			success: successJson,
-			error: function(response) {
-				console.log('Error');
-			}
-		});
-
+		busquedaPorJSON($scope);
 	}
 
 	$scope.addVideoToPlaylist = function(index){
@@ -124,7 +83,7 @@ function mainController($scope){
 	}
 
 	$scope.removeVideoFromPlaylist = function(index){
-		console.log(index);
+
 		var newList = {items: []};
 		var playList =  $scope.playlist.items;
 		var sizePlaylist = $scope.sizePlaylist;
@@ -139,7 +98,20 @@ function mainController($scope){
 			}
 		}
 
-		$scope.playlist = newList;
+
+		if($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest'){
+
+			$scope.$apply(function(){
+
+				$scope.playlist = newList;
+			});
+
+		}else{
+
+			$scope.playlist = newList;
+		}
+
+
 		$scope.sizePlaylist = $scope.playlist.items.length;
 
 		//Si la lista se esta reproduciendo
@@ -163,14 +135,17 @@ function mainController($scope){
 
 					$scope.indexCurrentReproduction = 0;
 					$scope.playVideoOnJWPLayer($scope.playlist.items[0].id);
+					removeClassActiveItem();
+					addClassActiveItem(0);
 					break;
 
 					//Si hay 2 o mas elementos
 					default:
-					alert('fff');
+
+					console.log('dispara metodo eliminar');
 					$scope.indexCurrentReproduction--;
 					$scope.nextVideo();
-
+					
 					break;
 				}
 
@@ -189,7 +164,7 @@ function mainController($scope){
 
 		if($scope.sizePlaylist>0){
 
-			if(confirm("Are you sure delete all items of the playlist?")) {
+			if(confirm("Are you sure you want to delete all items of the playlist?")) {
 
 				$scope.playlist =  {items: []};
 				$scope.sizePlaylist = $scope.playlist.items.length;
@@ -254,12 +229,10 @@ function mainController($scope){
 				currentIndex = currentIndex + 1;
 			}
 
-			addClassActiveItem(currentIndex);
-			$scope.indexCurrentReproduction = currentIndex;
 			var urlVideo = $scope.playlist.items[currentIndex].id;
+			$scope.indexCurrentReproduction = currentIndex;
 			$scope.playVideoOnJWPLayer(urlVideo);
-			console.log(currentIndex);
-			console.log($scope.playlist);
+			addClassActiveItem($scope.indexCurrentReproduction);
 		}
 	}
 }
@@ -268,119 +241,172 @@ function mainController($scope){
 
 
 
-function youtube(){
+function busquedaPorYoutubeAPI($scope){
 
-// 	$scope.searchVideos = function(){
+	var q = $scope.inputSearch;
 
-// 		var q = $scope.inputSearch;
+	if(q.trim() != ''){
 
-// 		if(q.trim() != ''){
+		var request = gapi.client.youtube.search.list({
+			q: q,
+			part: 'snippet',
+			type: 'video',
+			maxResults: 15,
+			order: 'relevance',
+			videoDuration: 'medium'
+		});
 
-// 			var request = gapi.client.youtube.search.list({
-// 				q: q,
-// 				part: 'snippet',
-// 				type: 'video',
-// 				maxResults: 15,
-// 				order: 'relevance',
-// 				videoDuration: 'medium'
-// 			});
+		request.execute(function(response) {
 
-// 			request.execute(function(response) {
+			var resultsListBusqueda = response.items;
+			var sizeResultsSearch = resultsListBusqueda.length;
+			var videoList =  {items: []};
 
-// 				var resultsListBusqueda = response.items;
-// 				var sizeResultsSearch = resultsListBusqueda.length;
-// 				var videoList =  {items: []};
+			for (var i = 0; i < sizeResultsSearch; i++) {
 
-// 				for (var i = 0; i < sizeResultsSearch; i++) {
+				videoItemFound= resultsListBusqueda[i];
 
-// 					videoItemFound= resultsListBusqueda[i];
+				videoItem = createItemVideo(videoItemFound.id.videoId,
+					videoItemFound.snippet.title,
+					videoItemFound.snippet.title.substring(0, 35) + "...",
+					videoItemFound.snippet.channelId,
+					videoItemFound.snippet.channelTitle,
+					generateDuration(),
+					videoItemFound.snippet.thumbnails.medium.url);
 
-// 					videoItem = createItemVideo(videoItemFound.id.videoId,
-// 						videoItemFound.snippet.title,
-// 						videoItemFound.snippet.title.substring(0, 35) + "...",
-// 						videoItemFound.snippet.channelId,
-// 						videoItemFound.snippet.channelTitle,
-// 						generateDuration(),
-// 						videoItemFound.snippet.thumbnails.medium.url);
+					// var requestDuration = gapi.client.youtube.videos.list({
+					// 	id: videoItem.id,
+					// 	part: 'contentDetails'
+					// });
 
-// 					var requestDuration = gapi.client.youtube.videos.list({
-// 						id: videoItem.id,
-// 						part: 'contentDetails'
-// 					});
+					// requestDuration.execute(function(response) {
 
-// 					requestDuration.execute(function(response) {
+					// 	var duration = response.items[0].contentDetails.duration;
+					// 	duration = duration.replace('PT', '').replace('M',':').replace('S','');
+					// 	videoItem.duration = duration;
+					// });
 
-// 						var duration = response.items[0].contentDetails.duration;
-// 						duration = duration.replace('PT', '').replace('M',':').replace('S','');
-// 						videoItem.duration = duration;
-// 					});
+		videoList.items.push(videoItem);
+	}
 
-// 					videoList.items.push(videoItem);
-// 				}
+	if(sizeResultsSearch == 0){
 
-// 				if(sizeResultsSearch == 0){
+		$('.ResponseMessageSearch').html('Not videos found');
+	}else{
 
-// 					$('.ResponseMessageSearch').html('Not videos found');
-// 				}else{
+		$('.ResponseMessageSearch').html('Videos found: ' + sizeResultsSearch);
+	}
 
-// 					$('.ResponseMessageSearch').html('Videos found: ' + sizeResultsSearch);
-// 				}
+	$scope.$apply(function(){
 
-// 				$scope.$apply(function(){
-
-// 					$scope.resultsList = videoList;
-// 				});
-// 			});
-// }
-// }
+		$scope.resultsList = videoList;
+	});
+});
+}
 }
 
-function leerJson(){
+function busquedaPorJSON($scope){
 
-	// $scope.searchVideos = function(){
+	var successJson = function(response) {
 
-	// 	var successJson = function(response) {
+		var resultsListBusqueda = response.items;
+		var sizeResultsSearch = resultsListBusqueda.length;
+		var videoList =  {items: []};
 
-	// 		var resultsListBusqueda = response.items;
-	// 		var sizeResultsSearch = resultsListBusqueda.length;
-	// 		var videoList =  {items: []};
+		for (var i = 0; i < sizeResultsSearch; i++) {
 
-	// 		for (var i = 0; i < sizeResultsSearch; i++) {
+			videoItemFound= resultsListBusqueda[i];
 
-	// 			videoItemFound= resultsListBusqueda[i];
+			videoItem = createItemVideo(videoItemFound.id.videoId,
+				videoItemFound.snippet.title,
+				videoItemFound.snippet.title.substring(0, 35) + "...",
+				videoItemFound.snippet.channelId,
+				videoItemFound.snippet.channelTitle,
+				generateDuration(),
+				videoItemFound.snippet.thumbnails.medium.url);
 
-	// 			videoItem = createItemVideo(videoItemFound.id.videoId,
-	// 				videoItemFound.snippet.title,
-	// 				videoItemFound.snippet.title.substring(0, 35) + "...",
-	// 				videoItemFound.snippet.channelId,
-	// 				videoItemFound.snippet.channelTitle,
-	// 				generateDuration(),
-	// 				videoItemFound.snippet.thumbnails.medium.url);
+			videoList.items.push(videoItem);
+		}
 
-	// 			videoList.items.push(videoItem);
-	// 		}
+		if(sizeResultsSearch == 0){
 
-	// 		$scope.$apply(function(){
+			$('.ResponseMessageSearch').html('Not videos found');
+		}else{
 
-	// 			$scope.resultsList = videoList;
-	// 		});
-	// 	}
+			$('.ResponseMessageSearch').html('Videos found: ' + sizeResultsSearch);
+		}
 
-	// 	$.ajax({
-	// 		url:'/bluetube/data/json.json',
-	// 		datatype:'json',
-	// 		data:{},
-	// 		success: successJson,
-	// 		error: function(response) {
-	// 			console.log('Error');
-	// 		}
-	// 	});
+		$scope.$apply(function(){
 
-	// }
+			$scope.resultsList = videoList;
+		});
+	}
+
+	$.ajax({
+		url:'/bluetube/public/data/json.json',
+		datatype:'json',
+		data:{},
+		success: successJson,
+		error: function(response) {
+			console.log('Error');
+		}
+	});
 }
 
+// function leerduracion(){
+// 	$scope.search = function() {
+//         $("#text").css("display","none");
+//         var q = $scope.inputSearch;
+//         var request = gapi.client.youtube.search.list({
+//             maxResults: 15,
+//             order: 'relevance',
+//             part: 'snippet',
+//             q: q,
+//             type: 'video',
+//             videoDuration : "medium"
+//         });
+
+//         request.execute(function(response){
+//             if(response.result) {
+//                 // aqui ya procesan uds la lista de resultados de la variable response.result.items
+//                 $scope.$apply(function(){
+//                     $scope.res = response.result.items;
+//                     var requestDuration = null;
+//                     //console.log($scope.res);
+//                     for (var i = 0; i < $scope.res.length; i++){
+//                             requestDuration = gapi.client.youtube.videos.list({
+//                                 id: $scope.res[i].id.videoId,
+//                                 part: 'contentDetails'
+//                             });
+//                             requestDuration.execute(function(response){
+//                             for (var i = 0; i < $scope.res.length; i++){
+//                                 var codigo = $scope.res[i].id.videoId;
+//                                 //console.log(response);
+//                                 if(response.items[0].id==codigo){
+//                                     $scope.$apply(function(){
+//                                         var duration = response.items[0].contentDetails.duration;
+//                                         duration = duration.replace('PT', '').replace('M',':').replace('S','');
+//                                         $scope.res[i].duration = duration; 
+//                                     });
+//                                 }
+//                             console.log($scope.res[i]);
+//                             }
+//                         });
+//                     }
+//                 });
+//             }
+//         });
+//     }
+// }
 
 
+// function metodoAjax(successFunction, errorFunction, configRequest, data){
 
-
-
+// 	$.ajax({
+// 		'url': 'localhost/bluetube/framework/index.php',
+// 		'datatype': '',
+// 		'data': data,
+// 		'success': successFunction,
+// 		'error':  errorFunction
+// 	});
+// }

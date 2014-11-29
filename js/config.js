@@ -122,11 +122,12 @@ function createItemVideo(id, completeTitle, shortTitle, channelId, channelName, 
 
 function addClassActiveItem(index){
 	
-	var $item = jQuery('#DivScrollPlayList > div').get(index);
+	var consulta = "#DivScrollPlayList > div:nth-child(" + (index + 1) + ") > div";
+	var $item = jQuery(consulta);
 	jQuery($item).addClass('ContainerItemVideoLista--active');
 }
 
 function removeClassActiveItem(){
 
-	jQuery('#DivScrollPlayList > div').removeClass('ContainerItemVideoLista--active');
+	jQuery('#DivScrollPlayList > div > div').removeClass('ContainerItemVideoLista--active');
 }
