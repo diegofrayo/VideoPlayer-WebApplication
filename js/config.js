@@ -1,3 +1,6 @@
+//Variables Globales Angular
+var globalCurrentPlaylist = null;
+
 $(document).ready(function() {
 
 	//Configurando los dropdown
@@ -130,4 +133,15 @@ function addClassActiveItem(index){
 function removeClassActiveItem(){
 
 	jQuery('#DivScrollPlayList > div > div').removeClass('ContainerItemVideoLista--active');
+}
+
+function ajaxRequest(successFunction, errorFunction, configRequest, data){
+
+	$.ajax({
+		'url': 'localhost/bluetube/framework/index.php',
+		'datatype': '',
+		'data': data,
+		'success': successFunction,
+		'error':  errorFunction
+	});
 }
