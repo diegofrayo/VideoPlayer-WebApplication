@@ -1,6 +1,3 @@
-//Variables Globales Angular
-var globalCurrentPlaylist = null;
-
 $(document).ready(function() {
 
 	//Configurando los dropdown
@@ -117,7 +114,7 @@ function createItemVideo(id, completeTitle, shortTitle, channelId, channelName, 
 	'channel_id' : channelId,
 	'channel_name' : channelName,
 	'duration' : duration,
-	'picture_url' : "img/preview-video.png",
+	'picture_url' : picture_url,
 	'repeat' : makeRandomString()};
 
 	return videoItem;
@@ -133,15 +130,4 @@ function addClassActiveItem(index){
 function removeClassActiveItem(){
 
 	jQuery('#DivScrollPlayList > div > div').removeClass('ContainerItemVideoLista--active');
-}
-
-function ajaxRequest(successFunction, errorFunction, configRequest, data){
-
-	$.ajax({
-		'url': 'localhost/bluetube/framework/index.php',
-		'datatype': '',
-		'data': data,
-		'success': successFunction,
-		'error':  errorFunction
-	});
 }

@@ -9,7 +9,7 @@
 </head>
 
 <body data-ng-app="VideoPlayerApp">
-    <div class="ContainerGlobal container">
+    <div class="ContainerGlobal container" data-ng-controller='MainController'>
         <header class="ContainerHeader row">
             <div class="ContainerTitleApp col-xs-8 col-sm-8 col-md-6 col-lg-3">
                 <a href="javascript:void(0)" onclick="alertSizeBrowser()"><img src="img/title-app.png" alt="BlueTUBE" /></a> 
@@ -40,9 +40,9 @@
         </header>
 
         <div class="row ContainerContent">
-            <section class="ContainerPlaylist col-xs-12 col-sm-12 col-md-4 col-lg-4" data-ng-controller="PlaylistController">
+            <section class="ContainerPlaylist col-xs-12 col-sm-12 col-md-4 col-lg-4">
                 <div class="ContainerVideoPlayer col-xs-12 col-sm-6 col-md-12 col-lg-12">
-                    <h2 class="ContainerVideoPlayer-title" id="numberVideoPlayList">Current Playlist {{factoryPlaylist.sizePlaylist}}</h2>
+                    <h2 class="ContainerVideoPlayer-title" id="numberVideoPlayList">Current Playlist {{sizePlaylist}}</h2>
                     <div id="ContainerVideoPlayer-jwplayer">
                         <div id="VideoPlayer"></div>
                     </div>
@@ -56,7 +56,7 @@
 
                 <div class="ContainerVideoItemsPlaylist col-xs-12 col-sm-6 col-md-12 col-lg-12">
                     <div id="DivScrollPlayList">
-                        <div class="ContainerVideoItemPlaylist" data-ng-repeat="item in globalCurrentPlaylist.items" data-ng-click="playVideo($index)">
+                        <div class="ContainerVideoItemPlaylist" data-ng-repeat="item in playlist.items" data-ng-click="playVideo($index)">
                             <div class='overflow'>
                                 <div class="ContainerVideoItemPlaylist-number">
                                     <p>{{$index + 1}}</p>
@@ -83,7 +83,44 @@
                 </div>
             </section>
 
-            <section class="ContainerViews col-xs-12 col-sm-12 col-md-8 col-lg-8" data-ng-view>
+            <section class="ContainerViews col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                <div id="DivScrollResultsSearch">
+                    <div class="ContainerSearchsContent">
+                        <div class="ContainerSearchsContent-form row" >
+                            <form class="form-inline" role="form" method="post" onsubmit="event.preventDefault()">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Search Here" data-ng-model="inputSearch">
+                                    <button type="submit" class="btn btn-primary" data-ng-click="searchVideos()">Search</button>
+                                </div>
+                            </form>
+                            <div class="ResponseMessageSearch"></div>
+                        </div>
+
+                        <div class="ContainerSearchsContent-results row">
+                            <div class="ContainerSearchsContent-results-item col-xs-6 col-sm-4 col-md-4 col-lg-4" data-ng-repeat="item in resultsList.items">
+                                <h3 class="ContainerSearchsContent-results-item-title" title="{{item.complete_title}}">{{item.short_title}}</h3>
+                                <article class="ContainerSearchsContent-results-item-body" style="background-image: url('{{item.picture_url}}')">
+                                    <ul class="nav nav-pills UlMenuAdd">
+                                        <li class="dropdown">
+                                            <a href="javascript:void(0)" role="button" class="dropdown-toggle" data-toggle="dropdown">
+                                                <span class="IconAdd"></span>
+                                            </a>
+                                            <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="">
+                                                <li><a href="javascript:void(0)" data-ng-click="addVideoToPlaylist($index)">Add To Current List</a></li>
+                                                <li role="presentation" class="divider"></li>
+                                                <li><a href="javascript:void(0)" onclick="$('#modalLists').modal();">Add To List...</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul> 
+                                    <div class="ContainerSearchsContent-results-item-body-info">
+                                        <a href="http://www.youtube.com/channel/{{item.channel_id}}" target="_blank">{{item.channel_name}}</a>
+                                        <p>{{item.duration}}</p>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
         </div>
     </div>
@@ -122,12 +159,10 @@
 
     <script src="js/config.js"></script>
 
-    <script src="js/controllers/home/searchs-controller.js"></script>
-    <script src="js/controllers/home/playlist-controller.js"></script>
-
+    <script src="js/controllers/home/main-controller.js"></script>
     <script src="js/angular-app-config.js"></script>
 
-    <!-- <script src="https://apis.google.com/js/client.js?onload=initYoutubeApi"></script> -->
+    <script src="https://apis.google.com/js/client.js?onload=initYoutubeApi"></script>
 
 </body>
 </html>

@@ -1,5 +1,38 @@
-function playlistController($scope, factoryPlaylist){
+function mainController($scope){
 	
+	//Variables busqueda
+	$scope.resultsList = {items: []};
+	$scope.inputSearch = "";
+
+	//Variables playlist
+	$scope.playlist = {items: []};
+	$scope.indexCurrentReproduction = -1;
+	$scope.isPlayingThePlaylist = false;
+	$scope.sizePlaylist = $scope.playlist.items.length;
+
+	$scope.searchVideos = function(){
+
+		busquedaPorYoutubeAPI($scope);
+	}
+
+	$scope.addVideoToPlaylist = function(index){
+
+		var videoItemSelected = $scope.resultsList.items[index];
+
+		//Video item para agregar a la lista de reproduccion
+		var videoItem = createItemVideo(
+			videoItemSelected.id,
+			videoItemSelected.complete_title,
+			videoItemSelected.short_title,
+			videoItemSelected.channel_id,
+			videoItemSelected.channel_name,
+			videoItemSelected.duration,
+			videoItemSelected.picture_url);
+		
+		$scope.playlist.items.push(videoItem);
+		$scope.sizePlaylist = $scope.playlist.items.length;
+	}
+
 	$scope.playVideoOnJWPLayer = function(idVideo){
 
 		jwplayer("VideoPlayer").stop();
@@ -10,8 +43,6 @@ function playlistController($scope, factoryPlaylist){
 
 			urlVideo = '';
 		}
-
-		urlVideo = 'http://localhost/bluetube/public/video.mp4';
 
 		jwplayer("VideoPlayer").setup({
 			file: urlVideo,
@@ -39,20 +70,11 @@ function playlistController($scope, factoryPlaylist){
 			width: "100%",
 			height: "100%"
 		});
+
 		jwplayer("VideoPlayer").onComplete(function(){
 			$scope.removeVideoFromPlaylist($scope.indexCurrentReproduction);
 		});
 	}
-
-	//Metodos
-	$scope.playVideoOnJWPLayer('');
-
-	//Variables
-	$scope.playlist = {items: []};
-	$scope.indexCurrentReproduction = -1;
-	$scope.isPlayingThePlaylist = false;
-	$scope.sizePlaylist = $scope.playlist.items.length;
-	globalCurrentPlaylist = $scope.playlist;
 
 	$scope.removeVideoFromPlaylist = function(index){
 
@@ -206,4 +228,108 @@ function playlistController($scope, factoryPlaylist){
 		}
 	}
 
+	//Metodos
+	$scope.playVideoOnJWPLayer('');
 }
+
+
+function busquedaPorYoutubeAPI($scope){
+
+	var q = $scope.inputSearch;
+
+	if(q.trim() != ''){
+
+		var request = gapi.client.youtube.search.list({
+			q: q,
+			part: 'snippet',
+			type: 'video',
+			maxResults: 15,
+			order: 'relevance',
+			videoDuration: 'medium'
+		});
+
+		request.execute(function(response) {
+
+			var resultsListBusqueda = response.items;
+			var sizeResultsSearch = resultsListBusqueda.length;
+			var videoList =  {items: []};
+
+			for (var i = 0; i < sizeResultsSearch; i++) {
+
+				videoItemFound= resultsListBusqueda[i];
+
+				videoItem = createItemVideo(videoItemFound.id.videoId,
+					videoItemFound.snippet.title,
+					videoItemFound.snippet.title.substring(0, 35) + "...",
+					videoItemFound.snippet.channelId,
+					videoItemFound.snippet.channelTitle,
+					generateDuration(),
+					videoItemFound.snippet.thumbnails.medium.url);
+
+				videoList.items.push(videoItem);
+			}
+
+			if(sizeResultsSearch == 0){
+
+				$('.ResponseMessageSearch').html('Not videos found');
+			}else{
+
+				$('.ResponseMessageSearch').html('Videos found: ' + sizeResultsSearch);
+			}
+
+			$scope.$apply(function(){
+
+				$scope.resultsList = videoList;
+			});
+		});
+	}
+}
+
+function busquedaPorJSON($scope){
+
+	var successJson = function(response) {
+
+		var resultsListBusqueda = response.items;
+		var sizeResultsSearch = resultsListBusqueda.length;
+		var videoList =  {items: []};
+
+		for (var i = 0; i < sizeResultsSearch; i++) {
+
+			videoItemFound= resultsListBusqueda[i];
+
+			videoItem = createItemVideo(videoItemFound.id.videoId,
+				videoItemFound.snippet.title,
+				videoItemFound.snippet.title.substring(0, 35) + "...",
+				videoItemFound.snippet.channelId,
+				videoItemFound.snippet.channelTitle,
+				generateDuration(),
+				videoItemFound.snippet.thumbnails.medium.url);
+
+			videoList.items.push(videoItem);
+		}
+
+		if(sizeResultsSearch == 0){
+
+			$('.ResponseMessageSearch').html('Not videos found');
+		}else{
+
+			$('.ResponseMessageSearch').html('Videos found: ' + sizeResultsSearch);
+		}
+
+		$scope.$apply(function(){
+
+			$scope.resultsList = videoList;
+		});
+	}
+
+	$.ajax({
+		url:'/bluetube/public/data/json.json',
+		datatype:'json',
+		data:{},
+		success: successJson,
+		error: function(response) {
+			console.log('Error');
+		}
+	});
+}
+
