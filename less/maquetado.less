@@ -173,11 +173,15 @@
 	position: relative;
 
 	&:hover{
-		.HoverEfectVideoItemPlaylist();
+		.HoverEffectVideoItemPlaylist();
 	}
 
 	&:last-child{
 		margin-bottom: 0;
+	}
+
+	>div{
+		width: 93%;
 	}
 
 	&-number{
@@ -242,6 +246,7 @@
 		right: 0;
 		margin: 5px;
 		padding: 0;
+		z-index: 99;
 	}
 
 	&-duration{
@@ -255,7 +260,7 @@
 }
 
 .ContainerVideoItemsPlaylist--colorBorderVideoItemPlayliste{
-	.HoverEfectVideoItemPlaylist();
+	.HoverEffectVideoItemPlaylist();
 }
 /*----------FIN Columna 1: Contenedor con la lista de reproduccion----------*/
 
@@ -303,7 +308,7 @@
 
 	&-results{
 		margin: 0 !important; //Voleo de rula	
-		.FilaVideos();
+		.RowVideosSearch();
 
 		&-item{
 			.ItemVideo();
@@ -331,7 +336,7 @@
 	&-videos{
 		margin: 0 !important; //Voleo de rula	
 		&-row{
-			.FilaVideos();
+			.RowVideosSearch();
 			&-item{
 				.ItemVideo();
 				>a{
@@ -367,8 +372,8 @@
 
 
 /*----------Video que se esta reproduciendo actualmente----------*/
-.ContainerItemVideoLista--active{
-	.HoverEfectVideoItemPlaylist();
+.ContainerItemVideoList--active{
+	.HoverEffectVideoItemPlaylist();
 }
 /*----------FIN Video que se esta reproduciendo actualmente----------*/
 

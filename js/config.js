@@ -106,28 +106,43 @@ function generateDuration(){
 ------------------Metodos Controladores-----------------
 --------------------------------------------------------
 */
-function createItemVideo(id, completeTitle, shortTitle, channelId, channelName, duration, pictureUrl){
-	
-	var	videoItem = { 'id' : id,
-	'complete_title' : completeTitle,
-	'short_title' : shortTitle,
-	'channel_id' : channelId,
-	'channel_name' : channelName,
-	'duration' : duration,
-	'picture_url' : picture_url,
-	'repeat' : makeRandomString()};
+function createItemVideo(id, completeTitle, channelId, channelName, duration, pictureUrl, youtubeVideoId){
+
+	var	videoItem = { 
+		'id' : id,
+		'complete_title' : completeTitle,
+		'short_title' : completeTitle.substring(0, 25) + "...",
+		'channel_id' : channelId,
+		'channel_name' : channelName,
+		'duration' : duration,
+		'picture_url' : pictureUrl,
+		'youtube_video_id': youtubeVideoId,
+		'repeat' : makeRandomString()
+	};
 
 	return videoItem;
 }
 
 function addClassActiveItem(index){
-	
-	var consulta = "#DivScrollPlayList > div:nth-child(" + (index + 1) + ") > div";
+
+	var consulta = "#DivScrollPlayList > div:nth-child(" + (index + 1) + ")";
 	var $item = jQuery(consulta);
-	jQuery($item).addClass('ContainerItemVideoLista--active');
+	jQuery($item).addClass('ContainerItemVideoList--active');
 }
 
 function removeClassActiveItem(){
 
-	jQuery('#DivScrollPlayList > div > div').removeClass('ContainerItemVideoLista--active');
+	jQuery('#DivScrollPlayList > div').removeClass('ContainerItemVideoList--active');
+}
+
+function ajaxRequest(successFunction, errorFunction, configRequest, data){
+
+	$.ajax({
+		'url': '/bluetube/framework-backend/index.php/'+ data.action,
+		'type': configRequest.type,
+		'data': data,
+		'dataType': configRequest.datatype,
+		'success': successFunction,
+		'error':  errorFunction
+	});
 }

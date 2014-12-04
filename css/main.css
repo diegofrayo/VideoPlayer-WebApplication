@@ -483,7 +483,7 @@ $SPRITES
 /*------------------------------------*\
 $MIXINS
 \*------------------------------------*/
-.HoverEfectVideoItemPlaylist {
+.HoverEffectVideoItemPlaylist {
   background-color: #C1C1C1;
 }
 /*----------Hacks----------*/
@@ -700,6 +700,9 @@ $MAQUETADO
 .ContainerVideoItemPlaylist:last-child {
   margin-bottom: 0;
 }
+.ContainerVideoItemPlaylist > div {
+  width: 93%;
+}
 .ContainerVideoItemPlaylist-number {
   float: left;
   width: 8%;
@@ -754,6 +757,7 @@ $MAQUETADO
   right: 0;
   margin: 5px;
   padding: 0;
+  z-index: 99;
 }
 .ContainerVideoItemPlaylist-duration {
   display: block;
@@ -807,6 +811,7 @@ $MAQUETADO
 }
 .ContainerSearchsContent-results > div {
   padding: 5px;
+  margin-bottom: 30px;
 }
 .ContainerSearchsContent-results-item-title {
   font-size: 1em;
@@ -816,7 +821,8 @@ $MAQUETADO
   border-bottom: 1px solid #D7D7D7;
   margin: 10px auto;
   padding-bottom: 5px;
-  height: 42px;
+  max-height: 45px;
+  min-height: 45px;
 }
 .ContainerSearchsContent-results-item-body {
   -webkit-box-shadow: 0 0 4px 1px #555555;
@@ -895,6 +901,7 @@ $MAQUETADO
 }
 .ContainerContentUserLists-videos-row > div {
   padding: 5px;
+  margin-bottom: 30px;
 }
 .ContainerContentUserLists-videos-row-item-title {
   font-size: 1em;
@@ -904,7 +911,8 @@ $MAQUETADO
   border-bottom: 1px solid #D7D7D7;
   margin: 10px auto;
   padding-bottom: 5px;
-  height: 42px;
+  max-height: 45px;
+  min-height: 45px;
 }
 .ContainerContentUserLists-videos-row-item-body {
   -webkit-box-shadow: 0 0 4px 1px #555555;
@@ -988,7 +996,7 @@ $MAQUETADO
 }
 /*----------FIN Contenedor con el contenido de las listas de reproduccion de un usuario----------*/
 /*----------Video que se esta reproduciendo actualmente----------*/
-.ContainerItemVideoLista--active {
+.ContainerItemVideoList--active {
   background-color: #C1C1C1;
 }
 /*----------FIN Video que se esta reproduciendo actualmente----------*/

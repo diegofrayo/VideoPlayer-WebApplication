@@ -42,7 +42,7 @@
         <div class="row ContainerContent">
             <section class="ContainerPlaylist col-xs-12 col-sm-12 col-md-4 col-lg-4">
                 <div class="ContainerVideoPlayer col-xs-12 col-sm-6 col-md-12 col-lg-12">
-                    <h2 class="ContainerVideoPlayer-title" id="numberVideoPlayList">Current Playlist {{sizePlaylist}}</h2>
+                    <h2 class="ContainerVideoPlayer-title" id="numberVideoPlayList">Current Playlist [{{sizePlaylist}}]</h2>
                     <div id="ContainerVideoPlayer-jwplayer">
                         <div id="VideoPlayer"></div>
                     </div>
@@ -56,8 +56,8 @@
 
                 <div class="ContainerVideoItemsPlaylist col-xs-12 col-sm-6 col-md-12 col-lg-12">
                     <div id="DivScrollPlayList">
-                        <div class="ContainerVideoItemPlaylist" data-ng-repeat="item in playlist.items" data-ng-click="playVideo($index)">
-                            <div class='overflow'>
+                        <div class="ContainerVideoItemPlaylist" data-ng-repeat="item in playlist.items">
+                            <div class='overflow' data-ng-click="playVideo($index)">
                                 <div class="ContainerVideoItemPlaylist-number">
                                     <p>{{$index + 1}}</p>
                                     <span class="vertical-align"></span>
@@ -73,11 +73,11 @@
                                     </div>
                                     <span class="vertical-align"></span>
                                 </article>
-                                <a class="ContainerVideoItemPlaylist-IconRemove" href="javascript:void(0)" data-ng-click="removeVideoFromPlaylist($index)">
-                                    <span class="IconRemove"></span>
-                                </a>
                                 <p class="ContainerVideoItemPlaylist-duration">{{item.duration}}</p>
                             </div>
+                            <a class="ContainerVideoItemPlaylist-IconRemove" href="javascript:void(0)" data-ng-click="removeVideoFromPlaylist($index)">
+                                <span class="IconRemove"></span>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -106,7 +106,7 @@
                                                 <span class="IconAdd"></span>
                                             </a>
                                             <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="">
-                                                <li><a href="javascript:void(0)" data-ng-click="addVideoToPlaylist($index)">Add To Current List</a></li>
+                                                <li><a href="javascript:void(0)" data-ng-click="addVideoToPlaylist($index)" >Add To Current List</a></li>
                                                 <li role="presentation" class="divider"></li>
                                                 <li><a href="javascript:void(0)" onclick="$('#modalLists').modal();">Add To List...</a></li>
                                             </ul>
@@ -151,15 +151,12 @@
 
     <script src="js/libraries/jquery-1.11.1.min.js"></script>
     <script src="js/libraries/angular.min.js"></script>
-    <script src="js/libraries/angular-route.min.js"></script>
     <script src="js/libraries/bootstrap.min.js"></script>
     <script src="js/libraries/jquery.slimscroll.min.js"></script>
-    <script src="js/libraries/jwplayer.min.js"></script>
     <script src="http://jwpsrv.com/library/agemfEBtEeSqECIACtqXBA.js"></script>
 
     <script src="js/config.js"></script>
-
-    <script src="js/controllers/home/main-controller.js"></script>
+    <script src="js/controllers/main-controller.js"></script>
     <script src="js/angular-app-config.js"></script>
 
     <script src="https://apis.google.com/js/client.js?onload=initYoutubeApi"></script>
