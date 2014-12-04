@@ -2,7 +2,7 @@
 
 namespace app\api;
 
-require '/../daos_mysql/DaoApp.php';
+require dirname(__FILE__).'/../daos_mysql/DaoApp.php';
 
 use app\entities\Video;
 use app\daos_mysql\DaoApp;

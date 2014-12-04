@@ -3,7 +3,7 @@
 namespace app\daos_mysql;
 
 require_once 'IDaoApp.php';
-require_once '/../database/BDFactory.php';
+require_once dirname(__FILE__).'/../database/BDFactory.php';
 
 use app\entities\video;
 use app\database\BDFactory;
