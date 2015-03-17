@@ -16,7 +16,7 @@ class BDMySQL implements IBaseDeDatos
     const USUARIO = 'admin5xE39cI';
     const CLAVE = ' tmKTiG-Y42nD';
     const BD = 'bluetube';
-    const SERVIDOR = 'mysql://$OPENSHIFT_MYSQL_DB_HOST:$OPENSHIFT_MYSQL_DB_PORT';
+    const SERVIDOR = 'mysql://'.getenv('OPENSHIFT_MYSQL_DB_HOST').':'.getenv('OPENSHIFT_MYSQL_DB_PORT');
 
     /**
      * Conexion a base de exitoConsulta
