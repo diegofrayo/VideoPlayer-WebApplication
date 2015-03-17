@@ -6,14 +6,17 @@ require_once 'IBaseDeDatos.php';
 
 class BDMySQL implements IBaseDeDatos
 {
+    //Local
+    // const USUARIO = 'root';
+    // const CLAVE = '12345';
+    // const BD = 'app_video_player';
+    // const SERVIDOR = 'localhost';
 
-    const USUARIO = 'root';
-
-    const CLAVE = '12345';
-
-    const BD = 'app_video_player';
-
-    const SERVIDOR = 'localhost';
+    //Openshift
+    const USUARIO = 'admin5xE39cI';
+    const CLAVE = ' tmKTiG-Y42nD';
+    const BD = 'bluetube';
+    const SERVIDOR = 'mysql://$OPENSHIFT_MYSQL_DB_HOST:$OPENSHIFT_MYSQL_DB_PORT';
 
     /**
      * Conexion a base de exitoConsulta
