@@ -138,7 +138,7 @@ function removeClassActiveItem(){
 function ajaxRequest(successFunction, errorFunction, configRequest, data){
 
 	$.ajax({
-		'url': '/bluetube/framework-backend/index.php/'+ data.action,
+		'url': '/framework-backend/index.php/'+ data.action,
 		'type': configRequest.type,
 		'data': data,
 		'dataType': configRequest.datatype,

@@ -32,7 +32,7 @@ function mainController($scope){
 
 		var configRequest = {
 			type: 'post',
-			datatype: 'json'
+			datatype: 'json',
 		};
 
 		var successFunction = function(response){
@@ -473,7 +473,7 @@ function searchWithJSON($scope){
 	}
 
 	$.ajax({
-		url:'/bluetube/data/json.json',
+		url:'/data/json.json',
 		datatype:'json',
 		data:{},
 		success: successJson,
