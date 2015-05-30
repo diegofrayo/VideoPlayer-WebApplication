@@ -1,7 +1,7 @@
-VideoPlayer - Web Application
+VideoPlayer-Youtube-API
 =======================
 
-Videoplayer that uses the Youtube API.
+Reproductor de videos. Hace uso de la API de youtube. Permite hacer busquedas de videos y agregarlos a una lista de reproduccion.
+El framework backend utilizado es Slim PHP
 
-- Backend: SlimPHP
-- Frontend: AngularJS + Bootstrap 3
+Link: http://diegofrayo.hol.es/bluetube/

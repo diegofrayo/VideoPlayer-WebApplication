@@ -9,7 +9,7 @@ class BDMySQL implements IBaseDeDatos
 
     const USUARIO = 'root';
 
-    const CLAVE = '12345';
+    const CLAVE = '';
 
     const BD = 'app_video_player';
 

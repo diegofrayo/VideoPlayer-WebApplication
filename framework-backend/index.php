@@ -45,17 +45,19 @@ $app->get(
 $app->post(
     '/saveVideo',
     function () {
-        echo json_encode(API::saveVideo($_POST['id'], $_POST['title'], 
-            $_POST['duration'], $_POST['channel_name'],$_POST['playlist_id'], 
-            $_POST['picture_url'], $_POST['youtube_video_id']));
+        $input = json_decode(file_get_contents("php://input"));
+        echo json_encode(API::saveVideo($input->id, $input->title, 
+            $input->duration, $input->channel_name,$input->playlist_id, 
+            $input->picture_url, $input->youtube_video_id));
     }
     );
 
 $app->post(
     '/deleteVideo',
     function () {
-        API::deleteVideo($_POST['videoId']);
-        echo 'return';
+        $input = json_decode(file_get_contents("php://input"));
+        //API::deleteVideo($input->videoId);
+        echo $input->videoId;
     }
     );
 

@@ -9,21 +9,18 @@
     <link rel="shortcut icon" href="img/favicon.png">
 </head>
 
-<body data-ng-app="VideoPlayerApp">
+<body data-ng-app="LoginModule">
 
     <div class="ContainerGlobal container" >
-        <header class="ContainerHeader row">
-            <div class="ContainerTitleApp col-xs-8 col-sm-8 col-md-6 col-lg-3">
-                <a href="#" onclick="alertSizeBrowser()"><img src="img/title-app.png" alt="BlueTUBE" /></a> 
-            </div>
-        </header>
-
         <div class="row ContainerContent">
             <section class="ContainerLogin col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="contenedor-tabla">
                     <div class="outer-tabla">
                         <div class="inner-celda">
                             <div class="ContentLogin" >
+                                <a href="#" style="display: block; margin-top: 5px" onclick="alertSizeBrowser()">
+                                    <img src="img/title-app.png" style="margin: 0 auto; display: block" alt="BlueTUBE" />
+                                </a>
                                 <h1 class="ContentLogin-title">SIGN IN</h1>
                                 <form class="form-horizontal" role="form">
                                     <div class="form-group">
@@ -53,8 +50,8 @@
 
     <script src="js/libraries/jquery-1.11.1.min.js"></script>
     <script src="js/libraries/bootstrap.min.js"></script>
-
     <script src="js/config.js"></script>
+    <script src="js/angular-app-config.js"></script>
 
 </body>
 </html>

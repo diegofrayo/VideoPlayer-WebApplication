@@ -134,15 +134,3 @@ function removeClassActiveItem(){
 
 	jQuery('#DivScrollPlayList > div').removeClass('ContainerItemVideoList--active');
 }
-
-function ajaxRequest(successFunction, errorFunction, configRequest, data){
-
-	$.ajax({
-		'url': '/framework-backend/index.php/'+ data.action,
-		'type': configRequest.type,
-		'data': data,
-		'dataType': configRequest.datatype,
-		'success': successFunction,
-		'error':  errorFunction
-	});
-}

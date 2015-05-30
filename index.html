@@ -3,16 +3,16 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1"/>
-    <title>BlueTUBE</title>
+    <title>BlueTUBE - Improved</title>
     <link rel="stylesheet" href="css/main.css" />
     <link rel="shortcut icon" href="img/favicon.png">
 </head>
 
-<body data-ng-app="VideoPlayerApp">
-    <div class="ContainerGlobal container" data-ng-controller='MainController'>
+<body data-ng-app="mainApplicationModule">
+    <div class="ContainerGlobal container">
         <header class="ContainerHeader row">
             <div class="ContainerTitleApp col-xs-8 col-sm-8 col-md-6 col-lg-3">
-                <a href="javascript:void(0)" onclick="alertSizeBrowser()"><img src="img/title-app.png" alt="BlueTUBE" /></a> 
+                <a href="#/home"><img src="img/title-app.png" alt="BlueTUBE" /></a> 
             </div>
 
             <div class="ContainerUserMenuDropdown col-xs-4 col-sm-4 col-md-6 col-lg-3 col-lg-offset-6">
@@ -23,15 +23,15 @@
                         </a>
                         <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="">
                             <li role="presentation">
-                                <a href="javascript:void(0)"><i class="IconProfile"></i> My Profile</a>
+                                <a href="#/my-profile"><i class="IconProfile"></i>My Profile</a>
                             </li>
                             <li role="presentation" class="divider"></li>
                             <li role="presentation">
-                                <a href="javascript:void(0)"><i class="IconLists"></i> My Lists</a>
+                                <a href="#/my-lists"><i class="IconLists"></i>My Lists</a>
                             </li>
                             <li role="presentation" class="divider"></li>
                             <li role="presentation">
-                                <a href="javascript:void(0)"><i class="IconLogout"></i> Logout</a>
+                                <a href="javascript:void(0)"><i class="IconLogout"></i>Logout</a>
                             </li>
                         </ul>
                     </li>
@@ -39,89 +39,8 @@
             </div>
         </header>
 
-        <div class="row ContainerContent">
-            <section class="ContainerPlaylist col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                <div class="ContainerVideoPlayer col-xs-12 col-sm-6 col-md-12 col-lg-12">
-                    <h2 class="ContainerVideoPlayer-title" id="numberVideoPlayList">Current Playlist [{{sizePlaylist}}]</h2>
-                    <div id="ContainerVideoPlayer-jwplayer">
-                        <div id="VideoPlayer"></div>
-                    </div>
-                    <div class="ContainerVideoPlayer-controls">
-                        <a href="javascript:void(0)" class="IconPrev" data-ng-click="prevVideo()"><span></span></a> 
-                        <a href="javascript:void(0)" class="IconNext" data-ng-click="nextVideo()"><span></span></a> 
-                        <a href="javascript:void(0)" class="IconCleanList" data-ng-click="cleanPlaylist()"><span></span></a> 
-                        <div class="clear"></div>
-                    </div>
-                </div>
+        <div class="row ContainerContent" data-ng-view>
 
-                <div class="ContainerVideoItemsPlaylist col-xs-12 col-sm-6 col-md-12 col-lg-12">
-                    <div id="DivScrollPlayList">
-                        <div class="ContainerVideoItemPlaylist" data-ng-repeat="item in playlist.items">
-                            <div class='overflow' data-ng-click="playVideo($index)">
-                                <div class="ContainerVideoItemPlaylist-number">
-                                    <p>{{$index + 1}}</p>
-                                    <span class="vertical-align"></span>
-                                </div>
-                                <div class="ContainerVideoItemPlaylist-picture">
-                                    <img src="{{item.picture_url}}" alt="imagen-preview">
-                                    <span class="vertical-align"></span>
-                                </div>
-                                <article class="ContainerVideoItemPlaylist-info">
-                                    <div>
-                                        <h3 title="{{item.complete_title}}">{{item.short_title}}</h3>
-                                        <a href="javascript:void(0)">{{item.channel_name}}</a>
-                                    </div>
-                                    <span class="vertical-align"></span>
-                                </article>
-                                <p class="ContainerVideoItemPlaylist-duration">{{item.duration}}</p>
-                            </div>
-                            <a class="ContainerVideoItemPlaylist-IconRemove" href="javascript:void(0)" data-ng-click="removeVideoFromPlaylist($index)">
-                                <span class="IconRemove"></span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="ContainerViews col-xs-12 col-sm-12 col-md-8 col-lg-8">
-                <div id="DivScrollResultsSearch">
-                    <div class="ContainerSearchsContent">
-                        <div class="ContainerSearchsContent-form row" >
-                            <form class="form-inline" role="form" method="post" onsubmit="event.preventDefault()">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Search Here" data-ng-model="inputSearch">
-                                    <button type="submit" class="btn btn-primary" data-ng-click="searchVideos()">Search</button>
-                                </div>
-                            </form>
-                            <div class="ResponseMessageSearch"></div>
-                        </div>
-
-                        <div class="ContainerSearchsContent-results row">
-                            <div class="ContainerSearchsContent-results-item col-xs-6 col-sm-4 col-md-4 col-lg-4" data-ng-repeat="item in resultsList.items">
-                                <h3 class="ContainerSearchsContent-results-item-title" title="{{item.complete_title}}">{{item.short_title}}</h3>
-                                <article class="ContainerSearchsContent-results-item-body" style="background-image: url('{{item.picture_url}}')">
-                                    <ul class="nav nav-pills UlMenuAdd">
-                                        <li class="dropdown">
-                                            <a href="javascript:void(0)" role="button" class="dropdown-toggle" data-toggle="dropdown">
-                                                <span class="IconAdd"></span>
-                                            </a>
-                                            <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="">
-                                                <li><a href="javascript:void(0)" data-ng-click="addVideoToPlaylist($index)" >Add To Current List</a></li>
-                                                <li role="presentation" class="divider"></li>
-                                                <li><a href="javascript:void(0)" onclick="$('#modalLists').modal();">Add To List...</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul> 
-                                    <div class="ContainerSearchsContent-results-item-body-info">
-                                        <a href="http://www.youtube.com/channel/{{item.channel_id}}" target="_blank">{{item.channel_name}}</a>
-                                        <p>{{item.duration}}</p>
-                                    </div>
-                                </article>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
         </div>
     </div>
 
@@ -149,17 +68,25 @@
         </div>
     </div>
 
-    <script src="js/libraries/jquery-1.11.1.min.js"></script>
-    <script src="js/libraries/angular.min.js"></script>
-    <script src="js/libraries/bootstrap.min.js"></script>
-    <script src="js/libraries/jquery.slimscroll.min.js"></script>
-    <script src="http://jwpsrv.com/library/agemfEBtEeSqECIACtqXBA.js"></script>
+    <!-- Libraries -->
+    <script src="js/vendor/jquery-1.11.1.min.js"></script>
+    <script src="js/vendor/angular.min.js"></script>
+    <script src="js/vendor/angular-route.min.js"></script>
+    <script src="js/vendor/bootstrap.min.js"></script>
+    <script src="js/vendor/jquery.slimscroll.min.js"></script>
+    <script src="js/vendor/jwplayer.min.js"></script>
 
+    <!-- Configuration script -->
     <script src="js/config.js"></script>
-    <script src="js/controllers/main-controller.js"></script>
-    <script src="js/angular-app-config.js"></script>
 
+    <!-- Angular scripts -->
+    <script src="js/angular/main-application.module/services/http.service.js"></script>
+    <script src="js/angular/main-application.module/services/playlist.service.js"></script>
+    <script src="js/angular/main-application.module/controllers/playlist.controller.js"></script>
+    <script src="js/angular/main-application.module/controllers/searchs.controller.js"></script>
+    <script src="js/angular/main-application.module/config.js"></script>
+
+    <!-- Youtube api -->
     <script src="https://apis.google.com/js/client.js?onload=initYoutubeApi"></script>
-
 </body>
 </html>
