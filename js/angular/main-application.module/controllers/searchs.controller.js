@@ -1,4 +1,4 @@
-function SearchsController($scope, playlistService, httpService){
+function SearchsController($scope, $playlistService, $httpService){
 
 	//Variables busqueda
 	$scope.resultsList = {items: []};
@@ -6,8 +6,8 @@ function SearchsController($scope, playlistService, httpService){
 
 	$scope.searchVideos = function(){
 
-		//searchWithYoutubeAPI($scope);
-		searchWithJSON($scope, httpService);
+		searchWithYoutubeAPI($scope);
+		//searchWithJSON($scope, $httpService);
 	};
 
 	$scope.addVideoToPlaylist = function(index){
@@ -27,11 +27,10 @@ function SearchsController($scope, playlistService, httpService){
 				videoItemSelected.youtube_video_id
 				);
 			
-			// $scope.$safeApply(function(){
-				playlistService.addSong(videoItem);
-			// });
+			$playlistService.addSong(videoItem);
 
-			alert(playlistService.getSizePlaylist());
+			alert($playlistService.getSizePlaylist());
+
 			// console.log('Success - Add Video To The Playlist');
 		};
 
@@ -53,7 +52,7 @@ function SearchsController($scope, playlistService, httpService){
 			'youtube_video_id': videoItemSelected.youtube_video_id 
 		};
 
-		httpService.post('saveVideo', data, successFunction, errorFunction);
+		$httpService.post('saveVideo', data, successFunction, errorFunction);
 	}
 }
 
@@ -143,7 +142,7 @@ function searchWithYoutubeAPI($scope){
 }
 
 
-function searchWithJSON($scope, httpService){
+function searchWithJSON($scope, $httpService){
 
 	var successFunction = function(data, status, headers, config) {
 
@@ -178,5 +177,5 @@ function searchWithJSON($scope, httpService){
 		$scope.resultsList = videoList;
 	}
 
-	httpService.get('/data/json.json', successFunction);
+	$httpService.get('/data/json.json', successFunction);
 }

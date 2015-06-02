@@ -17,8 +17,8 @@ mainApplicationModule.config(function($routeProvider) {
 
 /*------Services------*/
 mainApplicationModule.value('key', 'value');
-mainApplicationModule.factory('playlistService', playlistService);
-mainApplicationModule.factory('httpService', httpService);
+mainApplicationModule.factory('$playlistService', playlistService);
+mainApplicationModule.factory('$httpService', httpService);
 
 
 /*------Controllers------*/
@@ -29,7 +29,7 @@ mainApplicationModule.controller("SearchsController", SearchsController);
 /*------Filters------*/
 mainApplicationModule.filter("capitalize", function(){
 	return function(text) {
-		if(text != null){
+		if(text !== null){
 
 			words = text.split(' ');
 			response = '';
@@ -38,13 +38,13 @@ mainApplicationModule.filter("capitalize", function(){
 
 				word = words[i];
 
-				if(!(word.length <= 2 && word === word.toUpperCase())){
+				//if(!(word.length <= 2 && word === word.toUpperCase())){
 					word = word.toLowerCase();
 					word = word.substring(0,1).toUpperCase()+word.substring(1);
-				}
+				//}
 
 				response += word + " ";
-			};
+			}
 
 			return response.trim();
 		}
@@ -53,13 +53,16 @@ mainApplicationModule.filter("capitalize", function(){
 
 
 /*------Directives------*/
-mainApplicationModule.directive('videoItem', function($templateCache, $compile) {
+mainApplicationModule.directive('videoItem', function() {
 	return {
-		restrict: 'A',
+		restrict: 'E',
+		replace: true,
 		scope: {
 			item: '=videoItem',
-			index: '@index'
+			index: '@index',
+			playVideo: '&playVideo',
+			removeVideoFromPlaylist: '&removeVideo',
 		},
 		templateUrl: 'js/angular/main-application.module/templates/video-item.html'
-	};
+	}
 });

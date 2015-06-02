@@ -56,7 +56,7 @@ $app->post(
     '/deleteVideo',
     function () {
         $input = json_decode(file_get_contents("php://input"));
-        //API::deleteVideo($input->videoId);
+        API::deleteVideo($input->videoId);
         echo $input->videoId;
     }
     );

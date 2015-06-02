@@ -13,11 +13,10 @@
     </div>
 
     <div class="ContainerVideoItemsPlaylist col-xs-12 col-sm-6 col-md-12 col-lg-12">
-        <div id="DivScrollPlayList">
-            <div class="ContainerVideoItemPlaylist" data-ng-repeat="item in playlist.items" data-video-item="item" data-index="{{$index+1}}">
-            </div>
-        </div>
+        <div id="DivScrollPlayList" data-controller="PlaylistController">
+        <video-item class="ContainerVideoItemPlaylist" data-ng-repeat="item in playlist.items" data-video-item="item" data-index="{{$index+1}}" data-play-video="playVideo($index)" data-remove-video="removeVideoFromPlaylist($index)"></video-item>
     </div>
+</div>
 </section>
 
 <section class="ContainerViews col-xs-12 col-sm-12 col-md-8 col-lg-8">

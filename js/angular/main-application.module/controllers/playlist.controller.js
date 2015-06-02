@@ -1,12 +1,10 @@
-function PlaylistController($scope, playlistService, httpService){
+function PlaylistController($scope, $playlistService, $httpService){
 
 	//Variables playlist
-	//$scope.playlist = {items: []};
-	$scope.playlist = playlistService.getPlaylist();
+	$scope.playlist = $playlistService.getPlaylist();
 	$scope.indexCurrentReproduction = -1;
 	$scope.isPlayingThePlaylist = false;
-	// $scope.sizePlaylist = $scope.playlist.items.length;
-	$scope.sizePlaylist = playlistService.getSizePlaylist();
+	$scope.sizePlaylist = $playlistService.getSizePlaylist();
 
 	$scope.playVideoOnJWPLayer = function(idVideo){
 
@@ -55,6 +53,8 @@ function PlaylistController($scope, playlistService, httpService){
 
 	$scope.removeVideoFromPlaylist = function(index){
 
+		console.log(index);
+
 		var newList = {items: []};
 		var playList =  $scope.playlist.items;
 		var sizePlaylist = $scope.sizePlaylist;
@@ -73,8 +73,8 @@ function PlaylistController($scope, playlistService, httpService){
 			}
 
 			$scope.playlist = newList;
-			playlistService.setPlaylist(newList);
-			$scope.sizePlaylist = playlistService.getSizePlaylist();
+			$playlistService.setPlaylist(newList);
+			$scope.sizePlaylist = $playlistService.getSizePlaylist();
 
 			//Si la lista se esta reproduciendo
 			if($scope.isPlayingThePlaylist){
@@ -133,7 +133,7 @@ function PlaylistController($scope, playlistService, httpService){
 			'videoId': videoItemSelected.id
 		};
 
-		httpService.post('deleteVideo', data, successFunction, errorFunction);
+		$httpService.post('deleteVideo', data, successFunction, errorFunction);
 	};
 
 	$scope.cleanPlaylist = function(){
@@ -149,8 +149,8 @@ function PlaylistController($scope, playlistService, httpService){
 					$scope.isPlayingThePlaylist = false;
 
 					$scope.stopVideoPlayer();
-					playlistService.setPlaylist($scope.playlist);
-					$scope.sizePlaylist = playlistService.getSizePlaylist();
+					$playlistService.setPlaylist($scope.playlist);
+					$scope.sizePlaylist = $playlistService.getSizePlaylist();
 
 					// console.log('Success - Clean playlist in backend');
 				}
@@ -160,7 +160,7 @@ function PlaylistController($scope, playlistService, httpService){
 					//console.log('Error - Clean playlist in backend');
 				}
 
-				httpService.post('cleanPlaylist', {}, successFunction, errorFunction);
+				$httpService.post('cleanPlaylist', {}, successFunction, errorFunction);
 			}
 		}
 	};
@@ -247,8 +247,8 @@ function PlaylistController($scope, playlistService, httpService){
 				$scope.playlist.items.push(videoItemNew);
 			}
 			
-			playlistService.setPlaylist($scope.playlist);
-			$scope.sizePlaylist = playlistService.getSizePlaylist();
+			$playlistService.setPlaylist($scope.playlist);
+			$scope.sizePlaylist = $playlistService.getSizePlaylist();
 
 			// console.log(JSON.stringify(response));
 			// console.log('Success - Get playlist to the backend');
@@ -260,7 +260,7 @@ function PlaylistController($scope, playlistService, httpService){
 			// console.log('Error - Get playlist to the backend');
 		};
 
-		httpService.get('/framework-backend/index.php/getCurrentPlaylist', successFunction, errorFunction)
+		$httpService.get('/framework-backend/index.php/getCurrentPlaylist', successFunction, errorFunction)
 	};
 
 	//Metodos

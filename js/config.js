@@ -33,6 +33,7 @@ $(document).ready(function() {
 
 	$('#DivScrollPlayList').slimscroll(scrollConfig);
 	$('#DivScrollResultsSearch').slimscroll(scrollConfig);
+
 });
 
 //Configuracion API Youtube
