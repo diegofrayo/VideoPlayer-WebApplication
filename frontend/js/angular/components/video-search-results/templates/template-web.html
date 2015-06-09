@@ -1,21 +1,23 @@
-<div class="ContainerSearchsContent-results-item col-xs-6 col-sm-4 col-md-4 col-lg-4" data-ng-repeat="item in $root.resultsList.items" data-ng-controller='VideoSearchsResultsController'>
-	<h3 class="ContainerSearchsContent-results-item-title" title="{{item.complete_title}}">{{item.short_title | capitalize}}</h3>
-	<article class="ContainerSearchsContent-results-item-body" style="background-image: url('{{item.picture_url}}')">
-		<ul class="nav nav-pills UlMenuAdd">
-			<li class="dropdown">
-				<a href="javascript:void(0)" role="button" class="dropdown-toggle" data-toggle="dropdown">
-					<span class="IconAdd"></span>
-				</a>
-				<ul class="dropdown-menu pull-right" role="menu" aria-labelledby="">
-					<li><a href="javascript:void(0)" data-ng-click="addVideoToPlaylist($index)" >Add To Current List</a></li>
-					<li role="presentation" class="divider"></li>
-					<li><a href="javascript:void(0)" onclick="$('#modalLists').modal();">Add To List...</a></li>
-				</ul>
-			</li>
-		</ul> 
-		<div class="ContainerSearchsContent-results-item-body-info">
-			<a href="http://www.youtube.com/channel/{{item.channel_id}}" target="_blank">{{item.channel_name}}</a>
-			<p>{{item.duration}}</p>
-		</div>
-	</article>
+<div class="ContainerSearchsContent-results row">
+	<div class="ContainerSearchsContent-results-item col-xs-6 col-sm-4 col-md-4 col-lg-4" data-ng-repeat="item in resultsList.items" >
+		<h3 class="ContainerSearchsContent-results-item-title" title="{{item.complete_title}}">{{item.short_title | capitalize}}</h3>
+		<article class="ContainerSearchsContent-results-item-body" style="background-image: url('{{item.picture_url}}')">
+			<ul class="nav nav-pills UlMenuAdd">
+				<li class="dropdown">
+					<a href="javascript:void(0)" role="button" class="dropdown-toggle" data-toggle="dropdown">
+						<span class="IconAdd"></span>
+					</a>
+					<ul class="dropdown-menu pull-right" role="menu" aria-labelledby="">
+						<li><a href="javascript:void(0)" data-ng-click="addVideoToPlaylist($index)" >Add To Current List</a></li>
+						<li role="presentation" class="divider"></li>
+						<li><a href="javascript:void(0)" onclick="$('#modalLists').modal();">Add To List...</a></li>
+					</ul>
+				</li>
+			</ul> 
+			<div class="ContainerSearchsContent-results-item-body-info">
+				<a href="http://www.youtube.com/channel/{{item.channel_id}}" target="_blank">{{item.channel_name}}</a>
+				<p>{{item.duration}}</p>
+			</div>
+		</article>
+	</div>
 </div>

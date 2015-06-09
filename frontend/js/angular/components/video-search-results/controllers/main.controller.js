@@ -1,8 +1,17 @@
 function VideoSearchsResultsController($scope, $httpService, $rootScope) {
 
+	$scope.resultsList = {
+		items: []
+	};
+
+	$rootScope.$on('showSearchResults', function(event, data) {
+		$scope.resultsList = data;
+		console.log('VideoSearchsResultsController receive showSearchResults');
+	});
+
 	$scope.addVideoToPlaylist = function(index) {
 
-		var videoItemSelected = $rootScope.resultsList.items[index];
+		var videoItemSelected = $scope.resultsList.items[index];
 
 		var successFunction = function(data, status, headers, config) {
 
@@ -17,8 +26,8 @@ function VideoSearchsResultsController($scope, $httpService, $rootScope) {
 				videoItemSelected.youtube_video_id
 			);
 
-			$rootScope.playlist.items.push(videoItem);
-			console.log('addVideoToPlaylist');
+			console.log('VideoSearchsResultsController send addVideoToPlaylist');
+			$rootScope.$broadcast('addVideoToPlaylist', videoItem);
 		};
 
 		var errorFunction = function(data, status, headers, config) {

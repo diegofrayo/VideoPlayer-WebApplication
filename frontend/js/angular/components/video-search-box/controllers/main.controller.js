@@ -2,12 +2,14 @@ function VideoSearchsBoxController($scope, $httpService, $rootScope) {
 
 	//Variables busqueda
 	$scope.inputSearch = "";
+	$scope.resultsList = {
+		items: []
+	};
 
 	$scope.searchVideos = function() {
 
 		searchWithYoutubeAPI($scope, $rootScope);
 		//searchWithJSON($scope, $httpService, $rootScope);
-		console.log('searchVideos');
 	};
 }
 
@@ -37,9 +39,6 @@ function searchWithYoutubeAPI($scope, $rootScope) {
 
 			var searchResults = response.items;
 			var sizeSearchResults = searchResults.length;
-			$rootScope.resultsList = {
-				items: []
-			};
 
 			for (var i = 0; i < sizeSearchResults; i++) {
 
@@ -54,26 +53,27 @@ function searchWithYoutubeAPI($scope, $rootScope) {
 					videoItemFound.snippet.thumbnails.medium.url,
 					videoItemFound.id.videoId);
 
-				$rootScope.resultsList.items.push(videoItem);
+				//$rootScope.resultsList.items.push(videoItem);
+				$scope.resultsList.items.push(videoItem);
 
 				$scope.$apply(function() {
 
 					var requestDuration = gapi.client.youtube.videos.list({
-						id: $rootScope.resultsList.items[i].youtube_video_id,
+						id: $scope.resultsList.items[i].youtube_video_id,
 						part: 'contentDetails'
 					});
 
 					requestDuration.execute(function(response) {
 
-						for (var i = 0; i < $rootScope.resultsList.items.length; i++) {
+						for (var i = 0; i < $scope.resultsList.items.length; i++) {
 
-							if (response.items[0].id == $rootScope.resultsList.items[i].youtube_video_id) {
+							if (response.items[0].id == $scope.resultsList.items[i].youtube_video_id) {
 
 								$scope.$apply(function() {
 
 									var duration = response.items[0].contentDetails.duration;
 									duration = duration.replace('PT', '').replace('M', ':').replace('S', '');
-									$rootScope.resultsList.items[i].duration = duration;
+									$scope.resultsList.items[i].duration = duration;
 								});
 							}
 						}
@@ -85,17 +85,16 @@ function searchWithYoutubeAPI($scope, $rootScope) {
 
 				$('.ResponseMessageSearch').html('Not videos found');
 
-				$scope.$apply(function() {
-
-					$rootScope.resultsList  = {
-						items: []
-					};
-				});
-
+				$scope.resultsList = {
+					items: []
+				};
 			} else {
 
 				$('.ResponseMessageSearch').html('Videos found: ' + sizeSearchResults);
 			}
+
+			console.log('VideoSearchsBoxController send showSearchResults');
+			$rootScope.$broadcast('showSearchResults', $scope.resultsList);
 		});
 	}
 }
@@ -106,12 +105,12 @@ function searchWithJSON($scope, $httpService, $rootScope) {
 	var successFunction = function(data, status, headers, config) {
 
 		var resultsListBusqueda = data.items;
-		var sizeResultsSearch = resultsListBusqueda.length;
+		var sizeSearchResults = resultsListBusqueda.length;
 		var videoList = {
 			items: []
 		};
 
-		for (var i = 0; i < sizeResultsSearch; i++) {
+		for (var i = 0; i < sizeSearchResults; i++) {
 
 			videoItemFound = resultsListBusqueda[i];
 
@@ -127,15 +126,20 @@ function searchWithJSON($scope, $httpService, $rootScope) {
 			videoList.items.push(videoItem);
 		}
 
-		if (sizeResultsSearch == 0) {
+		if (sizeSearchResults == 0) {
 
 			$('.ResponseMessageSearch').html('Not videos found');
+
+			$scope.resultsList = {
+				items: []
+			};
 		} else {
 
-			$('.ResponseMessageSearch').html('Videos found: ' + sizeResultsSearch);
+			$('.ResponseMessageSearch').html('Videos found: ' + sizeSearchResults);
 		}
 
-		$rootScope.resultsList = videoList;
+		console.log('VideoSearchsBoxController send showSearchResults');
+		$rootScope.$broadcast('showSearchResults', videoList);
 	}
 
 	$httpService.get('/backend/database/json.json', successFunction);

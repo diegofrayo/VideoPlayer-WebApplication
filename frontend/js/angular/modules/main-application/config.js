@@ -1,4 +1,4 @@
-var mainApplicationModule = angular.module("mainApplicationModule", ['ngRoute', 'videoSearchBoxModule', 'videoSearchResultsModule', 'playlistModule']);
+var mainApplicationModule = angular.module("mainApplicationModule", ['ngRoute', 'videoSearchBoxModule', 'videoSearchResultsModule', 'playlistModule', 'videoPlayerModule']);
 
 /*------Routes-----*/
 mainApplicationModule.config(function($routeProvider) {
