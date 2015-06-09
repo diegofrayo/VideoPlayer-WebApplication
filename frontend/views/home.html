@@ -1,0 +1,23 @@
+<section class="ContainerPlaylist col-xs-12 col-sm-12 col-md-4 col-lg-4" data-ng-controller='PlaylistController'>
+    <div class="ContainerVideoPlayer col-xs-12 col-sm-6 col-md-12 col-lg-12">
+        <h2 class="ContainerVideoPlayer-title" id="numberVideoPlayList">Current Playlist [{{$root.sizePlaylist}}]</h2>
+        <div id="ContainerVideoPlayer-jwplayer">
+            <div id="VideoPlayer"></div>
+        </div>
+        <div class="ContainerVideoPlayer-controls">
+<!--             <a href="javascript:void(0)" class="IconPrev" data-ng-click="prevVideo()"><span></span></a> 
+            <a href="javascript:void(0)" class="IconNext" data-ng-click="nextVideo()"><span></span></a> 
+            <a href="javascript:void(0)" class="IconCleanList" data-ng-click="cleanPlaylist()"><span></span></a> 
+            <div class="clear"></div> -->
+        </div>
+    </div>
+
+    <div id='DivScrollPlayList' class="ContainerVideoItemsPlaylist col-xs-12 col-sm-6 col-md-12 col-lg-12">
+        <playlist class="ContainerVideoItemPlaylist" data-template='web'></playlist>
+    </div>
+</section>
+
+<section id="DivScrollResultsSearch" class="ContainerViews col-xs-12 col-sm-12 col-md-8 col-lg-8">
+    <video-search-box data-template='web'></video-search-box>
+    <video-search-results data-template='web'></video-search-results>
+</section>

@@ -3,23 +3,26 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1"/>
-    <title>BlueTUBE - Improved</title>
-    <link rel="stylesheet" href="css/main.css" />
-    <link rel="shortcut icon" href="img/favicon.png">
+    <title>BlueTUBE</title>
+    <link rel="stylesheet" href="frontend/styles/css/main.css" />
+    <link rel="stylesheet" href="frontend/js/angular/components/video-search-box/styles/template-web.css" />
+    <link rel="stylesheet" href="frontend/js/angular/components/video-search-results/styles/template-web.css" />
+    <link rel="stylesheet" href="frontend/js/angular/components/playlist/styles/template-web.css" />
+    <link rel="shortcut icon" href="frontend/img/favicon.png">
 </head>
 
 <body data-ng-app="mainApplicationModule">
     <div class="ContainerGlobal container">
         <header class="ContainerHeader row">
             <div class="ContainerTitleApp col-xs-8 col-sm-8 col-md-6 col-lg-3">
-                <a href="#/home"><img src="img/title-app.png" alt="BlueTUBE" /></a> 
+                <a href="#/home"><img src="frontend/img/title-app.png" alt="BlueTUBE" /></a> 
             </div>
 
             <div class="ContainerUserMenuDropdown col-xs-4 col-sm-4 col-md-6 col-lg-3 col-lg-offset-6">
                 <ul class="nav nav-pills">
                     <li class="dropdown">
                         <a href="javascript:void(0)" role="button" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="img/avatar.png"/>
+                            <img src="frontend/img/avatar.png"/>
                         </a>
                         <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="">
                             <li role="presentation">
@@ -39,9 +42,7 @@
             </div>
         </header>
 
-        <div class="row ContainerContent" data-ng-view>
-
-        </div>
+        <div class="row ContainerContent" data-ng-view></div>
     </div>
 
     <div class="modal fade" id="modalLists" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -69,22 +70,34 @@
     </div>
 
     <!-- Libraries -->
-    <script src="js/vendor/jquery-1.11.1.min.js"></script>
-    <script src="js/vendor/angular.min.js"></script>
-    <script src="js/vendor/angular-route.min.js"></script>
-    <script src="js/vendor/bootstrap.min.js"></script>
-    <script src="js/vendor/jquery.slimscroll.min.js"></script>
-    <script src="js/vendor/jwplayer.min.js"></script>
+    <script src="frontend/js/vendor/jquery-1.11.1.min.js"></script>
+    <script src="frontend/js/vendor/angular.min.js"></script>
+    <script src="frontend/js/vendor/angular-route.min.js"></script>
+    <script src="frontend/js/vendor/bootstrap.min.js"></script>
+    <script src="frontend/js/vendor/jquery.slimscroll.min.js"></script>
+    <script src="frontend/js/vendor/jwplayer.min.js"></script>
 
     <!-- Configuration script -->
-    <script src="js/config.js"></script>
+    <script src="frontend/js/config.js"></script>
+
+    <!-- Angular utils scripts -->
+    <script src="frontend/js/angular/util/services/http.service.js"></script>
+    <script src="frontend/js/angular/util/services/playlist.service.js"></script>
+
+    <!-- Video search box component scripts -->
+    <script src="frontend/js/angular/components/video-search-box/controllers/main.controller.js"></script>
+    <script src="frontend/js/angular/components/video-search-box/config.js"></script>
+
+    <!-- Video search results component scripts -->
+    <script src="frontend/js/angular/components/video-search-results/controllers/main.controller.js"></script>
+    <script src="frontend/js/angular/components/video-search-results/config.js"></script>
+
+    <!-- Playlist component scripts -->
+    <script src="frontend/js/angular/components/playlist/controllers/main.controller.js"></script>
+    <script src="frontend/js/angular/components/playlist/config.js"></script>
 
     <!-- Angular scripts -->
-    <script src="js/angular/main-application.module/services/http.service.js"></script>
-    <script src="js/angular/main-application.module/services/playlist.service.js"></script>
-    <script src="js/angular/main-application.module/controllers/playlist.controller.js"></script>
-    <script src="js/angular/main-application.module/controllers/searchs.controller.js"></script>
-    <script src="js/angular/main-application.module/config.js"></script>
+    <script src="frontend/js/angular/modules/main-application/config.js"></script>
 
     <!-- Youtube api -->
     <script src="https://apis.google.com/js/client.js?onload=initYoutubeApi"></script>

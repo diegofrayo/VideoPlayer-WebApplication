@@ -1,0 +1,16 @@
+<div class="ContainerSearchsContent">
+	<div class="ContainerSearchsContent-form row" >
+		<form class="form-inline" role="form" method="post" onsubmit="event.preventDefault()">
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Search Here" data-ng-model="inputSearch">
+				<button type="submit" class="btn btn-primary" data-ng-click="searchVideos()">Search</button>
+			</div>
+			<div class="form-group" style="margin-top: 10px">
+				<label style="margin-right: 15px"><input type="checkbox" name="youtube" value="value" style="margin-right: 3px">Youtube</label>
+				<label style="margin-right: 15px"><input type="checkbox" name="vimeo" value="value" style="margin-right: 3px">Vimeo</label>
+				<label style="margin-right: 15px"><input type="checkbox" name="spotify" value="value" style="margin-right: 3px">Spotify</label>
+			</div>
+		</form>
+		<div class="ResponseMessageSearch" style="text-align:right"></div>
+	</div>
+</div>

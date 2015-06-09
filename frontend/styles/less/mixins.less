@@ -1,0 +1,114 @@
+.RowVideosSearch(){
+	overflow: auto;
+	margin: 7px auto !important; //Voleo de rula
+
+	>div{
+		padding: 5px;
+		margin-bottom: 30px;
+	}
+}
+
+.ItemVideo(){
+	margin-bottom: 20px;
+	&-title{
+		font-size: @fontSizeBase;
+		color: @colorDarkGray;
+		line-height: 1.1em;
+		max-width: 185px;
+		border-bottom: 1px solid #D7D7D7;
+		margin: 10px auto;
+		padding-bottom: 5px; 
+		max-height: 45px;
+		min-height: 45px;
+	}
+
+	&-body{
+		.box-shadow(0 0 4px 1px #555);
+		position: relative;
+		background-size: 100% 100%;
+		max-width: 185px;
+		max-height: 104px;
+		height: 104px;
+		margin: 0 auto;
+
+		//Button Add Top
+		>.UlMenuAdd{
+			display: block;
+			padding: 0;
+			background-color: inherit;
+			top: 0;
+			right: 0;
+			margin: 3px;
+			position: absolute;
+			>li{
+				>a{
+					margin: 0;
+					padding: 0;
+					background-color: inherit !important; //Voleo De Rula
+				}
+
+				>ul{
+					padding: 2px;
+					>.divider{
+						margin: 0;
+					}
+					>li{
+						>a{
+							padding: 5px;
+
+							&:hover{
+								background-color: #dcdcdc;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		&-info{
+			position: absolute;
+			bottom: 0;
+			background-color: #000;
+			.opacity(0.7);
+			padding: 5px;
+
+			>a{
+				float: left;
+				font-size: @fontSizeExtraSmall;
+				color: @colorLightBlue;
+			}
+
+			>p{
+				font-size: @fontSizeExtraSmall;
+				color: @colorLight;
+				text-align: right;
+				margin-right: 3px;
+				float: right;
+			}
+		}
+	}
+}
+
+.HoverEffectVideoItemPlaylist{
+	background-color: #C1C1C1;
+}
+
+
+
+/*----------Hacks----------*/
+
+.vertical-align{
+	display: inline-block;
+	vertical-align: middle;
+	height: 100%;
+}
+
+.clear{
+	clear: both;
+}
+
+.overflow{
+	overflow: auto;
+}
+
+/*--------FIN Hacks--------*/
