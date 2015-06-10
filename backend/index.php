@@ -34,6 +34,18 @@ $app = new \Slim\Slim();
  * is an anonymous function.
  */
 
+/**--------Cors--------**/
+require_once 'Slim/Middleware/Cors.php';
+
+ $corsOptions = array(
+     "origin" => "*",
+     "allowMethods" => array("POST", "GET")
+ );
+
+$cors = new \CorsSlim\CorsSlim($corsOptions);
+$app->add($cors);
+/**--------Cors--------**/
+
 $app->get(
     '/getCurrentPlaylist',
     function () {

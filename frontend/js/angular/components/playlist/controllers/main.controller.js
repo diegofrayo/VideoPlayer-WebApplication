@@ -1,12 +1,21 @@
 function PlaylistController($scope, $rootScope, $httpService) {
 
-	//Variables playlist
 	$scope.playlist = {
 		items: []
 	};
 	$scope.indexCurrentReproduction = -1;
 	$scope.isPlayingThePlaylist = false;
 	$scope.sizePlaylist = $scope.playlist.items.length;
+
+	$scope.player = jwplayer('jwPlayer');
+	$scope.player.setup({
+		file: "",
+		width: "100%",
+		height: "100%"
+	});
+	$scope.player.onComplete(function() {
+		$scope.removeVideoFromPlaylist($scope.indexCurrentReproduction);
+	});
 
 	$rootScope.$on('addVideoToPlaylist', function(event, data) {
 		$scope.playlist.items.push(data);
@@ -43,15 +52,11 @@ function PlaylistController($scope, $rootScope, $httpService) {
 
 	$scope.stopVideoPlayer = function() {
 
-		jwplayer('jwPlayer').stop();
-		jwplayer('jwPlayer').setup({
-			file: '',
+		$scope.player.stop();
+		$scope.player.setup({
+			file: "",
 			width: "100%",
 			height: "100%"
-		});
-
-		jwplayer('jwPlayer').onComplete(function() {
-			$scope.removeVideoFromPlaylist($scope.indexCurrentReproduction);
 		});
 	};
 
@@ -78,6 +83,7 @@ function PlaylistController($scope, $rootScope, $httpService) {
 
 			$scope.playlist = newList;
 			$scope.sizePlaylist = $scope.playlist.items.length;
+
 			console.log('PlaylistController send updateSizePlaylist');
 			$rootScope.$broadcast('updateSizePlaylist', $scope.sizePlaylist);
 
@@ -264,34 +270,17 @@ function PlaylistController($scope, $rootScope, $httpService) {
 
 	$scope.playVideoOnJWPLayer = function(idVideo) {
 
-		jwplayer('jwPlayer').stop();
 		var urlVideo = "http://www.youtube.com/watch?v=" + idVideo;
 
-		//Si la cadena es vacia no carga ningun video
-		if (idVideo === '') {
-
-			urlVideo = '';
-		}
-
-		jwplayer('jwPlayer').setup({
+		$scope.player.stop();
+		$scope.player.setup({
 			file: urlVideo,
 			width: "100%",
 			height: "100%"
 		});
-
-		//Esto es para que no se reproduzca al inicio el video por defecto
-		if (idVideo !== '') {
-
-			jwplayer('jwPlayer').play();
-		}
-
-		jwplayer('jwPlayer').onComplete(function() {
-
-			$scope.removeVideoFromPlaylist($scope.indexCurrentReproduction);
-		});
+		$scope.player.play();
 	};
 
 	//Metodos
-	$scope.playVideoOnJWPLayer('');
 	$scope.getCurrentPlaylistBackend();
 }
