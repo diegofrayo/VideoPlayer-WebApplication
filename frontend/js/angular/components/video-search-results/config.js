@@ -2,7 +2,6 @@ var videoSearchResultsModule = angular.module("videoSearchResultsModule", []);
 
 /*------Services------*/
 videoSearchResultsModule.value('key', 'value');
-videoSearchResultsModule.factory('$playlistService', playlistService);
 videoSearchResultsModule.factory('$httpService', httpService);
 
 /*------Controllers------*/
@@ -17,11 +16,9 @@ videoSearchResultsModule.filter("capitalize", function() {
 			response = '';
 
 			for (var i = 0; i < words.length; i++) {
-
 				word = words[i];
 				word = word.toLowerCase();
 				word = word.substring(0, 1).toUpperCase() + word.substring(1);
-
 				response += word + " ";
 			}
 

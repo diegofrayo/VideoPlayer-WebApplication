@@ -1,25 +1,23 @@
 function PlaylistController($scope, $rootScope, $httpService) {
 
-	$scope.playlist = {
-		items: []
-	};
+	$scope.playlist = new SongsListClass();
 	$scope.indexCurrentReproduction = -1;
 	$scope.isPlayingThePlaylist = false;
-	$scope.sizePlaylist = $scope.playlist.items.length;
+	$scope.sizePlaylist = $scope.playlist.getSize();
 
-	$scope.player = jwplayer('jwPlayer');
-	$scope.player.setup({
-		file: "",
+	jwplayer('jwPlayer').setup({
+		file: 'https://www.youtube.com/watch?v=v5MRjk8Lj5o',
 		width: "100%",
 		height: "100%"
 	});
-	$scope.player.onComplete(function() {
+	jwplayer().key = "Bm32dbcywxH9h80S7LW+gCuivh2nOVT8F4KM7Q==";
+	jwplayer().onComplete(function() {
 		$scope.removeVideoFromPlaylist($scope.indexCurrentReproduction);
 	});
 
 	$rootScope.$on('addVideoToPlaylist', function(event, data) {
-		$scope.playlist.items.push(data);
-		console.log('PlaylistController receive addVideoToPlaylist');
+		$scope.playlist.addSong(data);
+		$scope.sizePlaylist += 1;
 	});
 
 	$rootScope.$on('executeFunctionFromVideoPlayer', function(event, data) {
@@ -36,24 +34,22 @@ function PlaylistController($scope, $rootScope, $httpService) {
 				$scope.cleanPlaylist();
 				break;
 		}
-		console.log('PlaylistController receive executeFunctionFromVideoPlayer');
 	});
 
 	$scope.playVideo = function(index) {
 
-		var selectedVideo = $scope.playlist.items[index];
+		var selectedSong = $scope.playlist.getSong(index);
 		$scope.indexCurrentReproduction = index;
 		$scope.isPlayingThePlaylist = true;
-
-		$scope.playVideoOnJWPLayer(selectedVideo.youtube_video_id);
+		$scope.playVideoOnJWPLayer(selectedSong.source_id);
 		removeClassActiveItem();
 		addClassActiveItem(index);
 	};
 
 	$scope.stopVideoPlayer = function() {
 
-		$scope.player.stop();
-		$scope.player.setup({
+		jwplayer().stop();
+		jwplayer().setup({
 			file: "",
 			width: "100%",
 			height: "100%"
@@ -62,29 +58,24 @@ function PlaylistController($scope, $rootScope, $httpService) {
 
 	$scope.removeVideoFromPlaylist = function(index) {
 
-		var newList = {
-			items: []
-		};
-		var playList = $scope.playlist.items;
+		var newList = new SongsListClass();
+		var playList = $scope.playlist;
 		var sizePlaylist = $scope.sizePlaylist;
-		var videoItemSelected = $scope.playlist.items[index];
+		var songSelected = $scope.playlist.getSong(index);
 
 		var successFunction = function(data, status, headers, config) {
 
 			for (var i = 0; i < sizePlaylist; i++) {
 
-				itemLista = playList[i];
+				itemLista = playList.getSong(i);
 
 				if (i != index) {
-
-					newList.items.push(itemLista);
+					newList.addSong(itemLista);
 				}
 			}
 
 			$scope.playlist = newList;
-			$scope.sizePlaylist = $scope.playlist.items.length;
-
-			console.log('PlaylistController send updateSizePlaylist');
+			$scope.sizePlaylist = $scope.playlist.getSize();
 			$rootScope.$broadcast('updateSizePlaylist', $scope.sizePlaylist);
 
 			//Si la lista se esta reproduciendo
@@ -97,7 +88,6 @@ function PlaylistController($scope, $rootScope, $httpService) {
 
 						//Si la lista quedó vacia
 						case 0:
-
 							$scope.isPlayingThePlaylist = false;
 							$scope.indexCurrentReproduction = -1;
 							$scope.stopVideoPlayer();
@@ -105,7 +95,6 @@ function PlaylistController($scope, $rootScope, $httpService) {
 
 							//Si solo quedó un elemento
 						case 1:
-
 							$scope.indexCurrentReproduction = 0;
 							$scope.playVideoOnJWPLayer($scope.playlist.items[0].id);
 							removeClassActiveItem();
@@ -114,7 +103,6 @@ function PlaylistController($scope, $rootScope, $httpService) {
 
 							//Si hay 2 o mas elementos
 						default:
-
 							$scope.indexCurrentReproduction--;
 							$scope.nextVideo();
 							break;
@@ -124,27 +112,21 @@ function PlaylistController($scope, $rootScope, $httpService) {
 				} else {
 
 					if ($scope.indexCurrentReproduction > index) {
-
 						$scope.indexCurrentReproduction--;
 					}
 				}
 			}
-
-			// console.log('Success - Delete Video To The Playlist');
 		}
 
 		var errorFunction = function() {
-
 			$('.ResponseMessageSearch').html('The video can not be deleted from the playlist');
-			// console.log(response);
-			// console.log('Error - Delete Video To The Playlist');
 		}
 
 		var data = {
-			'videoId': videoItemSelected.id
+			'videoId': songSelected.id
 		};
 
-		$httpService.post('deleteVideo', data, successFunction, errorFunction);
+		$httpService.post('delete', data, successFunction, errorFunction);
 	};
 
 
@@ -152,39 +134,31 @@ function PlaylistController($scope, $rootScope, $httpService) {
 
 		var successFunction = function(data, status, headers, config) {
 
-			var videoItem = null;
+			var song = null;
 
 			for (var i = 0; i < data.length; i++) {
-
-				videoItem = data[i];
-
-				videoItemNew = createItemVideo(
-					videoItem.id,
-					videoItem.title,
-					'-',
-					videoItem.channel_name,
-					videoItem.duration,
-					videoItem.picture_url,
-					videoItem.youtube_video_id);
-
-				$scope.playlist.items.push(videoItemNew);
+				song = data[i];
+				song = new SongClass(song.id, song.title, song.duration, 'Youtube',
+					song.picture_url, song.channel_name, '', song.source_id);
+				$scope.playlist.addSong(song);
 			}
 
-			$scope.sizePlaylist = $scope.playlist.items.length;
-			console.log('PlaylistController send updateSizePlaylist');
-			$rootScope.$broadcast('updateSizePlaylist', $scope.sizePlaylist);
+			$scope.sizePlaylist = $scope.playlist.getSize();
 
-			// console.log(JSON.stringify(response));
-			// console.log('Success - Get playlist to the backend');
+			response = {
+				type: 'success',
+				data: {
+					sizePlaylist: $scope.sizePlaylist,
+					songs: $scope.playlist
+				}
+			};
+
+			$scope.playlist = response.data.songs;
+			$scope.sizePlaylist = response.data.sizePlaylist;
+			$rootScope.$broadcast('updateSizePlaylist', $scope.sizePlaylist);
 		}
 
-		var errorFunction = function(response) {
-
-			//$('.ResponseMessageSearch').html(response);
-			// console.log('Error - Get playlist to the backend');
-		};
-
-		$httpService.get('/backend/index.php/getCurrentPlaylist', successFunction, errorFunction)
+		$httpService.get('/backend/index.php/getAll', successFunction);
 	};
 
 	$scope.prevVideo = function() {
@@ -197,16 +171,13 @@ function PlaylistController($scope, $rootScope, $httpService) {
 			removeClassActiveItem();
 
 			if (currentIndex == 0) {
-
 				currentIndex = sizePlaylist - 1;
 			} else {
-
 				currentIndex = currentIndex - 1;
 			}
 
 			$scope.indexCurrentReproduction = currentIndex;
-
-			var urlVideo = $scope.playlist.items[currentIndex].youtube_video_id;
+			var urlVideo = $scope.playlist.getSong(currentIndex).source_id;
 			$scope.playVideoOnJWPLayer(urlVideo);
 			addClassActiveItem(currentIndex);
 		}
@@ -214,7 +185,7 @@ function PlaylistController($scope, $rootScope, $httpService) {
 
 	$scope.nextVideo = function() {
 
-		var sizePlaylist = $scope.playlist.items.length;
+		var sizePlaylist = $scope.playlist.getSize();
 		var currentIndex = $scope.indexCurrentReproduction;
 
 		if (sizePlaylist > 1 && $scope.isPlayingThePlaylist) {
@@ -222,14 +193,12 @@ function PlaylistController($scope, $rootScope, $httpService) {
 			removeClassActiveItem();
 
 			if (currentIndex == sizePlaylist - 1) {
-
 				currentIndex = 0;
 			} else {
-
 				currentIndex = currentIndex + 1;
 			}
 
-			var urlVideo = $scope.playlist.items[currentIndex].youtube_video_id;
+			var urlVideo = $scope.playlist.getSong(currentIndex).source_id;
 			$scope.indexCurrentReproduction = currentIndex;
 			$scope.playVideoOnJWPLayer(urlVideo);
 			addClassActiveItem($scope.indexCurrentReproduction);
@@ -243,44 +212,27 @@ function PlaylistController($scope, $rootScope, $httpService) {
 			if (confirm("Are you sure you want to delete all items of the playlist?")) {
 
 				var successFunction = function(data, status, headers, config) {
-
-					$scope.playlist = {
-						items: []
-					};
+					$scope.playlist = new SongsListClass();
 					$scope.indexCurrentReproduction = -1;
 					$scope.isPlayingThePlaylist = false;
 					$scope.stopVideoPlayer();
-					$scope.sizePlaylist = $scope.playlist.items.length;
-
-					console.log('PlaylistController send updateSizePlaylist');
+					$scope.sizePlaylist = $scope.playlist.getSize();
 					$rootScope.$broadcast('updateSizePlaylist', $scope.sizePlaylist);
-
-					// console.log('Success - Clean playlist in backend');
 				}
 
-				var errorFunction = function() {
-
-					//console.log('Error - Clean playlist in backend');
-				}
-
-				$httpService.post('cleanPlaylist', {}, successFunction, errorFunction);
+				$httpService.post('deleteAll', {}, successFunction);
 			}
 		}
 	};
 
 	$scope.playVideoOnJWPLayer = function(idVideo) {
-
 		var urlVideo = "http://www.youtube.com/watch?v=" + idVideo;
-
-		$scope.player.stop();
-		$scope.player.setup({
-			file: urlVideo,
-			width: "100%",
-			height: "100%"
-		});
-		$scope.player.play();
+		jwplayer().stop();
+		jwplayer().load([{
+			file: urlVideo
+		}]);
+		jwplayer().play();
 	};
 
-	//Metodos
 	$scope.getCurrentPlaylistBackend();
 }

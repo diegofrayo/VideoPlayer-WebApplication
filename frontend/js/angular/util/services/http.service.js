@@ -1,22 +1,21 @@
-function httpService($http) {
+function httpService($http, $q) {
 
-	var httpInterface = {
-		get: function(url, successFunction, failFunction){
+	var httpApi = {
+		get: function(url, successFunction, failFunction) {
 			$http.get(url).success(successFunction).error(getFailFunction(failFunction));
 		},
-		post: function(url, data, successFunction, failFunction){
+		post: function(url, data, successFunction, failFunction) {
 			$http.post('backend/index.php/' + url, data).success(successFunction).error(getFailFunction(failFunction));
 		}
 	};
 
-	return httpInterface;
+	return httpApi;
 }
 
-function getFailFunction(failFunction){
+function getFailFunction(failFunction) {
 
-	if(!failFunction){
-
-		failFunction = function(){
+	if (!failFunction) {
+		failFunction = function() {
 			console.log('Error');
 		};
 	}

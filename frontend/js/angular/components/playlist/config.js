@@ -2,7 +2,6 @@ var playlistModule = angular.module("playlistModule", []);
 
 /*------Services------*/
 playlistModule.value('key', 'value');
-playlistModule.factory('$playlistService', playlistService);
 playlistModule.factory('$httpService', httpService);
 
 /*------Controllers------*/

@@ -14,51 +14,49 @@ class DaoApp implements IDaoApp
     public function saveVideo(Video $video)
     {
         $manejadorBD = BDFactory::crearManejadorBD();
-        $consultaSQL = "insert into video (id, title, duration, channel_name, playlist_id, picture_url, youtube_video_id) values (?,?,?,?,?,?,?)";
+        $consultaSQL = "insert into song (title, duration, channel_name, picture_url, youtube_video_id) values (?,?,?,?,?)";
 
         $arrayDatos = array(
-            $video->getId(),
             $video->getTitle(),
             $video->getDuration(),
             $video->getChannelName(),
-            $video->getPlaylistId(),
             $video->getPictureUrl(),
-            $video->getYoutubeVideoId(),
+            $video->getSourceId()
             );
 
         $resultados = $manejadorBD->insertar($consultaSQL, $arrayDatos);
 
         if ($resultados != null) {
- 
+
             $video->setId($resultados['id_last_video']);
             return $video->toJson();
         }
-        
+
         return null;
     }
 
     public function deleteVideo($videoId){
 
         $manejadorBD = BDFactory::crearManejadorBD();
-        $consultaSQL = "delete from video where id = ?";
+        $consultaSQL = "delete from song where id = ?";
         $exitoConsulta = $manejadorBD->eliminar($consultaSQL, array($videoId));
-        
+
         if ($exitoConsulta == true) {
 
             return true;
         }
-        
+
         return null;
     }
 
-    public function getCurrentPlaylist($userId){
+    public function getCurrentPlaylist(){
 
         $manejadorBD = BDFactory::crearManejadorBD();
-        $consultaSQL = "select video.* from playlist, video where playlist.user_id = ? and playlist.name = ?";
-        $resultados = $manejadorBD->obtenerDatos($consultaSQL, array($userId, 'Default List'));
+        $consultaSQL = "select * from song";
+        $resultados = $manejadorBD->obtenerDatos($consultaSQL, array());
         $numeroResultados = count($resultados);
         $listaVideos = array();
-        
+
         if ($numeroResultados != 0) {
 
             for ($i = 0; $i < $numeroResultados; $i++) {
@@ -70,29 +68,27 @@ class DaoApp implements IDaoApp
                     "title" => $nuevaVideos['title'],
                     "duration"=> $nuevaVideos['duration'],
                     "channel_name" => $nuevaVideos['channel_name'],
-                    "playlist_id"=> $nuevaVideos['playlist_id'],
                     "picture_url"=> $nuevaVideos['picture_url'],
-                    "youtube_video_id"=> $nuevaVideos['youtube_video_id'],
+                    "source_id"=> $nuevaVideos['source_id']
                     );
 
                 $listaVideos[] = $objectJSON;
             }
         }
-        
+
         return $listaVideos;
     }
 
     public function cleanPlaylist(){
 
         $manejadorBD = BDFactory::crearManejadorBD();
-        $consultaSQL = "delete from video where playlist_id = ?";
-        $exitoConsulta = $manejadorBD->eliminar($consultaSQL, array(1));
-        
-        if ($exitoConsulta == true) {
+        $consultaSQL = "delete from song";
+        $exitoConsulta = $manejadorBD->eliminar($consultaSQL, array());
 
+        if ($exitoConsulta == true) {
             return true;
         }
-        
+
         return null;
     }
 

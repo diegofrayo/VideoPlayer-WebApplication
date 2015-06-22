@@ -5,7 +5,6 @@ videoSearchBoxModule.controller("VideoSearchsBoxController", VideoSearchsBoxCont
 
 /*------Services------*/
 videoSearchBoxModule.value('key', 'value');
-videoSearchBoxModule.factory('$playlistService', playlistService);
 videoSearchBoxModule.factory('$httpService', httpService);
 
 /*------Directives------*/

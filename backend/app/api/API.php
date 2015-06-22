@@ -9,32 +9,28 @@ use app\daos_mysql\DaoApp;
 
 class API {
 
-	public static function saveVideo($id, $title, $duration, $channelName, $playlistId, $pictureUrl, $youtubeVideoId)
+	public static function saveVideo($id, $title, $duration, $channelName, $pictureUrl, $sourceId)
 	{
-		$video = new Video($id, $title, $duration, $channelName, $playlistId, $pictureUrl, $youtubeVideoId);
+		$video = new Video($id, $title, $duration, $channelName, $pictureUrl, $sourceId);
 		$daoApp = new DaoApp();
-
 		return $daoApp->saveVideo($video);
 	}
 
 	public static function deleteVideo($videoId)
 	{
 		$daoApp = new DaoApp();
-
 		return $daoApp->deleteVideo($videoId);
 	}
 
-	public static function getCurrentPlaylist($userId)
+	public static function getCurrentPlaylist()
 	{
 		$daoApp = new DaoApp();
-
-		return $daoApp->getCurrentPlaylist($userId);
+		return $daoApp->getCurrentPlaylist();
 	}
 
 	public static function cleanPlaylist()
 	{
 		$daoApp = new DaoApp();
-
 		return $daoApp->cleanPlaylist();
 	}
 }

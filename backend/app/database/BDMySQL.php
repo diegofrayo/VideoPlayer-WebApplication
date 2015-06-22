@@ -11,7 +11,7 @@ class BDMySQL implements IBaseDeDatos
 
     const CLAVE = '12345';
 
-    const BD = 'app_video_player';
+    const BD = 'bluetube';
 
     const SERVIDOR = 'localhost';
 
@@ -25,12 +25,12 @@ class BDMySQL implements IBaseDeDatos
     public function conectar ()
     {
         $this->_conexion = new \PDO(
-            "mysql:host=" . self::SERVIDOR . ";dbname=" . self::BD, 
-            self::USUARIO, self::CLAVE, 
+            "mysql:host=" . self::SERVIDOR . ";dbname=" . self::BD,
+            self::USUARIO, self::CLAVE,
             array(
                 \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES  \'UTF8\''
                 ));
-        
+
         if ($this->_conexion == false) {
 
             throw new \Exception("Error al conectarse a la base de datos");
@@ -49,7 +49,7 @@ class BDMySQL implements IBaseDeDatos
         $sentencia->execute($arrayDatos);
         $resultados = $sentencia->fetchAll(\PDO::FETCH_ASSOC);
         $this->desconectar();
-        
+
         return $resultados;
     }
 
@@ -59,7 +59,7 @@ class BDMySQL implements IBaseDeDatos
         $sentencia = $this->_conexion->prepare($consultaSQL);
         $exitoConsulta = $sentencia->execute($arrayDatos);
         $this->desconectar();
-        
+
         return $exitoConsulta;
     }
 
@@ -69,7 +69,7 @@ class BDMySQL implements IBaseDeDatos
         $sentencia = $this->_conexion->prepare($consultaSQL);
         $exitoConsulta = $sentencia->execute($arrayDatos);
         $this->desconectar();
-        
+
         return $exitoConsulta;
     }
 
@@ -79,17 +79,16 @@ class BDMySQL implements IBaseDeDatos
         $sentencia = $this->_conexion->prepare($consultaSQL);
         $exitoConsulta = $sentencia->execute($arrayDatos);
         $arrayResultados = array();
-        
+
         if ($exitoConsulta) {
 
             $ultimoId = $this->_conexion->lastInsertId();
             $arrayResultados['id_last_video'] = $ultimoId;
-
             $this->desconectar();
 
             return $arrayResultados;
         }
-        
+
         return null;
     }
 

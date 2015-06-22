@@ -47,25 +47,25 @@ $app->add($cors);
 /**--------Cors--------**/
 
 $app->get(
-    '/getCurrentPlaylist',
+    '/getAll',
     function () {
-        $currentPlaylist = API::getCurrentPlaylist(1);
+        $currentPlaylist = API::getCurrentPlaylist();
         echo json_encode($currentPlaylist);
     }
     );
 
 $app->post(
-    '/saveVideo',
+    '/insert',
     function () {
         $input = json_decode(file_get_contents("php://input"));
-        echo json_encode(API::saveVideo($input->id, $input->title, 
-            $input->duration, $input->channel_name,$input->playlist_id, 
-            $input->picture_url, $input->youtube_video_id));
+        echo json_encode(API::saveVideo($input->id, $input->title,
+            $input->duration, $input->channel_name,
+            $input->picture_url, $input->source_id));
     }
     );
 
 $app->post(
-    '/deleteVideo',
+    '/delete',
     function () {
         $input = json_decode(file_get_contents("php://input"));
         API::deleteVideo($input->videoId);
@@ -74,10 +74,10 @@ $app->post(
     );
 
 $app->post(
-    '/cleanPlaylist',
+    '/deleteAll',
     function () {
         API::cleanPlaylist();
-        echo 'cleanPlaylist';
+        echo 'deleteAll';
     }
     );
 

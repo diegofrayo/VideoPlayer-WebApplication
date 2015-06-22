@@ -4,6 +4,14 @@
 			<input type="text" class="form-control" placeholder="Search Here" data-ng-model="inputSearch">
 			<button type="submit" class="btn btn-primary" data-ng-click="searchVideos()">Search</button>
 		</div>
+		<div class="checkbox" style="margin-top: 15px;">
+			<label>
+				<input type="checkbox" name="youtubeCheckbox" data-ng-model="youtubeCheckbox" data-ng-change="localStorageCheckbox = false" style='margin-right: 5px'>Youtube
+			</label>
+			<label style="margin-left: 15px;">
+				<input type="checkbox" name="localStorageCheckbox" data-ng-model="localStorageCheckbox" data-ng-change="youtubeCheckbox = false" style='margin-right: 5px'>Local Storage
+			</label>
+		</div>
 	</form>
 	<div class="ResponseMessageSearch"></div>
 </div>

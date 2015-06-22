@@ -8,6 +8,6 @@ interface IDaoApp {
 
 	public function saveVideo(Video $video);
 	public function deleteVideo($videoId);
-	public function getCurrentPlaylist($userId);
+	public function getCurrentPlaylist();
 	public function cleanPlaylist();
 }

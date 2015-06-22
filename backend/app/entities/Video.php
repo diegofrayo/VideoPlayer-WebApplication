@@ -5,22 +5,20 @@ namespace app\entities;
 class Video
 {
 	private $id;
-	private $title; 
+	private $title;
 	private $duration;
 	private $channelName;
-	private $playlistId;
 	private $pictureUrl;
-	private $youtubeVideoId;
+	private $sourceId;
 
-	public function __construct ($id, $title, $duration, $channelName, $playlistId, $pictureUrl, $youtubeVideoId)
+	public function __construct ($id, $title, $duration, $channelName, $pictureUrl, $sourceId)
 	{
 		$this->id = $id;
-		$this->title = $title; 
+		$this->title = $title;
 		$this->duration = $duration;
 		$this->channelName = $channelName;
-		$this->playlistId = $playlistId;
 		$this->pictureUrl = $pictureUrl;
-		$this->youtubeVideoId = $youtubeVideoId;
+		$this->sourceId = $sourceId;
 	}
 
     /**
@@ -112,28 +110,6 @@ class Video
     }
 
     /**
-     * Gets the value of playlistId.
-     *
-     * @return mixed
-     */
-    public function getPlaylistId()
-    {
-    	return $this->playlistId;
-    }
-
-    /**
-     * Sets the value of playlistId.
-     *
-     * @param mixed $playlistId the playlist id
-     *
-     * @return self
-     */
-    public function setPlaylistId($playlistId)
-    {
-    	$this->playlistId = $playlistId;
-    }
-
-    /**
      * Gets the value of pictureUrl.
      *
      * @return mixed
@@ -156,25 +132,25 @@ class Video
     }
 
     /**
-     * Gets the value of youtubeVideoId.
+     * Gets the value of sourceId.
      *
      * @return mixed
      */
-    public function getYoutubeVideoId()
+    public function getSourceId()
     {
-    	return $this->youtubeVideoId;
+    	return $this->sourceId;
     }
 
     /**
-     * Sets the value of youtubeVideoId.
+     * Sets the value of sourceId.
      *
-     * @param mixed $youtubeVideoId the youtube video id
+     * @param mixed $sourceId the youtube video id
      *
      * @return self
      */
-    public function setYoutubeVideoId($youtubeVideoId)
+    public function setSourceId($sourceId)
     {
-    	$this->youtubeVideoId = $youtubeVideoId;
+    	$this->sourceId = $sourceId;
     }
 
     public function toJson()
@@ -184,9 +160,9 @@ class Video
             "title" => $this->getTitle(),
             "duration"=> $this->getDuration(),
             "channel_name" => $this->getChannelName(),
-            "playlist_id"=> $this->getPlaylistId(),
             "picture_url"=> $this->getPictureUrl(),
-            "youtube_video_id"=> $this->getYoutubeVideoId() );
+            "source_id"=> $this->getSourceId()
+            );
 
         return $objectJSON;
     }

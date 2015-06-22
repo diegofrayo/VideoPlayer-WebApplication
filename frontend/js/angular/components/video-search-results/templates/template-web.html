@@ -1,5 +1,5 @@
 <div class="ContainerSearchsContent-results row">
-	<div class="ContainerSearchsContent-results-item col-xs-6 col-sm-4 col-md-4 col-lg-4" data-ng-repeat="item in resultsList.items" >
+	<div class="ContainerSearchsContent-results-item col-xs-6 col-sm-4 col-md-4 col-lg-4" data-ng-repeat="item in resultsList.getList()" >
 		<h3 class="ContainerSearchsContent-results-item-title" title="{{item.complete_title}}">{{item.short_title | capitalize}}</h3>
 		<article class="ContainerSearchsContent-results-item-body" style="background-image: url('{{item.picture_url}}')">
 			<ul class="nav nav-pills UlMenuAdd">
@@ -13,7 +13,7 @@
 						<li><a href="javascript:void(0)" onclick="$('#modalLists').modal();">Add To List...</a></li>
 					</ul>
 				</li>
-			</ul> 
+			</ul>
 			<div class="ContainerSearchsContent-results-item-body-info">
 				<a href="http://www.youtube.com/channel/{{item.channel_id}}" target="_blank">{{item.channel_name}}</a>
 				<p>{{item.duration}}</p>
