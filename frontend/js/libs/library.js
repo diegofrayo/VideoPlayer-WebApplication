@@ -201,8 +201,9 @@ YoutubeSongsSearcherClass.prototype.search = function(query, results, $http, $q)
 		if (query.trim() !== "") {
 
 			try {
-				var apiKey = 'AIzaSyBxPtcZkHUU5tVxcU9Sdos1KtcLAyekpOg';
-				var urlRequest = 'https://www.googleapis.com/youtube/v3/search?videoEmbeddable=true&order=relevance&part=snippet&q=' + query + '&type=video&maxResults=50&key=' + apiKey;
+				var apiKey = '';
+				var urlRequest = 'https://www.googleapis.com/youtube/v3/search?videoEmbeddable=true&order=relevance&part=id&q=' + query + '&type=video&maxResults=20&key=' + apiKey;
+
 				var jqxhr = $.getJSON(urlRequest, function() {}).done(function(songsResponse) {
 
 					var length = songsResponse.items.length;

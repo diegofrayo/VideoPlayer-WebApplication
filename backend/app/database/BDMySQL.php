@@ -7,13 +7,13 @@ require_once 'IBaseDeDatos.php';
 class BDMySQL implements IBaseDeDatos
 {
 
-    const USUARIO = 'root';
+    const USUARIO = '';
 
-    const CLAVE = '12345';
+    const CLAVE = '';
 
-    const BD = 'bluetube';
+    const BD = '';
 
-    const SERVIDOR = 'localhost';
+    const SERVIDOR = '';
 
     /**
      * Conexion a base de exitoConsulta

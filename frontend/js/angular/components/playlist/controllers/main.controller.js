@@ -5,15 +5,17 @@ function PlaylistController($scope, $rootScope, $httpService) {
 	$scope.isPlayingThePlaylist = false;
 	$scope.sizePlaylist = $scope.playlist.getSize();
 
-	jwplayer('jwPlayer').setup({
-		file: 'https://www.youtube.com/watch?v=v5MRjk8Lj5o',
-		width: "100%",
-		height: "100%"
-	});
-	jwplayer().key = "Bm32dbcywxH9h80S7LW+gCuivh2nOVT8F4KM7Q==";
-	jwplayer().onComplete(function() {
-		$scope.removeVideoFromPlaylist($scope.indexCurrentReproduction);
-	});
+	setTimeout(function() {
+		jwplayer('jwPlayer').setup({
+			file: 'https://www.youtube.com/watch?v=v5MRjk8Lj5o',
+			width: "100%",
+			height: "100%"
+		});
+		jwplayer().key = "Bm32dbcywxH9h80S7LW+gCuivh2nOVT8F4KM7Q==";
+		jwplayer().onComplete(function() {
+			$scope.removeVideoFromPlaylist($scope.indexCurrentReproduction);
+		});
+	}, 3000);
 
 	$rootScope.$on('addVideoToPlaylist', function(event, data) {
 		$scope.playlist.addSong(data);
