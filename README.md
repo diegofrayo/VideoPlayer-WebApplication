@@ -1,4 +1,4 @@
-VideoPlayer-WebApplication
+videoplayer-angular
 =======================
 
 Tech Stack: Slim PHP + AngularJS 1.3 + Bootstrap 3
