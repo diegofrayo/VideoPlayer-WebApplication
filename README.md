@@ -1,6 +1,5 @@
-videoplayer-angular
-=======================
+# videoplayer-angular
 
 Tech Stack: Slim PHP + AngularJS 1.3 + Bootstrap 3
 
-![preview](https://www.dropbox.com/s/nfiqvf4odtgqsr3/VideoPlayer.png?raw=1)
+![preview](![preview](https://raw.githubusercontent.com/diegofrayo/videoplayer-angular/master/screenshot.png))
